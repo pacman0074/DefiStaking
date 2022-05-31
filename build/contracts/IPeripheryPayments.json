@@ -1,0 +1,691 @@
+{
+  "contractName": "IPeripheryPayments",
+  "abi": [
+    {
+      "inputs": [
+        {
+          "internalType": "uint256",
+          "name": "amountMinimum",
+          "type": "uint256"
+        },
+        {
+          "internalType": "address",
+          "name": "recipient",
+          "type": "address"
+        }
+      ],
+      "name": "unwrapWETH9",
+      "outputs": [],
+      "stateMutability": "payable",
+      "type": "function"
+    },
+    {
+      "inputs": [],
+      "name": "refundETH",
+      "outputs": [],
+      "stateMutability": "payable",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "address",
+          "name": "token",
+          "type": "address"
+        },
+        {
+          "internalType": "uint256",
+          "name": "amountMinimum",
+          "type": "uint256"
+        },
+        {
+          "internalType": "address",
+          "name": "recipient",
+          "type": "address"
+        }
+      ],
+      "name": "sweepToken",
+      "outputs": [],
+      "stateMutability": "payable",
+      "type": "function"
+    }
+  ],
+  "metadata": "{\"compiler\":{\"version\":\"0.8.14+commit.80d49f37\"},\"language\":\"Solidity\",\"output\":{\"abi\":[{\"inputs\":[],\"name\":\"refundETH\",\"outputs\":[],\"stateMutability\":\"payable\",\"type\":\"function\"},{\"inputs\":[{\"internalType\":\"address\",\"name\":\"token\",\"type\":\"address\"},{\"internalType\":\"uint256\",\"name\":\"amountMinimum\",\"type\":\"uint256\"},{\"internalType\":\"address\",\"name\":\"recipient\",\"type\":\"address\"}],\"name\":\"sweepToken\",\"outputs\":[],\"stateMutability\":\"payable\",\"type\":\"function\"},{\"inputs\":[{\"internalType\":\"uint256\",\"name\":\"amountMinimum\",\"type\":\"uint256\"},{\"internalType\":\"address\",\"name\":\"recipient\",\"type\":\"address\"}],\"name\":\"unwrapWETH9\",\"outputs\":[],\"stateMutability\":\"payable\",\"type\":\"function\"}],\"devdoc\":{\"kind\":\"dev\",\"methods\":{\"refundETH()\":{\"details\":\"Useful for bundling with mint or increase liquidity that uses ether, or exact output swaps that use ether for the input amount\"},\"sweepToken(address,uint256,address)\":{\"details\":\"The amountMinimum parameter prevents malicious contracts from stealing the token from users\",\"params\":{\"amountMinimum\":\"The minimum amount of token required for a transfer\",\"recipient\":\"The destination address of the token\",\"token\":\"The contract address of the token which will be transferred to `recipient`\"}},\"unwrapWETH9(uint256,address)\":{\"details\":\"The amountMinimum parameter prevents malicious contracts from stealing WETH9 from users.\",\"params\":{\"amountMinimum\":\"The minimum amount of WETH9 to unwrap\",\"recipient\":\"The address receiving ETH\"}}},\"title\":\"Periphery Payments\",\"version\":1},\"userdoc\":{\"kind\":\"user\",\"methods\":{\"refundETH()\":{\"notice\":\"Refunds any ETH balance held by this contract to the `msg.sender`\"},\"sweepToken(address,uint256,address)\":{\"notice\":\"Transfers the full amount of a token held by this contract to recipient\"},\"unwrapWETH9(uint256,address)\":{\"notice\":\"Unwraps the contract's WETH9 balance and sends it to recipient as ETH.\"}},\"notice\":\"Functions to ease deposits and withdrawals of ETH\",\"version\":1}},\"settings\":{\"compilationTarget\":{\"@uniswap/v3-periphery/contracts/interfaces/IPeripheryPayments.sol\":\"IPeripheryPayments\"},\"evmVersion\":\"london\",\"libraries\":{},\"metadata\":{\"bytecodeHash\":\"ipfs\"},\"optimizer\":{\"enabled\":true,\"runs\":200},\"remappings\":[]},\"sources\":{\"@uniswap/v3-periphery/contracts/interfaces/IPeripheryPayments.sol\":{\"keccak256\":\"0xb547e10f1e69bed03621a62b73a503e260643066c6b4054867a4d1fef47eb274\",\"license\":\"GPL-2.0-or-later\",\"urls\":[\"bzz-raw://f9a90f58f5fd5fb42f7811f4094113b532f307b14a73764c91f977590747f407\",\"dweb:/ipfs/QmSeNH2mfiDMKf3Q6V2sqtNxx1s72JNuA1VVxRM9HoMqYp\"]}},\"version\":1}",
+  "bytecode": "0x",
+  "deployedBytecode": "0x",
+  "immutableReferences": {},
+  "generatedSources": [],
+  "deployedGeneratedSources": [],
+  "sourceMap": "",
+  "deployedSourceMap": "",
+  "source": "// SPDX-License-Identifier: GPL-2.0-or-later\npragma solidity >=0.7.5;\n\n/// @title Periphery Payments\n/// @notice Functions to ease deposits and withdrawals of ETH\ninterface IPeripheryPayments {\n    /// @notice Unwraps the contract's WETH9 balance and sends it to recipient as ETH.\n    /// @dev The amountMinimum parameter prevents malicious contracts from stealing WETH9 from users.\n    /// @param amountMinimum The minimum amount of WETH9 to unwrap\n    /// @param recipient The address receiving ETH\n    function unwrapWETH9(uint256 amountMinimum, address recipient) external payable;\n\n    /// @notice Refunds any ETH balance held by this contract to the `msg.sender`\n    /// @dev Useful for bundling with mint or increase liquidity that uses ether, or exact output swaps\n    /// that use ether for the input amount\n    function refundETH() external payable;\n\n    /// @notice Transfers the full amount of a token held by this contract to recipient\n    /// @dev The amountMinimum parameter prevents malicious contracts from stealing the token from users\n    /// @param token The contract address of the token which will be transferred to `recipient`\n    /// @param amountMinimum The minimum amount of token required for a transfer\n    /// @param recipient The destination address of the token\n    function sweepToken(\n        address token,\n        uint256 amountMinimum,\n        address recipient\n    ) external payable;\n}\n",
+  "sourcePath": "@uniswap\\v3-periphery\\contracts\\interfaces\\IPeripheryPayments.sol",
+  "ast": {
+    "absolutePath": "@uniswap/v3-periphery/contracts/interfaces/IPeripheryPayments.sol",
+    "exportedSymbols": {
+      "IPeripheryPayments": [
+        2292
+      ]
+    },
+    "id": 2293,
+    "license": "GPL-2.0-or-later",
+    "nodeType": "SourceUnit",
+    "nodes": [
+      {
+        "id": 2268,
+        "literals": [
+          "solidity",
+          ">=",
+          "0.7",
+          ".5"
+        ],
+        "nodeType": "PragmaDirective",
+        "src": "45:24:25"
+      },
+      {
+        "abstract": false,
+        "baseContracts": [],
+        "canonicalName": "IPeripheryPayments",
+        "contractDependencies": [],
+        "contractKind": "interface",
+        "documentation": {
+          "id": 2269,
+          "nodeType": "StructuredDocumentation",
+          "src": "71:92:25",
+          "text": "@title Periphery Payments\n @notice Functions to ease deposits and withdrawals of ETH"
+        },
+        "fullyImplemented": false,
+        "id": 2292,
+        "linearizedBaseContracts": [
+          2292
+        ],
+        "name": "IPeripheryPayments",
+        "nameLocation": "173:18:25",
+        "nodeType": "ContractDefinition",
+        "nodes": [
+          {
+            "documentation": {
+              "id": 2270,
+              "nodeType": "StructuredDocumentation",
+              "src": "198:302:25",
+              "text": "@notice Unwraps the contract's WETH9 balance and sends it to recipient as ETH.\n @dev The amountMinimum parameter prevents malicious contracts from stealing WETH9 from users.\n @param amountMinimum The minimum amount of WETH9 to unwrap\n @param recipient The address receiving ETH"
+            },
+            "functionSelector": "49404b7c",
+            "id": 2277,
+            "implemented": false,
+            "kind": "function",
+            "modifiers": [],
+            "name": "unwrapWETH9",
+            "nameLocation": "514:11:25",
+            "nodeType": "FunctionDefinition",
+            "parameters": {
+              "id": 2275,
+              "nodeType": "ParameterList",
+              "parameters": [
+                {
+                  "constant": false,
+                  "id": 2272,
+                  "mutability": "mutable",
+                  "name": "amountMinimum",
+                  "nameLocation": "534:13:25",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 2277,
+                  "src": "526:21:25",
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_uint256",
+                    "typeString": "uint256"
+                  },
+                  "typeName": {
+                    "id": 2271,
+                    "name": "uint256",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "526:7:25",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_uint256",
+                      "typeString": "uint256"
+                    }
+                  },
+                  "visibility": "internal"
+                },
+                {
+                  "constant": false,
+                  "id": 2274,
+                  "mutability": "mutable",
+                  "name": "recipient",
+                  "nameLocation": "557:9:25",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 2277,
+                  "src": "549:17:25",
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_address",
+                    "typeString": "address"
+                  },
+                  "typeName": {
+                    "id": 2273,
+                    "name": "address",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "549:7:25",
+                    "stateMutability": "nonpayable",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_address",
+                      "typeString": "address"
+                    }
+                  },
+                  "visibility": "internal"
+                }
+              ],
+              "src": "525:42:25"
+            },
+            "returnParameters": {
+              "id": 2276,
+              "nodeType": "ParameterList",
+              "parameters": [],
+              "src": "584:0:25"
+            },
+            "scope": 2292,
+            "src": "505:80:25",
+            "stateMutability": "payable",
+            "virtual": false,
+            "visibility": "external"
+          },
+          {
+            "documentation": {
+              "id": 2278,
+              "nodeType": "StructuredDocumentation",
+              "src": "591:225:25",
+              "text": "@notice Refunds any ETH balance held by this contract to the `msg.sender`\n @dev Useful for bundling with mint or increase liquidity that uses ether, or exact output swaps\n that use ether for the input amount"
+            },
+            "functionSelector": "12210e8a",
+            "id": 2281,
+            "implemented": false,
+            "kind": "function",
+            "modifiers": [],
+            "name": "refundETH",
+            "nameLocation": "830:9:25",
+            "nodeType": "FunctionDefinition",
+            "parameters": {
+              "id": 2279,
+              "nodeType": "ParameterList",
+              "parameters": [],
+              "src": "839:2:25"
+            },
+            "returnParameters": {
+              "id": 2280,
+              "nodeType": "ParameterList",
+              "parameters": [],
+              "src": "858:0:25"
+            },
+            "scope": 2292,
+            "src": "821:38:25",
+            "stateMutability": "payable",
+            "virtual": false,
+            "visibility": "external"
+          },
+          {
+            "documentation": {
+              "id": 2282,
+              "nodeType": "StructuredDocumentation",
+              "src": "865:427:25",
+              "text": "@notice Transfers the full amount of a token held by this contract to recipient\n @dev The amountMinimum parameter prevents malicious contracts from stealing the token from users\n @param token The contract address of the token which will be transferred to `recipient`\n @param amountMinimum The minimum amount of token required for a transfer\n @param recipient The destination address of the token"
+            },
+            "functionSelector": "df2ab5bb",
+            "id": 2291,
+            "implemented": false,
+            "kind": "function",
+            "modifiers": [],
+            "name": "sweepToken",
+            "nameLocation": "1306:10:25",
+            "nodeType": "FunctionDefinition",
+            "parameters": {
+              "id": 2289,
+              "nodeType": "ParameterList",
+              "parameters": [
+                {
+                  "constant": false,
+                  "id": 2284,
+                  "mutability": "mutable",
+                  "name": "token",
+                  "nameLocation": "1334:5:25",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 2291,
+                  "src": "1326:13:25",
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_address",
+                    "typeString": "address"
+                  },
+                  "typeName": {
+                    "id": 2283,
+                    "name": "address",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "1326:7:25",
+                    "stateMutability": "nonpayable",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_address",
+                      "typeString": "address"
+                    }
+                  },
+                  "visibility": "internal"
+                },
+                {
+                  "constant": false,
+                  "id": 2286,
+                  "mutability": "mutable",
+                  "name": "amountMinimum",
+                  "nameLocation": "1357:13:25",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 2291,
+                  "src": "1349:21:25",
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_uint256",
+                    "typeString": "uint256"
+                  },
+                  "typeName": {
+                    "id": 2285,
+                    "name": "uint256",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "1349:7:25",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_uint256",
+                      "typeString": "uint256"
+                    }
+                  },
+                  "visibility": "internal"
+                },
+                {
+                  "constant": false,
+                  "id": 2288,
+                  "mutability": "mutable",
+                  "name": "recipient",
+                  "nameLocation": "1388:9:25",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 2291,
+                  "src": "1380:17:25",
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_address",
+                    "typeString": "address"
+                  },
+                  "typeName": {
+                    "id": 2287,
+                    "name": "address",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "1380:7:25",
+                    "stateMutability": "nonpayable",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_address",
+                      "typeString": "address"
+                    }
+                  },
+                  "visibility": "internal"
+                }
+              ],
+              "src": "1316:87:25"
+            },
+            "returnParameters": {
+              "id": 2290,
+              "nodeType": "ParameterList",
+              "parameters": [],
+              "src": "1420:0:25"
+            },
+            "scope": 2292,
+            "src": "1297:124:25",
+            "stateMutability": "payable",
+            "virtual": false,
+            "visibility": "external"
+          }
+        ],
+        "scope": 2293,
+        "src": "163:1260:25",
+        "usedErrors": []
+      }
+    ],
+    "src": "45:1379:25"
+  },
+  "legacyAST": {
+    "absolutePath": "@uniswap/v3-periphery/contracts/interfaces/IPeripheryPayments.sol",
+    "exportedSymbols": {
+      "IPeripheryPayments": [
+        2292
+      ]
+    },
+    "id": 2293,
+    "license": "GPL-2.0-or-later",
+    "nodeType": "SourceUnit",
+    "nodes": [
+      {
+        "id": 2268,
+        "literals": [
+          "solidity",
+          ">=",
+          "0.7",
+          ".5"
+        ],
+        "nodeType": "PragmaDirective",
+        "src": "45:24:25"
+      },
+      {
+        "abstract": false,
+        "baseContracts": [],
+        "canonicalName": "IPeripheryPayments",
+        "contractDependencies": [],
+        "contractKind": "interface",
+        "documentation": {
+          "id": 2269,
+          "nodeType": "StructuredDocumentation",
+          "src": "71:92:25",
+          "text": "@title Periphery Payments\n @notice Functions to ease deposits and withdrawals of ETH"
+        },
+        "fullyImplemented": false,
+        "id": 2292,
+        "linearizedBaseContracts": [
+          2292
+        ],
+        "name": "IPeripheryPayments",
+        "nameLocation": "173:18:25",
+        "nodeType": "ContractDefinition",
+        "nodes": [
+          {
+            "documentation": {
+              "id": 2270,
+              "nodeType": "StructuredDocumentation",
+              "src": "198:302:25",
+              "text": "@notice Unwraps the contract's WETH9 balance and sends it to recipient as ETH.\n @dev The amountMinimum parameter prevents malicious contracts from stealing WETH9 from users.\n @param amountMinimum The minimum amount of WETH9 to unwrap\n @param recipient The address receiving ETH"
+            },
+            "functionSelector": "49404b7c",
+            "id": 2277,
+            "implemented": false,
+            "kind": "function",
+            "modifiers": [],
+            "name": "unwrapWETH9",
+            "nameLocation": "514:11:25",
+            "nodeType": "FunctionDefinition",
+            "parameters": {
+              "id": 2275,
+              "nodeType": "ParameterList",
+              "parameters": [
+                {
+                  "constant": false,
+                  "id": 2272,
+                  "mutability": "mutable",
+                  "name": "amountMinimum",
+                  "nameLocation": "534:13:25",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 2277,
+                  "src": "526:21:25",
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_uint256",
+                    "typeString": "uint256"
+                  },
+                  "typeName": {
+                    "id": 2271,
+                    "name": "uint256",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "526:7:25",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_uint256",
+                      "typeString": "uint256"
+                    }
+                  },
+                  "visibility": "internal"
+                },
+                {
+                  "constant": false,
+                  "id": 2274,
+                  "mutability": "mutable",
+                  "name": "recipient",
+                  "nameLocation": "557:9:25",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 2277,
+                  "src": "549:17:25",
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_address",
+                    "typeString": "address"
+                  },
+                  "typeName": {
+                    "id": 2273,
+                    "name": "address",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "549:7:25",
+                    "stateMutability": "nonpayable",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_address",
+                      "typeString": "address"
+                    }
+                  },
+                  "visibility": "internal"
+                }
+              ],
+              "src": "525:42:25"
+            },
+            "returnParameters": {
+              "id": 2276,
+              "nodeType": "ParameterList",
+              "parameters": [],
+              "src": "584:0:25"
+            },
+            "scope": 2292,
+            "src": "505:80:25",
+            "stateMutability": "payable",
+            "virtual": false,
+            "visibility": "external"
+          },
+          {
+            "documentation": {
+              "id": 2278,
+              "nodeType": "StructuredDocumentation",
+              "src": "591:225:25",
+              "text": "@notice Refunds any ETH balance held by this contract to the `msg.sender`\n @dev Useful for bundling with mint or increase liquidity that uses ether, or exact output swaps\n that use ether for the input amount"
+            },
+            "functionSelector": "12210e8a",
+            "id": 2281,
+            "implemented": false,
+            "kind": "function",
+            "modifiers": [],
+            "name": "refundETH",
+            "nameLocation": "830:9:25",
+            "nodeType": "FunctionDefinition",
+            "parameters": {
+              "id": 2279,
+              "nodeType": "ParameterList",
+              "parameters": [],
+              "src": "839:2:25"
+            },
+            "returnParameters": {
+              "id": 2280,
+              "nodeType": "ParameterList",
+              "parameters": [],
+              "src": "858:0:25"
+            },
+            "scope": 2292,
+            "src": "821:38:25",
+            "stateMutability": "payable",
+            "virtual": false,
+            "visibility": "external"
+          },
+          {
+            "documentation": {
+              "id": 2282,
+              "nodeType": "StructuredDocumentation",
+              "src": "865:427:25",
+              "text": "@notice Transfers the full amount of a token held by this contract to recipient\n @dev The amountMinimum parameter prevents malicious contracts from stealing the token from users\n @param token The contract address of the token which will be transferred to `recipient`\n @param amountMinimum The minimum amount of token required for a transfer\n @param recipient The destination address of the token"
+            },
+            "functionSelector": "df2ab5bb",
+            "id": 2291,
+            "implemented": false,
+            "kind": "function",
+            "modifiers": [],
+            "name": "sweepToken",
+            "nameLocation": "1306:10:25",
+            "nodeType": "FunctionDefinition",
+            "parameters": {
+              "id": 2289,
+              "nodeType": "ParameterList",
+              "parameters": [
+                {
+                  "constant": false,
+                  "id": 2284,
+                  "mutability": "mutable",
+                  "name": "token",
+                  "nameLocation": "1334:5:25",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 2291,
+                  "src": "1326:13:25",
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_address",
+                    "typeString": "address"
+                  },
+                  "typeName": {
+                    "id": 2283,
+                    "name": "address",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "1326:7:25",
+                    "stateMutability": "nonpayable",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_address",
+                      "typeString": "address"
+                    }
+                  },
+                  "visibility": "internal"
+                },
+                {
+                  "constant": false,
+                  "id": 2286,
+                  "mutability": "mutable",
+                  "name": "amountMinimum",
+                  "nameLocation": "1357:13:25",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 2291,
+                  "src": "1349:21:25",
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_uint256",
+                    "typeString": "uint256"
+                  },
+                  "typeName": {
+                    "id": 2285,
+                    "name": "uint256",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "1349:7:25",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_uint256",
+                      "typeString": "uint256"
+                    }
+                  },
+                  "visibility": "internal"
+                },
+                {
+                  "constant": false,
+                  "id": 2288,
+                  "mutability": "mutable",
+                  "name": "recipient",
+                  "nameLocation": "1388:9:25",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 2291,
+                  "src": "1380:17:25",
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_address",
+                    "typeString": "address"
+                  },
+                  "typeName": {
+                    "id": 2287,
+                    "name": "address",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "1380:7:25",
+                    "stateMutability": "nonpayable",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_address",
+                      "typeString": "address"
+                    }
+                  },
+                  "visibility": "internal"
+                }
+              ],
+              "src": "1316:87:25"
+            },
+            "returnParameters": {
+              "id": 2290,
+              "nodeType": "ParameterList",
+              "parameters": [],
+              "src": "1420:0:25"
+            },
+            "scope": 2292,
+            "src": "1297:124:25",
+            "stateMutability": "payable",
+            "virtual": false,
+            "visibility": "external"
+          }
+        ],
+        "scope": 2293,
+        "src": "163:1260:25",
+        "usedErrors": []
+      }
+    ],
+    "src": "45:1379:25"
+  },
+  "compiler": {
+    "name": "solc",
+    "version": "0.8.14+commit.80d49f37.Emscripten.clang"
+  },
+  "networks": {},
+  "schemaVersion": "3.4.4",
+  "updatedAt": "2022-05-29T19:59:53.569Z",
+  "devdoc": {
+    "kind": "dev",
+    "methods": {
+      "refundETH()": {
+        "details": "Useful for bundling with mint or increase liquidity that uses ether, or exact output swaps that use ether for the input amount"
+      },
+      "sweepToken(address,uint256,address)": {
+        "details": "The amountMinimum parameter prevents malicious contracts from stealing the token from users",
+        "params": {
+          "amountMinimum": "The minimum amount of token required for a transfer",
+          "recipient": "The destination address of the token",
+          "token": "The contract address of the token which will be transferred to `recipient`"
+        }
+      },
+      "unwrapWETH9(uint256,address)": {
+        "details": "The amountMinimum parameter prevents malicious contracts from stealing WETH9 from users.",
+        "params": {
+          "amountMinimum": "The minimum amount of WETH9 to unwrap",
+          "recipient": "The address receiving ETH"
+        }
+      }
+    },
+    "title": "Periphery Payments",
+    "version": 1
+  },
+  "userdoc": {
+    "kind": "user",
+    "methods": {
+      "refundETH()": {
+        "notice": "Refunds any ETH balance held by this contract to the `msg.sender`"
+      },
+      "sweepToken(address,uint256,address)": {
+        "notice": "Transfers the full amount of a token held by this contract to recipient"
+      },
+      "unwrapWETH9(uint256,address)": {
+        "notice": "Unwraps the contract's WETH9 balance and sends it to recipient as ETH."
+      }
+    },
+    "notice": "Functions to ease deposits and withdrawals of ETH",
+    "version": 1
+  }
+}
