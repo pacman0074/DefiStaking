@@ -22,9 +22,13 @@ contract Staking {
     //Rate BLK/ETH : 100 BLK = 1 ETH or 1 BLK = 10^16 WEI
     uint public rate = 100;
 
+    //List of stakers address
+    address [] private stakers;
+
     //List of deposits attached to the staker address
-    mapping (address => Deposit[]) DepositList;
-    uint constant MAX_TOKEN_PER_STAKER = 100;
+    mapping (address => Deposit[]) private DepositList;
+
+    uint constant MAX_TOKEN_PER_STAKER = 100;//Limit of token to be staked by staker
 
     //staking event
     event stake(address staker, address token, uint256 amount);
@@ -50,6 +54,13 @@ contract Staking {
     }
 
 
+    function Reward (address _staker, address _token, uint _amount) view internal {
+
+        uint tokenAmountStakedinEther;
+        uint TVLinEther;
+
+    }
+
     //Investors can stake any amount of any ERC20 tokens
     function Stake(address _token, uint256 _amount) external {
         require(DepositList[msg.sender].length <= MAX_TOKEN_PER_STAKER, 'You cannot stake more than 100 ERC20 Tokens');
@@ -70,7 +81,11 @@ contract Staking {
                 DepositList[msg.sender].push(Deposit({token : _token, liquidity : _amount}));
             }
 
+        //Event log position staked
         emit stake(msg.sender, _token, _amount);
+
+        //Send BlueToken reward to the staker
+        Reward((msg.sender), _token, _amount);
             
     }
 
