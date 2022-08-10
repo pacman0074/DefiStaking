@@ -2,19 +2,25 @@
 pragma solidity >=0.8.0;
 
 
-import "@openzeppelin/contracts/token/ERC20/ERC20.sol";
+import "./BlueToken.sol";
 import "@openzeppelin/contracts/token/ERC20/utils/SafeERC20.sol";
-import '@uniswap/v3-periphery/contracts/libraries/TransferHelper.sol';
+//import '@uniswap/v3-periphery/contracts/libraries/TransferHelper.sol';
 
-
-contract Staking is ERC20 {
+//Créer un smart contract à part pour le token ALYRA, faire comme le TP crowdsale
+contract Staking {
 
     using SafeERC20 for IERC20;
+
     //This structure represents a staking position
     struct Deposit {
         address token;
         uint256 liquidity;
     }
+
+    BlueToken public token;
+
+    //Rate BLK/ETH : 100 BLK = 1 ETH or 1 BLK = 10^16 WEI
+    uint public rate = 100;
 
     //List of deposits attached to the staker address
     mapping (address => Deposit[]) DepositList;
@@ -26,8 +32,8 @@ contract Staking is ERC20 {
 
 
     //Constructor mint reward's token and send them to staking contract
-    constructor(uint256 initialSupply) ERC20('BlueToken', 'BLT'){
-        _mint(address(this), initialSupply);
+    constructor(uint256 initialSupply){
+        token = new BlueToken(initialSupply);
     }
 
 
@@ -46,7 +52,6 @@ contract Staking is ERC20 {
 
     //Investors can stake any amount of any ERC20 tokens
     function Stake(address _token, uint256 _amount) external {
-        require(msg.sender != address(0), 'Zero address not allowed');
         require(DepositList[msg.sender].length <= MAX_TOKEN_PER_STAKER, 'You cannot stake more than 100 ERC20 Tokens');
         require(_amount >= 0.1 ether, "you can't stake less than 0.1 ether");
 
@@ -70,7 +75,6 @@ contract Staking is ERC20 {
     }
 
     function UnstakePosition(address _token, uint256 _amount ) public {
-        require(msg.sender != address(0), 'Zero address not allowed');
         require(DepositList[msg.sender].length > 0, "You don't have any tokens staked");
         require(getIndexTokenStaked(msg.sender, _token) != MAX_TOKEN_PER_STAKER, "You don't have this token staked");
 
@@ -80,7 +84,7 @@ contract Staking is ERC20 {
 
         uint indexTokenStaked = getIndexTokenStaked(msg.sender, _token);
         if (indexTokenStaked != MAX_TOKEN_PER_STAKER){
-            //Erase staking position
+            //Erase staking position , faire un remove ici 
             DepositList[msg.sender][indexTokenStaked] =  Deposit({token : address(0), liquidity : 0});
         }
         //Check if unstake succeed
@@ -98,7 +102,6 @@ contract Staking is ERC20 {
 
 
     function WithdrawFunds() external {
-        require(msg.sender != address(0), 'Zero address not allowed');
         require(DepositList[msg.sender].length > 0, "You don't have any tokens staked");
 
         //UnstakePosition for each token
