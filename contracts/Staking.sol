@@ -1,9 +1,11 @@
 // SPDX-License-Identifier: GPL-2.0-or-later
-pragma solidity >=0.8.0;
+pragma solidity 0.8.16;
 
 
 import "./BlueToken.sol";
 import "@openzeppelin/contracts/token/ERC20/utils/SafeERC20.sol";
+import "./PriceConsumer.sol";
+
 //import '@uniswap/v3-periphery/contracts/libraries/TransferHelper.sol';
 
 //Créer un smart contract à part pour le token ALYRA, faire comme le TP crowdsale
@@ -20,59 +22,68 @@ contract Staking {
     BlueToken public token;
 
     //Rate BLK/ETH : 100 BLK = 1 ETH or 1 BLK = 10^16 WEI
-    uint public rate = 100;
+    uint public rate = 200;
+
+    //Total value locked in the contract in Wei
+    uint public TVL = 0;
 
     //List of stakers address
-    address [] private stakers;
+    address [] private Stakers;
 
     //List of deposits attached to the staker address
     mapping (address => Deposit[]) private DepositList;
 
-    uint constant MAX_TOKEN_PER_STAKER = 100;//Limit of token to be staked by staker
-
     //staking event
-    event stake(address staker, address token, uint256 amount);
-    event unStake(address staker, address token, uint256 amount);
+    event stake(address staker, address token, uint amount);
+    event unStake(address staker, address token, uint amount);
+    event reward(address staker, uint amount);
 
 
     //Constructor mint reward's token and send them to staking contract
     constructor(uint256 initialSupply){
         token = new BlueToken(initialSupply);
+        TVL = initialSupply/200;
     }
 
 
     //Return the token's index in the depositList, if not found MAX_TOKEN_PER_STAKER is returned
     function getIndexTokenStaked(address _staker, address _token) internal view returns (uint) {
-        require(msg.sender != address(0), 'Zero address not allowed');
 
         for (uint index = 0; index < DepositList[_staker].length; index++) {
             if (DepositList[_staker][index].token == _token){
                return index;
             }
         }
-        return MAX_TOKEN_PER_STAKER;
+        return DepositList[_staker].length;
     }
 
+    //Reward the staker with Blue Token 
+    function Reward (address _staker, address _token, uint TVLToken ) internal {
 
-    function Reward (address _staker, address _token, uint _amount) view internal {
+        //The reward has to be proportional to the TVL in the contract
+        uint rewardBLT = (TVLToken*200)/TVL;
+        IERC20(_token).safeTransfer(_staker, rewardBLT);
 
-        uint tokenAmountStakedinEther;
-        uint TVLinEther;
-
+        emit reward(_staker, rewardBLT);
+        
     }
 
-    //Investors can stake any amount of any ERC20 tokens
-    function Stake(address _token, uint256 _amount) external {
-        require(DepositList[msg.sender].length <= MAX_TOKEN_PER_STAKER, 'You cannot stake more than 100 ERC20 Tokens');
+    //Investors can stake any amount of an ERC20 token
+    function Stake(address _token, uint256 _amount, address _priceFeedContract) external {
         require(_amount >= 0.1 ether, "you can't stake less than 0.1 ether");
 
-        //Transfer token to staking contract
-        //TransferHelper.safeTransferFrom(_token, msg.sender, address(this), _amount);
+        //Init instance of the contract which will retrieve price of the token in Wei
+        PriceConsumer priceFeed = PriceConsumer(_priceFeedContract);
+
+        //Send the token of the staker to the contract Staking
         IERC20(_token).safeTransferFrom(msg.sender, address(this), _amount);
 
         //Check if the staker already stakes this token
         uint indexTokenStaked = getIndexTokenStaked(msg.sender, _token);
-        if (indexTokenStaked != MAX_TOKEN_PER_STAKER){
+
+        //Add the new deposit to the depositList or 
+        //only updates the amount if a deposit has been already done for this token
+        if (indexTokenStaked != DepositList[msg.sender].length) {
                 //The deposit of the staker is updated with new amount of token staked
                 DepositList[msg.sender][indexTokenStaked].liquidity += _amount;
             }
@@ -81,48 +92,45 @@ contract Staking {
                 DepositList[msg.sender].push(Deposit({token : _token, liquidity : _amount}));
             }
 
+        //Update the TVL with the token just staked
+        uint TVLToken = uint(priceFeed.getLatestPrice()) * _amount;
+        TVL += TVLToken;
+
         //Event log position staked
         emit stake(msg.sender, _token, _amount);
 
-        //Send BlueToken reward to the staker
-        Reward((msg.sender), _token, _amount);
-            
+        Reward(msg.sender, _token, TVLToken);
     }
 
-    function UnstakePosition(address _token, uint256 _amount ) public {
+    function UnstakePosition(address _token, uint256 _amount, address _priceFeedContract ) external {
         require(DepositList[msg.sender].length > 0, "You don't have any tokens staked");
-        require(getIndexTokenStaked(msg.sender, _token) != MAX_TOKEN_PER_STAKER, "You don't have this token staked");
+        
+        uint indexTokenStaked = getIndexTokenStaked(msg.sender, _token);
+        require(DepositList[msg.sender].length != indexTokenStaked, "You don't stake this token");
+        require(DepositList[msg.sender][indexTokenStaked].liquidity < _amount, "You don't) have that many tokens staked");
+
+        PriceConsumer priceFeed = PriceConsumer(_priceFeedContract);
 
         //Unstake staking position 
-        //TransferHelper.safeTransfer(_token, msg.sender, _amount);
         IERC20(_token).safeTransfer(msg.sender, _amount);
 
-        uint indexTokenStaked = getIndexTokenStaked(msg.sender, _token);
-        if (indexTokenStaked != MAX_TOKEN_PER_STAKER){
-            //Erase staking position , faire un remove ici 
+        //Updates the DepositList
+        if (DepositList[msg.sender][indexTokenStaked].liquidity == _amount) {
+            //Erase staking position 
             DepositList[msg.sender][indexTokenStaked] =  Deposit({token : address(0), liquidity : 0});
-        }
-        //Check if unstake succeed
+
+        } else DepositList[msg.sender][indexTokenStaked].liquidity -= _amount;
+
+        //Update the TVL with the token just unstaked
+        uint TVLToken = uint(priceFeed.getLatestPrice()) * _amount;
+        TVL -= TVLToken;
+
         emit unStake(msg.sender, _token, _amount);
 
     }
 
-    function CollectRewards(address _token) external {
-
-    }
-
-    function CollectAllRewards() external {
-
-    }
-
-
-    function WithdrawFunds() external {
-        require(DepositList[msg.sender].length > 0, "You don't have any tokens staked");
-
-        //UnstakePosition for each token
-        for (uint index = 0; index < DepositList[msg.sender].length; index++){
-            UnstakePosition(DepositList[msg.sender][index].token, DepositList[msg.sender][index].liquidity);
-        }
+    function getDeposit(address _staker) public view returns (Deposit [] memory) {
+        return DepositList[_staker];
     }
 
     receive() external payable {
