@@ -24,16 +24,21 @@ contract('Staking', function(accounts){
         })
     })
 
-    beforeEach(async function() {
-        this.StakingInstance = await Staking.new(_initialsupply, {from : accounts[0]});
-    })
-
     //Créer un smart contract library et y mettre les fonctions getIndexTokenStaked et getDeposit
     describe("verify getIndexTokenStaked", () => { 
-        it("returns 0 when the staker have no token staked", async function() {
-            let indexTokenStaked = new BN(0);
+
+        it("returns the the number of token staked when the staker don't stake this token", async function() {
+            let indexTokenStaked_1 = new BN(0);
             expect(await this.StakingInstance.getIndexTokenStaked(staker_1, process.env.WETH)).to.be.bignumber.equal(indexTokenStaked);
-        })
+
+            /*let indexTokenStaked_2 = new BN(1);
+            await this.StakingInstance.DepositList(staker_1)*/
+
+        });
+
+        it("returns the the number of token staked when the staker don't stake this token")
+
+
     })
 })
 

@@ -28,10 +28,10 @@ contract Staking {
     uint public TVL = 0;
 
     //List of stakers address
-    address [] private Stakers;
+    address [] public Stakers;
 
     //List of deposits attached to the staker address
-    mapping (address => Deposit[]) private DepositList;
+    mapping (address => Deposit[]) public DepositList;
 
     //staking event
     event stake(address staker, address token, uint amount);
