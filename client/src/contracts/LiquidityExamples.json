@@ -25760,12 +25760,12 @@
     "31337": {
       "events": {},
       "links": {},
-      "address": "0x3C15538ED063e688c8DF3d571Cb7a0062d2fB18D",
-      "transactionHash": "0x7c959dcda34c1d90d55fe44f4e2416b16c8c4bb83ad91c52a1fe8aba6ee493a2"
+      "address": "0x9fD16eA9E31233279975D99D5e8Fc91dd214c7Da",
+      "transactionHash": "0x9e41183191519e628f104c1d87ff1c4d92634badf1ffa46f6a9063fa0839ca58"
     }
   },
   "schemaVersion": "3.4.4",
-  "updatedAt": "2022-05-29T20:31:44.964Z",
+  "updatedAt": "2022-08-13T15:36:48.183Z",
   "networkType": "ethereum",
   "devdoc": {
     "kind": "dev",

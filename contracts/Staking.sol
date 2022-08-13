@@ -47,7 +47,7 @@ contract Staking {
 
 
     //Return the token's index in the depositList, if not found MAX_TOKEN_PER_STAKER is returned
-    function getIndexTokenStaked(address _staker, address _token) internal view returns (uint) {
+    function getIndexTokenStaked(address _staker, address _token) public view returns (uint) {
 
         for (uint index = 0; index < DepositList[_staker].length; index++) {
             if (DepositList[_staker][index].token == _token){
@@ -58,11 +58,11 @@ contract Staking {
     }
 
     //Reward the staker with Blue Token 
-    function Reward (address _staker, address _token, uint TVLToken ) internal {
+    function Reward (address _staker, uint TVLToken ) internal {
 
         //The reward has to be proportional to the TVL in the contract
         uint rewardBLT = (TVLToken*200)/TVL;
-        IERC20(_token).safeTransfer(_staker, rewardBLT);
+        IERC20(address(token)).safeTransfer(_staker, rewardBLT);
 
         emit reward(_staker, rewardBLT);
         
@@ -99,7 +99,7 @@ contract Staking {
         //Event log position staked
         emit stake(msg.sender, _token, _amount);
 
-        Reward(msg.sender, _token, TVLToken);
+        Reward(msg.sender, TVLToken);
     }
 
     function UnstakePosition(address _token, uint256 _amount, address _priceFeedContract ) external {

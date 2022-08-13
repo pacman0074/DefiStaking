@@ -6,7 +6,7 @@ import "@openzeppelin/contracts/token/ERC20/ERC20.sol";
 
 contract BlueToken is ERC20 {
 
-    constructor(uint256 initialSupply) ERC20('BlueToken', 'BLT') {
+    constructor(uint initialSupply) ERC20('BlueToken', 'BLT') {
         _mint(msg.sender, initialSupply);
     }
 }
