@@ -1,0 +1,612 @@
+{
+    "contractName": "DepositLibrary",
+    "abi": [
+        {
+            "inputs": [
+                {
+                    "components": [
+                        {
+                            "internalType": "address",
+                            "name": "token",
+                            "type": "address"
+                        },
+                        {
+                            "internalType": "uint256",
+                            "name": "liquidity",
+                            "type": "uint256"
+                        }
+                    ],
+                    "internalType": "struct DepositLibrary.Deposit[]",
+                    "name": "_deposits",
+                    "type": "tuple[]"
+                },
+                {
+                    "internalType": "address",
+                    "name": "_token",
+                    "type": "address"
+                }
+            ],
+            "name": "getIndexTokenStaked",
+            "outputs": [
+                {
+                    "internalType": "uint256",
+                    "name": "",
+                    "type": "uint256"
+                }
+            ],
+            "stateMutability": "pure",
+            "type": "function"
+        }
+    ],
+    "metadata": "{\"compiler\":{\"version\":\"0.8.16+commit.07a7930e\"},\"language\":\"Solidity\",\"output\":{\"abi\":[{\"inputs\":[{\"components\":[{\"internalType\":\"address\",\"name\":\"token\",\"type\":\"address\"},{\"internalType\":\"uint256\",\"name\":\"liquidity\",\"type\":\"uint256\"}],\"internalType\":\"struct DepositLibrary.Deposit[]\",\"name\":\"_deposits\",\"type\":\"tuple[]\"},{\"internalType\":\"address\",\"name\":\"_token\",\"type\":\"address\"}],\"name\":\"getIndexTokenStaked\",\"outputs\":[{\"internalType\":\"uint256\",\"name\":\"\",\"type\":\"uint256\"}],\"stateMutability\":\"pure\",\"type\":\"function\"}],\"devdoc\":{\"kind\":\"dev\",\"methods\":{},\"version\":1},\"userdoc\":{\"kind\":\"user\",\"methods\":{},\"version\":1}},\"settings\":{\"compilationTarget\":{\"c:/Users/yanni/Documents/Formation Alyra/DefiStaking/contracts/DepositLibrary.sol\":\"DepositLibrary\"},\"evmVersion\":\"london\",\"libraries\":{},\"metadata\":{\"bytecodeHash\":\"ipfs\"},\"optimizer\":{\"enabled\":true,\"runs\":200},\"remappings\":[]},\"sources\":{\"c:/Users/yanni/Documents/Formation Alyra/DefiStaking/contracts/DepositLibrary.sol\":{\"keccak256\":\"0xb6091dc9b205159a789268bee8d0322ea919d4b1203eed1d17674d840badeec2\",\"license\":\"GPL-2.0-or-later\",\"urls\":[\"bzz-raw://d794924d039dc962d4e6f4257b1a536b05880beede6998e9930b521c425039ba\",\"dweb:/ipfs/Qmc6DBaTziaTbbnrWJgjPd8hmUvk2ehRuFwyX7QPuGdQR4\"]}},\"version\":1}",
+    "bytecode": "6102a961003a600b82828239805160001a60731461002d57634e487b7160e01b600052600060045260246000fd5b30600052607381538281f3fe73000000000000000000000000000000000000000030146080604052600436106100355760003560e01c80637657f2611461003a575b600080fd5b61004d610048366004610152565b61005f565b60405190815260200160405180910390f35b6000805b83518110156100bb57826001600160a01b031684828151811061008857610088610236565b6020026020010151600001516001600160a01b0316036100a95790506100c0565b806100b38161024c565b915050610063565b505081515b92915050565b634e487b7160e01b600052604160045260246000fd5b6040805190810167ffffffffffffffff811182821017156100ff576100ff6100c6565b60405290565b604051601f8201601f1916810167ffffffffffffffff8111828210171561012e5761012e6100c6565b604052919050565b80356001600160a01b038116811461014d57600080fd5b919050565b600080604080848603121561016657600080fd5b833567ffffffffffffffff8082111561017e57600080fd5b818601915086601f83011261019257600080fd5b81356020828211156101a6576101a66100c6565b6101b4818360051b01610105565b828152818101935060069290921b8401810191898311156101d457600080fd5b938101935b8285101561021b5785858b0312156101f15760008081fd5b6101f96100dc565b61020286610136565b81528583013583820152845293850193928101926101d9565b9650610228888201610136565b955050505050509250929050565b634e487b7160e01b600052603260045260246000fd5b60006001820161026c57634e487b7160e01b600052601160045260246000fd5b506001019056fea2646970667358221220c15c64f13e2062680fb5ac55c6753b7bc593f53857a4bedd17b671ce4614958864736f6c63430008100033",
+    "deployedBytecode": "73000000000000000000000000000000000000000030146080604052600436106100355760003560e01c80637657f2611461003a575b600080fd5b61004d610048366004610152565b61005f565b60405190815260200160405180910390f35b6000805b83518110156100bb57826001600160a01b031684828151811061008857610088610236565b6020026020010151600001516001600160a01b0316036100a95790506100c0565b806100b38161024c565b915050610063565b505081515b92915050565b634e487b7160e01b600052604160045260246000fd5b6040805190810167ffffffffffffffff811182821017156100ff576100ff6100c6565b60405290565b604051601f8201601f1916810167ffffffffffffffff8111828210171561012e5761012e6100c6565b604052919050565b80356001600160a01b038116811461014d57600080fd5b919050565b600080604080848603121561016657600080fd5b833567ffffffffffffffff8082111561017e57600080fd5b818601915086601f83011261019257600080fd5b81356020828211156101a6576101a66100c6565b6101b4818360051b01610105565b828152818101935060069290921b8401810191898311156101d457600080fd5b938101935b8285101561021b5785858b0312156101f15760008081fd5b6101f96100dc565b61020286610136565b81528583013583820152845293850193928101926101d9565b9650610228888201610136565b955050505050509250929050565b634e487b7160e01b600052603260045260246000fd5b60006001820161026c57634e487b7160e01b600052601160045260246000fd5b506001019056fea2646970667358221220c15c64f13e2062680fb5ac55c6753b7bc593f53857a4bedd17b671ce4614958864736f6c63430008100033",
+    "sourceMap": "75:489:0:-:0;;;;;;;;;;;;;;;-1:-1:-1;;;75:489:0;;;;;;;;;;;;;;;;;",
+    "deployedSourceMap": "75:489:0:-:0;;;;;;;;;;;;;;;;;;;;;;;;242:319;;;;;;:::i;:::-;;:::i;:::-;;;2348:25:1;;;2336:2;2321:18;242:319:0;;;;;;;;336:4;;355:165;384:9;:16;376:5;:24;355:165;;;456:6;-1:-1:-1;;;;;430:32:0;:9;440:5;430:16;;;;;;;;:::i;:::-;;;;;;;:22;;;-1:-1:-1;;;;;430:32:0;;426:83;;488:5;-1:-1:-1;481:12:0;;426:83;402:7;;;;:::i;:::-;;;;355:165;;;-1:-1:-1;;537:16:0;;242:319;;;;;:::o;14:127:1:-;75:10;70:3;66:20;63:1;56:31;106:4;103:1;96:15;130:4;127:1;120:15;146:250;217:2;211:9;;;247:15;;292:18;277:34;;313:22;;;274:62;271:88;;;339:18;;:::i;:::-;375:2;368:22;146:250;:::o;401:275::-;472:2;466:9;537:2;518:13;;-1:-1:-1;;514:27:1;502:40;;572:18;557:34;;593:22;;;554:62;551:88;;;619:18;;:::i;:::-;655:2;648:22;401:275;;-1:-1:-1;401:275:1:o;681:173::-;749:20;;-1:-1:-1;;;;;798:31:1;;788:42;;778:70;;844:1;841;834:12;778:70;681:173;;;:::o;859:1330::-;974:6;982;1013:2;1056;1044:9;1035:7;1031:23;1027:32;1024:52;;;1072:1;1069;1062:12;1024:52;1112:9;1099:23;1141:18;1182:2;1174:6;1171:14;1168:34;;;1198:1;1195;1188:12;1168:34;1236:6;1225:9;1221:22;1211:32;;1281:7;1274:4;1270:2;1266:13;1262:27;1252:55;;1303:1;1300;1293:12;1252:55;1339:2;1326:16;1361:4;1384:2;1380;1377:10;1374:36;;;1390:18;;:::i;:::-;1430:36;1462:2;1457;1454:1;1450:10;1446:19;1430:36;:::i;:::-;1500:15;;;1531:12;;;;-1:-1:-1;1582:1:1;1578:10;;;;1570:19;;1566:28;;;1606:19;;;1603:39;;;1638:1;1635;1628:12;1603:39;1662:11;;;;1682:420;1698:6;1693:3;1690:15;1682:420;;;1778:2;1772:3;1763:7;1759:17;1755:26;1752:116;;;1822:1;1851:2;1847;1840:14;1752:116;1894:21;;:::i;:::-;1942:23;1961:3;1942:23;:::i;:::-;1928:38;;2015:12;;;2002:26;1986:14;;;1979:50;2042:18;;1715:12;;;;2080;;;;1682:420;;;2121:5;-1:-1:-1;2145:38:1;2164:18;;;2145:38;:::i;:::-;2135:48;;;;;;;859:1330;;;;;:::o;2384:127::-;2445:10;2440:3;2436:20;2433:1;2426:31;2476:4;2473:1;2466:15;2500:4;2497:1;2490:15;2516:232;2555:3;2576:17;;;2573:140;;2635:10;2630:3;2626:20;2623:1;2616:31;2670:4;2667:1;2660:15;2698:4;2695:1;2688:15;2573:140;-1:-1:-1;2740:1:1;2729:13;;2516:232::o",
+    "sourcePath": "c:/Users/yanni/Documents/Formation Alyra/DefiStaking/contracts/DepositLibrary.sol",
+    "compiler": {
+        "name": "solc",
+        "version": "0.8.16+commit.07a7930e"
+    },
+    "ast": {
+        "absolutePath": "c:/Users/yanni/Documents/Formation Alyra/DefiStaking/contracts/DepositLibrary.sol",
+        "exportedSymbols": {
+            "DepositLibrary": [
+                45
+            ]
+        },
+        "id": 46,
+        "license": "GPL-2.0-or-later",
+        "nodeType": "SourceUnit",
+        "nodes": [
+            {
+                "id": 1,
+                "literals": [
+                    "solidity",
+                    "0.8",
+                    ".16"
+                ],
+                "nodeType": "PragmaDirective",
+                "src": "48:23:0"
+            },
+            {
+                "abstract": false,
+                "baseContracts": [],
+                "canonicalName": "DepositLibrary",
+                "contractDependencies": [],
+                "contractKind": "library",
+                "fullyImplemented": true,
+                "id": 45,
+                "linearizedBaseContracts": [
+                    45
+                ],
+                "name": "DepositLibrary",
+                "nameLocation": "83:14:0",
+                "nodeType": "ContractDefinition",
+                "nodes": [
+                    {
+                        "canonicalName": "DepositLibrary.Deposit",
+                        "id": 6,
+                        "members": [
+                            {
+                                "constant": false,
+                                "id": 3,
+                                "mutability": "mutable",
+                                "name": "token",
+                                "nameLocation": "193:5:0",
+                                "nodeType": "VariableDeclaration",
+                                "scope": 6,
+                                "src": "185:13:0",
+                                "stateVariable": false,
+                                "storageLocation": "default",
+                                "typeDescriptions": {
+                                    "typeIdentifier": "t_address",
+                                    "typeString": "address"
+                                },
+                                "typeName": {
+                                    "id": 2,
+                                    "name": "address",
+                                    "nodeType": "ElementaryTypeName",
+                                    "src": "185:7:0",
+                                    "stateMutability": "nonpayable",
+                                    "typeDescriptions": {
+                                        "typeIdentifier": "t_address",
+                                        "typeString": "address"
+                                    }
+                                },
+                                "visibility": "internal"
+                            },
+                            {
+                                "constant": false,
+                                "id": 5,
+                                "mutability": "mutable",
+                                "name": "liquidity",
+                                "nameLocation": "217:9:0",
+                                "nodeType": "VariableDeclaration",
+                                "scope": 6,
+                                "src": "209:17:0",
+                                "stateVariable": false,
+                                "storageLocation": "default",
+                                "typeDescriptions": {
+                                    "typeIdentifier": "t_uint256",
+                                    "typeString": "uint256"
+                                },
+                                "typeName": {
+                                    "id": 4,
+                                    "name": "uint256",
+                                    "nodeType": "ElementaryTypeName",
+                                    "src": "209:7:0",
+                                    "typeDescriptions": {
+                                        "typeIdentifier": "t_uint256",
+                                        "typeString": "uint256"
+                                    }
+                                },
+                                "visibility": "internal"
+                            }
+                        ],
+                        "name": "Deposit",
+                        "nameLocation": "166:7:0",
+                        "nodeType": "StructDefinition",
+                        "scope": 45,
+                        "src": "159:75:0",
+                        "visibility": "public"
+                    },
+                    {
+                        "body": {
+                            "id": 43,
+                            "nodeType": "Block",
+                            "src": "342:219:0",
+                            "statements": [
+                                {
+                                    "body": {
+                                        "id": 38,
+                                        "nodeType": "Block",
+                                        "src": "411:109:0",
+                                        "statements": [
+                                            {
+                                                "condition": {
+                                                    "commonType": {
+                                                        "typeIdentifier": "t_address",
+                                                        "typeString": "address"
+                                                    },
+                                                    "id": 33,
+                                                    "isConstant": false,
+                                                    "isLValue": false,
+                                                    "isPure": false,
+                                                    "lValueRequested": false,
+                                                    "leftExpression": {
+                                                        "expression": {
+                                                            "baseExpression": {
+                                                                "id": 28,
+                                                                "name": "_deposits",
+                                                                "nodeType": "Identifier",
+                                                                "overloadedDeclarations": [],
+                                                                "referencedDeclaration": 10,
+                                                                "src": "430:9:0",
+                                                                "typeDescriptions": {
+                                                                    "typeIdentifier": "t_array$_t_struct$_Deposit_$6_memory_ptr_$dyn_memory_ptr",
+                                                                    "typeString": "struct DepositLibrary.Deposit memory[] memory"
+                                                                }
+                                                            },
+                                                            "id": 30,
+                                                            "indexExpression": {
+                                                                "id": 29,
+                                                                "name": "index",
+                                                                "nodeType": "Identifier",
+                                                                "overloadedDeclarations": [],
+                                                                "referencedDeclaration": 18,
+                                                                "src": "440:5:0",
+                                                                "typeDescriptions": {
+                                                                    "typeIdentifier": "t_uint256",
+                                                                    "typeString": "uint256"
+                                                                }
+                                                            },
+                                                            "isConstant": false,
+                                                            "isLValue": true,
+                                                            "isPure": false,
+                                                            "lValueRequested": false,
+                                                            "nodeType": "IndexAccess",
+                                                            "src": "430:16:0",
+                                                            "typeDescriptions": {
+                                                                "typeIdentifier": "t_struct$_Deposit_$6_memory_ptr",
+                                                                "typeString": "struct DepositLibrary.Deposit memory"
+                                                            }
+                                                        },
+                                                        "id": 31,
+                                                        "isConstant": false,
+                                                        "isLValue": true,
+                                                        "isPure": false,
+                                                        "lValueRequested": false,
+                                                        "memberLocation": "447:5:0",
+                                                        "memberName": "token",
+                                                        "nodeType": "MemberAccess",
+                                                        "referencedDeclaration": 3,
+                                                        "src": "430:22:0",
+                                                        "typeDescriptions": {
+                                                            "typeIdentifier": "t_address",
+                                                            "typeString": "address"
+                                                        }
+                                                    },
+                                                    "nodeType": "BinaryOperation",
+                                                    "operator": "==",
+                                                    "rightExpression": {
+                                                        "id": 32,
+                                                        "name": "_token",
+                                                        "nodeType": "Identifier",
+                                                        "overloadedDeclarations": [],
+                                                        "referencedDeclaration": 12,
+                                                        "src": "456:6:0",
+                                                        "typeDescriptions": {
+                                                            "typeIdentifier": "t_address",
+                                                            "typeString": "address"
+                                                        }
+                                                    },
+                                                    "src": "430:32:0",
+                                                    "typeDescriptions": {
+                                                        "typeIdentifier": "t_bool",
+                                                        "typeString": "bool"
+                                                    }
+                                                },
+                                                "id": 37,
+                                                "nodeType": "IfStatement",
+                                                "src": "426:83:0",
+                                                "trueBody": {
+                                                    "id": 36,
+                                                    "nodeType": "Block",
+                                                    "src": "463:46:0",
+                                                    "statements": [
+                                                        {
+                                                            "expression": {
+                                                                "id": 34,
+                                                                "name": "index",
+                                                                "nodeType": "Identifier",
+                                                                "overloadedDeclarations": [],
+                                                                "referencedDeclaration": 18,
+                                                                "src": "488:5:0",
+                                                                "typeDescriptions": {
+                                                                    "typeIdentifier": "t_uint256",
+                                                                    "typeString": "uint256"
+                                                                }
+                                                            },
+                                                            "functionReturnParameters": 16,
+                                                            "id": 35,
+                                                            "nodeType": "Return",
+                                                            "src": "481:12:0"
+                                                        }
+                                                    ]
+                                                }
+                                            }
+                                        ]
+                                    },
+                                    "condition": {
+                                        "commonType": {
+                                            "typeIdentifier": "t_uint256",
+                                            "typeString": "uint256"
+                                        },
+                                        "id": 24,
+                                        "isConstant": false,
+                                        "isLValue": false,
+                                        "isPure": false,
+                                        "lValueRequested": false,
+                                        "leftExpression": {
+                                            "id": 21,
+                                            "name": "index",
+                                            "nodeType": "Identifier",
+                                            "overloadedDeclarations": [],
+                                            "referencedDeclaration": 18,
+                                            "src": "376:5:0",
+                                            "typeDescriptions": {
+                                                "typeIdentifier": "t_uint256",
+                                                "typeString": "uint256"
+                                            }
+                                        },
+                                        "nodeType": "BinaryOperation",
+                                        "operator": "<",
+                                        "rightExpression": {
+                                            "expression": {
+                                                "id": 22,
+                                                "name": "_deposits",
+                                                "nodeType": "Identifier",
+                                                "overloadedDeclarations": [],
+                                                "referencedDeclaration": 10,
+                                                "src": "384:9:0",
+                                                "typeDescriptions": {
+                                                    "typeIdentifier": "t_array$_t_struct$_Deposit_$6_memory_ptr_$dyn_memory_ptr",
+                                                    "typeString": "struct DepositLibrary.Deposit memory[] memory"
+                                                }
+                                            },
+                                            "id": 23,
+                                            "isConstant": false,
+                                            "isLValue": false,
+                                            "isPure": false,
+                                            "lValueRequested": false,
+                                            "memberLocation": "394:6:0",
+                                            "memberName": "length",
+                                            "nodeType": "MemberAccess",
+                                            "src": "384:16:0",
+                                            "typeDescriptions": {
+                                                "typeIdentifier": "t_uint256",
+                                                "typeString": "uint256"
+                                            }
+                                        },
+                                        "src": "376:24:0",
+                                        "typeDescriptions": {
+                                            "typeIdentifier": "t_bool",
+                                            "typeString": "bool"
+                                        }
+                                    },
+                                    "id": 39,
+                                    "initializationExpression": {
+                                        "assignments": [
+                                            18
+                                        ],
+                                        "declarations": [
+                                            {
+                                                "constant": false,
+                                                "id": 18,
+                                                "mutability": "mutable",
+                                                "name": "index",
+                                                "nameLocation": "365:5:0",
+                                                "nodeType": "VariableDeclaration",
+                                                "scope": 39,
+                                                "src": "360:10:0",
+                                                "stateVariable": false,
+                                                "storageLocation": "default",
+                                                "typeDescriptions": {
+                                                    "typeIdentifier": "t_uint256",
+                                                    "typeString": "uint256"
+                                                },
+                                                "typeName": {
+                                                    "id": 17,
+                                                    "name": "uint",
+                                                    "nodeType": "ElementaryTypeName",
+                                                    "src": "360:4:0",
+                                                    "typeDescriptions": {
+                                                        "typeIdentifier": "t_uint256",
+                                                        "typeString": "uint256"
+                                                    }
+                                                },
+                                                "visibility": "internal"
+                                            }
+                                        ],
+                                        "id": 20,
+                                        "initialValue": {
+                                            "hexValue": "30",
+                                            "id": 19,
+                                            "isConstant": false,
+                                            "isLValue": false,
+                                            "isPure": true,
+                                            "kind": "number",
+                                            "lValueRequested": false,
+                                            "nodeType": "Literal",
+                                            "src": "373:1:0",
+                                            "typeDescriptions": {
+                                                "typeIdentifier": "t_rational_0_by_1",
+                                                "typeString": "int_const 0"
+                                            },
+                                            "value": "0"
+                                        },
+                                        "nodeType": "VariableDeclarationStatement",
+                                        "src": "360:14:0"
+                                    },
+                                    "loopExpression": {
+                                        "expression": {
+                                            "id": 26,
+                                            "isConstant": false,
+                                            "isLValue": false,
+                                            "isPure": false,
+                                            "lValueRequested": false,
+                                            "nodeType": "UnaryOperation",
+                                            "operator": "++",
+                                            "prefix": false,
+                                            "src": "402:7:0",
+                                            "subExpression": {
+                                                "id": 25,
+                                                "name": "index",
+                                                "nodeType": "Identifier",
+                                                "overloadedDeclarations": [],
+                                                "referencedDeclaration": 18,
+                                                "src": "402:5:0",
+                                                "typeDescriptions": {
+                                                    "typeIdentifier": "t_uint256",
+                                                    "typeString": "uint256"
+                                                }
+                                            },
+                                            "typeDescriptions": {
+                                                "typeIdentifier": "t_uint256",
+                                                "typeString": "uint256"
+                                            }
+                                        },
+                                        "id": 27,
+                                        "nodeType": "ExpressionStatement",
+                                        "src": "402:7:0"
+                                    },
+                                    "nodeType": "ForStatement",
+                                    "src": "355:165:0"
+                                },
+                                {
+                                    "expression": {
+                                        "expression": {
+                                            "id": 40,
+                                            "name": "_deposits",
+                                            "nodeType": "Identifier",
+                                            "overloadedDeclarations": [],
+                                            "referencedDeclaration": 10,
+                                            "src": "537:9:0",
+                                            "typeDescriptions": {
+                                                "typeIdentifier": "t_array$_t_struct$_Deposit_$6_memory_ptr_$dyn_memory_ptr",
+                                                "typeString": "struct DepositLibrary.Deposit memory[] memory"
+                                            }
+                                        },
+                                        "id": 41,
+                                        "isConstant": false,
+                                        "isLValue": false,
+                                        "isPure": false,
+                                        "lValueRequested": false,
+                                        "memberLocation": "547:6:0",
+                                        "memberName": "length",
+                                        "nodeType": "MemberAccess",
+                                        "src": "537:16:0",
+                                        "typeDescriptions": {
+                                            "typeIdentifier": "t_uint256",
+                                            "typeString": "uint256"
+                                        }
+                                    },
+                                    "functionReturnParameters": 16,
+                                    "id": 42,
+                                    "nodeType": "Return",
+                                    "src": "530:23:0"
+                                }
+                            ]
+                        },
+                        "functionSelector": "7657f261",
+                        "id": 44,
+                        "implemented": true,
+                        "kind": "function",
+                        "modifiers": [],
+                        "name": "getIndexTokenStaked",
+                        "nameLocation": "251:19:0",
+                        "nodeType": "FunctionDefinition",
+                        "parameters": {
+                            "id": 13,
+                            "nodeType": "ParameterList",
+                            "parameters": [
+                                {
+                                    "constant": false,
+                                    "id": 10,
+                                    "mutability": "mutable",
+                                    "name": "_deposits",
+                                    "nameLocation": "288:9:0",
+                                    "nodeType": "VariableDeclaration",
+                                    "scope": 44,
+                                    "src": "271:26:0",
+                                    "stateVariable": false,
+                                    "storageLocation": "memory",
+                                    "typeDescriptions": {
+                                        "typeIdentifier": "t_array$_t_struct$_Deposit_$6_memory_ptr_$dyn_memory_ptr",
+                                        "typeString": "struct DepositLibrary.Deposit[]"
+                                    },
+                                    "typeName": {
+                                        "baseType": {
+                                            "id": 8,
+                                            "nodeType": "UserDefinedTypeName",
+                                            "pathNode": {
+                                                "id": 7,
+                                                "name": "Deposit",
+                                                "nameLocations": [
+                                                    "271:7:0"
+                                                ],
+                                                "nodeType": "IdentifierPath",
+                                                "referencedDeclaration": 6,
+                                                "src": "271:7:0"
+                                            },
+                                            "referencedDeclaration": 6,
+                                            "src": "271:7:0",
+                                            "typeDescriptions": {
+                                                "typeIdentifier": "t_struct$_Deposit_$6_storage_ptr",
+                                                "typeString": "struct DepositLibrary.Deposit"
+                                            }
+                                        },
+                                        "id": 9,
+                                        "nodeType": "ArrayTypeName",
+                                        "src": "271:9:0",
+                                        "typeDescriptions": {
+                                            "typeIdentifier": "t_array$_t_struct$_Deposit_$6_storage_$dyn_storage_ptr",
+                                            "typeString": "struct DepositLibrary.Deposit[]"
+                                        }
+                                    },
+                                    "visibility": "internal"
+                                },
+                                {
+                                    "constant": false,
+                                    "id": 12,
+                                    "mutability": "mutable",
+                                    "name": "_token",
+                                    "nameLocation": "307:6:0",
+                                    "nodeType": "VariableDeclaration",
+                                    "scope": 44,
+                                    "src": "299:14:0",
+                                    "stateVariable": false,
+                                    "storageLocation": "default",
+                                    "typeDescriptions": {
+                                        "typeIdentifier": "t_address",
+                                        "typeString": "address"
+                                    },
+                                    "typeName": {
+                                        "id": 11,
+                                        "name": "address",
+                                        "nodeType": "ElementaryTypeName",
+                                        "src": "299:7:0",
+                                        "stateMutability": "nonpayable",
+                                        "typeDescriptions": {
+                                            "typeIdentifier": "t_address",
+                                            "typeString": "address"
+                                        }
+                                    },
+                                    "visibility": "internal"
+                                }
+                            ],
+                            "src": "270:44:0"
+                        },
+                        "returnParameters": {
+                            "id": 16,
+                            "nodeType": "ParameterList",
+                            "parameters": [
+                                {
+                                    "constant": false,
+                                    "id": 15,
+                                    "mutability": "mutable",
+                                    "name": "",
+                                    "nameLocation": "-1:-1:-1",
+                                    "nodeType": "VariableDeclaration",
+                                    "scope": 44,
+                                    "src": "336:4:0",
+                                    "stateVariable": false,
+                                    "storageLocation": "default",
+                                    "typeDescriptions": {
+                                        "typeIdentifier": "t_uint256",
+                                        "typeString": "uint256"
+                                    },
+                                    "typeName": {
+                                        "id": 14,
+                                        "name": "uint",
+                                        "nodeType": "ElementaryTypeName",
+                                        "src": "336:4:0",
+                                        "typeDescriptions": {
+                                            "typeIdentifier": "t_uint256",
+                                            "typeString": "uint256"
+                                        }
+                                    },
+                                    "visibility": "internal"
+                                }
+                            ],
+                            "src": "335:6:0"
+                        },
+                        "scope": 45,
+                        "src": "242:319:0",
+                        "stateMutability": "pure",
+                        "virtual": false,
+                        "visibility": "public"
+                    }
+                ],
+                "scope": 46,
+                "src": "75:489:0",
+                "usedErrors": []
+            }
+        ],
+        "src": "48:518:0"
+    },
+    "functionHashes": {
+        "getIndexTokenStaked(DepositLibrary.Deposit[],address)": "7657f261"
+    },
+    "gasEstimates": {
+        "creation": {
+            "codeDepositCost": "136200",
+            "executionCost": "214",
+            "totalCost": "136414"
+        },
+        "external": {
+            "getIndexTokenStaked(DepositLibrary.Deposit[],address)": "infinite"
+        }
+    }
+}
