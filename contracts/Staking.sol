@@ -41,12 +41,10 @@ contract Staking {
 
     //Reward the staker with Blue Token 
     
-    function Reward(address _staker, uint TVLToken ) internal returns (uint) {
+    function Reward(address _staker, uint _amountTokenStakedinEther ) internal returns (uint) {
 
         //The reward has to be proportional to the TVL in the contract
-        uint rewardBLT = (TVLToken*200)/TVL;
-        //IERC20(address(token)).safeTransfer(_staker, rewardBLT);
-        //IERC20(address(token)).safeTransfer(_staker, rewardBLT);
+        uint rewardBLT = (_amountTokenStakedinEther*200)/TVL;
         IERC20(address(token)).safeTransfer(_staker, rewardBLT);
         
         emit reward(_staker, rewardBLT);
@@ -75,13 +73,13 @@ contract Staking {
         }
 
         //Update the TVL with the token just staked
-        uint TVLToken = uint(StakingLibrary.getLatestPrice(_priceFeedContract)) * _amount;
-        TVL += TVLToken;
+        uint amountTokenStakedinEther = uint(StakingLibrary.getLatestPrice(_priceFeedContract)) * _amount;
+        TVL += amountTokenStakedinEther;
 
         //Event log position staked
-        emit stake(msg.sender, _token, _amount);
+        emit stake(msg.sender, _token, amountTokenStakedinEther);
 
-        Reward(msg.sender, TVLToken);
+        Reward(msg.sender, amountTokenStakedinEther);
     }
 
     function UnstakePosition(address _token, uint256 _amount, address _priceFeedContract ) external {

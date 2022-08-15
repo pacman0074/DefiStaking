@@ -4832,12 +4832,12 @@
     "31337": {
       "events": {},
       "links": {},
-      "address": "0x0c626FC4A447b01554518550e30600136864640B",
-      "transactionHash": "0x665496ba8775d25f867d9c58664c76e32adac099daf0655c76a128aadaa366a4"
+      "address": "0xCBBe2A5c3A22BE749D5DDF24e9534f98951983e2",
+      "transactionHash": "0xc6a42c9afe6a107531c36923993c9cf5606ff039533a84483e5a2f25b4784197"
     }
   },
   "schemaVersion": "3.4.4",
-  "updatedAt": "2022-08-14T22:34:00.049Z",
+  "updatedAt": "2022-08-15T10:37:47.842Z",
   "networkType": "ethereum",
   "devdoc": {
     "kind": "dev",
