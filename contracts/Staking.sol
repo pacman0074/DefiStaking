@@ -6,6 +6,7 @@ import "./BlueToken.sol";
 import "@openzeppelin/contracts/token/ERC20/utils/SafeERC20.sol";
 import {StakingLibrary} from "./StakingLibrary.sol";
 
+
 //import '@uniswap/v3-periphery/contracts/libraries/TransferHelper.sol';
 
 //Créer un smart contract à part pour le token ALYRA, faire comme le TP crowdsale
@@ -54,11 +55,14 @@ contract Staking {
     }
 
     //Investors can stake any amount of an ERC20 token
-    function Stake(address _token, uint256 _amount, address _priceFeedContract) external {
-        require(_amount >= 0.1 ether, "you can't stake less than 0.1 ether");
+    function Stake(address _token, uint256 _amount, address _priceFeedContract) external payable {
+        //Aller chercher le prix en ether du token pour faire ce require
+        //require(_amount >= 0.1 ether, "you can't stake less than 0.1 ether");
 
+        IERC20(address(_token)).safeApprove(address(this), _amount);
         //Send the token of the staker to the contract Staking
         IERC20(_token).safeTransfer(address(this), _amount);
+
         
         //Add the new Position to the PositionsList or only updates the amount
         //if a Position has been already done for this token
