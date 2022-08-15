@@ -6,7 +6,7 @@ import "@chainlink/contracts/src/v0.8/interfaces/AggregatorV3Interface.sol";
 library StakingLibrary {
 
     //This structure represents a staking position
-    struct Deposit {
+    struct Position {
         address token;
         uint256 liquidity;
     }
@@ -24,7 +24,7 @@ library StakingLibrary {
     }
 
 
-    function getIndexTokenStaked(Deposit[] memory _deposits, address _token) public pure returns (uint) {
+    function getIndexTokenStaked(Position[] memory _deposits, address _token) public pure returns (uint) {
 
         for (uint index = 0; index < _deposits.length; index++) {
             if (_deposits[index].token == _token){

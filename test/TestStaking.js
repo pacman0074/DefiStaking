@@ -1,7 +1,10 @@
 const Staking = artifacts.require("Staking");
+const StakingLibrary = artifacts.require("StakingLibrary")
+const BlueToken = artifacts.require("BlueToken");
 const {BN, expectEvent, expectRevert} = require("@openzeppelin/test-helpers");
 const {expect} = require("chai");
 require("dotenv").config();
+
 
 contract('Staking', function(accounts){
 
@@ -24,21 +27,31 @@ contract('Staking', function(accounts){
         })
     })
 
-    //Créer un smart contract library et y mettre les fonctions getIndexTokenStaked et getDeposit
-    describe("verify getIndexTokenStaked", () => { 
+    describe("verify Reward", () => {
+        it("rewards the staker proportionally to the total value locked in the staking contract", async function() {
+            this.BlueTokenInstance = await BlueToken.deployed();
+            let TVLToken = new BN(2);
 
-        it("returns the the number of token staked when the staker don't stake this token", async function() {
-            let indexTokenStaked_1 = new BN(0);
-            expect(await this.StakingInstance.getIndexTokenStaked(staker_1, process.env.WETH)).to.be.bignumber.equal(indexTokenStaked);
+            let balanceStakerBeforeReward = await this.BlueTokenInstance.balanceOf(staker_1);
+            let balanceContractBeforeReward = await this.BlueTokenInstance.balanceOf(this.StakingInstance.address);
+            
 
-            /*let indexTokenStaked_2 = new BN(1);
-            await this.StakingInstance.DepositList(staker_1)*/
+            let rewardBLT = await this.StakingInstance.Reward.call(staker_1, 1);
+            let balanceStakerAfterReward = await this.BlueTokenInstance.balanceOf(staker_1);
+            let balanceContractAfterReward = await this.BlueTokenInstance.balanceOf(this.StakingInstance.address);
 
-        });
+            console.log(rewardBLT.toNumber());
+            console.log(balanceStakerAfterReward.toNumber());
+            console.log(balanceContractAfterReward.toNumber());
 
-        it("returns the the number of token staked when the staker don't stake this token")
+            expect(balanceStakerAfterReward).to.be.bignumber.equal(balanceStakerBeforeReward.add(TVLToken));
+            //expect(balanceContractAfterReward).to.be.bignumber.equal(balanceContractBeforeReward.sub(TVLToken));
 
-
+        })
     })
+
 })
+
+
+
 

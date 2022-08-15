@@ -1,5 +1,5 @@
 // SPDX-License-Identifier: GPL-2.0-or-later
-pragma solidity 0.8.16;
+/*pragma solidity 0.8.16;
 
 
 import "./BlueToken.sol";
@@ -9,7 +9,7 @@ import "./PriceConsumer.sol";
 //import '@uniswap/v3-periphery/contracts/libraries/TransferHelper.sol';
 
 //Créer un smart contract à part pour le token ALYRA, faire comme le TP crowdsale
-contract Staking {
+contract Staking2 {
 
     using SafeERC20 for IERC20;
 
@@ -141,4 +141,4 @@ contract Staking {
 
 
 
-}
+}*/
