@@ -38,6 +38,7 @@ contract Staking {
     constructor(uint256 initialSupply){
         token = new BlueToken(initialSupply);
         TVL = initialSupply/200; 
+        
     }
 
     //Reward the staker with Blue Token 
@@ -58,8 +59,9 @@ contract Staking {
     function Stake(address _token, uint256 _amount, address _priceFeedContract) external payable {
         //Aller chercher le prix en ether du token pour faire ce require
         //require(_amount >= 0.1 ether, "you can't stake less than 0.1 ether");
-
-        IERC20(address(_token)).safeApprove(address(this), _amount);
+        
+        
+        //IERC20(_token).safeApprove(address(this), _amount);
         //Send the token of the staker to the contract Staking
         IERC20(_token).safeTransfer(address(this), _amount);
 
@@ -111,8 +113,15 @@ contract Staking {
 
     }
 
-    function getStakingPositions() external view returns (StakingLibrary.Position [] memory) {
+    function getAllPositions() public view returns (StakingLibrary.Position [] memory) {
         return PositionsList[msg.sender];
+    }
+
+    function getLiquidityPosition(address _caller, address _token)  public view returns(uint) {
+        require(_caller == msg.sender, "It's not your account !!");
+        uint indexToken = StakingLibrary.getIndexTokenStaked(this.getAllPositions(), _token);
+
+        return PositionsList[_caller][indexToken].liquidity;
     }
 
     receive() external payable {
