@@ -7,7 +7,6 @@ import "@openzeppelin/contracts/token/ERC20/utils/SafeERC20.sol";
 import {StakingLibrary} from "./StakingLibrary.sol";
 
 
-//import '@uniswap/v3-periphery/contracts/libraries/TransferHelper.sol';
 
 //Créer un smart contract à part pour le token ALYRA, faire comme le TP crowdsale
 contract Staking {
@@ -56,16 +55,9 @@ contract Staking {
     }
 
     //Investors can stake any amount of an ERC20 token
-    function Stake(address _token, uint256 _amount, address _priceFeedContract) external  {
-        //Aller chercher le prix en ether du token pour faire ce require
-        //require(_amount >= 0.1 ether, "you can't stake less than 0.1 ether");
-        
-        
-        //uint  amount = 100;
-       // IERC20(_token).safeApprove(address(this), _amount);
+    function Stake(address _token, uint256 _amount, address _priceFeedContract) external payable {
         //Send the token of the staker to the contract Staking
-        IERC20(_token).transfer(address(this), _amount);
-
+        IERC20(_token).safeTransferFrom(msg.sender, address(this), _amount);
         
         //Add the new Position to the PositionsList or only updates the amount
         //if a Position has been already done for this token
@@ -107,10 +99,10 @@ contract Staking {
         } else PositionsList[msg.sender][indexTokenStaked].liquidity -= _amount;
 
         //Update the TVL with the token just unstaked
-        uint TVLToken = uint(StakingLibrary.getLatestPrice(_priceFeedContract)) * _amount;
-        TVL -= TVLToken;
+        uint amountTokenUnstakedinEther = uint(StakingLibrary.getLatestPrice(_priceFeedContract)) * _amount;
+        TVL -= amountTokenUnstakedinEther;
 
-        emit unStake(msg.sender, _token, _amount);
+        emit unStake(msg.sender, _token, amountTokenUnstakedinEther);
 
     }
 

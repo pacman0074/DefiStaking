@@ -2,11 +2,10 @@
 const { ChainId, Token, WETH, Fetcher, Trade, Route, TokenAmount, TradeType , Percent } = require('@uniswap/sdk');
 
 const Staking = artifacts.require("Staking");
-const StakingLibrary = artifacts.require("StakingLibrary")
-const BlueToken = artifacts.require("BlueToken");
-const {BN, expectEvent, expectRevert} = require("@openzeppelin/test-helpers");
+const {BN} = require("@openzeppelin/test-helpers");
 const {expect} = require("chai");
 const ethers = require("ethers");
+const StakingLibrary = artifacts.require("StakingLibrary");
 require("dotenv").config();
 
 
@@ -55,6 +54,11 @@ contract('Staking', function(accounts){
     const _initialsupply = new BN(1000);
     const _rate = 200;
 
+    //Get provider in order to create instance of erc20 tokens for tests
+    const provider = ethers.getDefaultProvider("http://localhost:8545");
+    const signer = new ethers.Wallet(process.env.PRIVATEKEY);
+    const account = signer.connect(provider);
+
     //LINK
     const LINKabiContract = [{"constant":true,"inputs":[],"name":"name","outputs":[{"name":"","type":"string"}],"payable":false,"type":"function"},{"constant":false,"inputs":[{"name":"_spender","type":"address"},{"name":"_value","type":"uint256"}],"name":"approve","outputs":[{"name":"success","type":"bool"}],"payable":false,"type":"function"},{"constant":true,"inputs":[],"name":"totalSupply","outputs":[{"name":"","type":"uint256"}],"payable":false,"type":"function"},{"constant":false,"inputs":[{"name":"_from","type":"address"},{"name":"_to","type":"address"},{"name":"_value","type":"uint256"}],"name":"transferFrom","outputs":[{"name":"success","type":"bool"}],"payable":false,"type":"function"},{"constant":true,"inputs":[],"name":"decimals","outputs":[{"name":"","type":"uint8"}],"payable":false,"type":"function"},{"constant":false,"inputs":[{"name":"amount","type":"uint256"}],"name":"withdrawEther","outputs":[],"payable":false,"type":"function"},{"constant":false,"inputs":[{"name":"_value","type":"uint256"}],"name":"burn","outputs":[{"name":"success","type":"bool"}],"payable":false,"type":"function"},{"constant":false,"inputs":[{"name":"_value","type":"uint256"}],"name":"unfreeze","outputs":[{"name":"success","type":"bool"}],"payable":false,"type":"function"},{"constant":true,"inputs":[{"name":"","type":"address"}],"name":"balanceOf","outputs":[{"name":"","type":"uint256"}],"payable":false,"type":"function"},{"constant":true,"inputs":[],"name":"owner","outputs":[{"name":"","type":"address"}],"payable":false,"type":"function"},{"constant":true,"inputs":[],"name":"symbol","outputs":[{"name":"","type":"string"}],"payable":false,"type":"function"},{"constant":false,"inputs":[{"name":"_to","type":"address"},{"name":"_value","type":"uint256"}],"name":"transfer","outputs":[],"payable":false,"type":"function"},{"constant":true,"inputs":[{"name":"","type":"address"}],"name":"freezeOf","outputs":[{"name":"","type":"uint256"}],"payable":false,"type":"function"},{"constant":false,"inputs":[{"name":"_value","type":"uint256"}],"name":"freeze","outputs":[{"name":"success","type":"bool"}],"payable":false,"type":"function"},{"constant":true,"inputs":[{"name":"","type":"address"},{"name":"","type":"address"}],"name":"allowance","outputs":[{"name":"","type":"uint256"}],"payable":false,"type":"function"},{"inputs":[{"name":"initialSupply","type":"uint256"},{"name":"tokenName","type":"string"},{"name":"decimalUnits","type":"uint8"},{"name":"tokenSymbol","type":"string"}],"payable":false,"type":"constructor"},{"payable":true,"type":"fallback"},{"anonymous":false,"inputs":[{"indexed":true,"name":"from","type":"address"},{"indexed":true,"name":"to","type":"address"},{"indexed":false,"name":"value","type":"uint256"}],"name":"Transfer","type":"event"},{"anonymous":false,"inputs":[{"indexed":true,"name":"from","type":"address"},{"indexed":false,"name":"value","type":"uint256"}],"name":"Burn","type":"event"},{"anonymous":false,"inputs":[{"indexed":true,"name":"from","type":"address"},{"indexed":false,"name":"value","type":"uint256"}],"name":"Freeze","type":"event"},{"anonymous":false,"inputs":[{"indexed":true,"name":"from","type":"address"},{"indexed":false,"name":"value","type":"uint256"}],"name":"Unfreeze","type":"event"}];
     const MANAabiContract = [{"constant":true,"inputs":[],"name":"mintingFinished","outputs":[{"name":"","type":"bool"}],"payable":false,"type":"function"},{"constant":true,"inputs":[],"name":"name","outputs":[{"name":"","type":"string"}],"payable":false,"type":"function"},{"constant":false,"inputs":[{"name":"_spender","type":"address"},{"name":"_value","type":"uint256"}],"name":"approve","outputs":[{"name":"","type":"bool"}],"payable":false,"type":"function"},{"constant":true,"inputs":[],"name":"totalSupply","outputs":[{"name":"","type":"uint256"}],"payable":false,"type":"function"},{"constant":false,"inputs":[{"name":"_from","type":"address"},{"name":"_to","type":"address"},{"name":"_value","type":"uint256"}],"name":"transferFrom","outputs":[{"name":"","type":"bool"}],"payable":false,"type":"function"},{"constant":true,"inputs":[],"name":"decimals","outputs":[{"name":"","type":"uint8"}],"payable":false,"type":"function"},{"constant":false,"inputs":[],"name":"unpause","outputs":[{"name":"","type":"bool"}],"payable":false,"type":"function"},{"constant":false,"inputs":[{"name":"_to","type":"address"},{"name":"_amount","type":"uint256"}],"name":"mint","outputs":[{"name":"","type":"bool"}],"payable":false,"type":"function"},{"constant":false,"inputs":[{"name":"_value","type":"uint256"}],"name":"burn","outputs":[],"payable":false,"type":"function"},{"constant":true,"inputs":[],"name":"paused","outputs":[{"name":"","type":"bool"}],"payable":false,"type":"function"},{"constant":true,"inputs":[{"name":"_owner","type":"address"}],"name":"balanceOf","outputs":[{"name":"balance","type":"uint256"}],"payable":false,"type":"function"},{"constant":false,"inputs":[],"name":"finishMinting","outputs":[{"name":"","type":"bool"}],"payable":false,"type":"function"},{"constant":false,"inputs":[],"name":"pause","outputs":[{"name":"","type":"bool"}],"payable":false,"type":"function"},{"constant":true,"inputs":[],"name":"owner","outputs":[{"name":"","type":"address"}],"payable":false,"type":"function"},{"constant":true,"inputs":[],"name":"symbol","outputs":[{"name":"","type":"string"}],"payable":false,"type":"function"},{"constant":false,"inputs":[{"name":"_to","type":"address"},{"name":"_value","type":"uint256"}],"name":"transfer","outputs":[{"name":"","type":"bool"}],"payable":false,"type":"function"},{"constant":true,"inputs":[{"name":"_owner","type":"address"},{"name":"_spender","type":"address"}],"name":"allowance","outputs":[{"name":"remaining","type":"uint256"}],"payable":false,"type":"function"},{"constant":false,"inputs":[{"name":"newOwner","type":"address"}],"name":"transferOwnership","outputs":[],"payable":false,"type":"function"},{"anonymous":false,"inputs":[{"indexed":true,"name":"to","type":"address"},{"indexed":false,"name":"amount","type":"uint256"}],"name":"Mint","type":"event"},{"anonymous":false,"inputs":[],"name":"MintFinished","type":"event"},{"anonymous":false,"inputs":[],"name":"Pause","type":"event"},{"anonymous":false,"inputs":[],"name":"Unpause","type":"event"},{"anonymous":false,"inputs":[{"indexed":true,"name":"burner","type":"address"},{"indexed":false,"name":"value","type":"uint256"}],"name":"Burn","type":"event"},{"anonymous":false,"inputs":[{"indexed":true,"name":"owner","type":"address"},{"indexed":true,"name":"spender","type":"address"},{"indexed":false,"name":"value","type":"uint256"}],"name":"Approval","type":"event"},{"anonymous":false,"inputs":[{"indexed":true,"name":"from","type":"address"},{"indexed":true,"name":"to","type":"address"},{"indexed":false,"name":"value","type":"uint256"}],"name":"Transfer","type":"event"}];
@@ -65,7 +69,7 @@ contract('Staking', function(accounts){
 
 
     beforeEach(async function() {
-        this.StakingInstance = await Staking.new(_initialsupply, {from : accounts[0]});
+        this.StakingInstance = await Staking.new(_initialsupply);
     });
 
     describe("verify TVL intialization", () => {
@@ -78,16 +82,14 @@ contract('Staking', function(accounts){
 
     describe("verify Stake", () => {
         beforeEach(async function() {
+            this.LINKcontract = await new ethers.Contract(process.env.LINK, LINKabiContract, account);
 
-            //Get provider in order to create instance of erc20 tokens for tests
-            const Provider = ethers.getDefaultProvider('http://localhost:8545');
+            //Init accounts with ERC20 tokens by swapping ETH to ERC20 tokens
 
-            //Init accounts with ERC20 tokens by swapping ETH to LINK ERC20 tokens
             //CHAINLINK
-            this.LINKcontract = await new ethers.Contract(process.env.LINK, LINKabiContract, Provider);
-            await Swap(process.env.LINK, 100, this.StakingInstance.address);
-            //await Swap(process.env.LINK, 100, staker_1);
             
+            await Swap(process.env.LINK, 100, staker_1);
+            //await Swap(process.env.LINK, 100, staker_2);
             //await Swap(process.env.LINK, 100, staker_3);
 
             //DECENTRALAND
@@ -129,27 +131,80 @@ contract('Staking', function(accounts){
 
         
         it("checks if the Staking contract has well received the token staked", async function() {
-            let amount = new BN(100);
-           /* let balanceContractBeforeStaked = await this.LINKcontract.balanceOf(this.StakingInstance.address);
+            let amount = ethers.BigNumber.from('10000000000000000000');
+            let balanceContractBeforeStaked = await this.LINKcontract.balanceOf(this.StakingInstance.address);
             let balanceStakerBeforeStaked = await this.LINKcontract.balanceOf(staker_1);
 
-            console.log(amount);
-            console.log(balanceContractBeforeStaked.toString());
-            console.log(balanceStakerBeforeStaked.toString());*/
+            //The staker approve the Staking contract to spend an amount of LINK token before calling Stake function 
+            await this.LINKcontract.approve(this.StakingInstance.address, amount,  {from : staker_1});
 
-            console.log(staker_1);
+            //The staker stakes his LINK Token in the staking contract
             await this.StakingInstance.Stake(process.env.LINK, amount, process.env.LINK_ETH, {from : staker_1});
 
-            
-           /* let balanceContractAfterStaked = await this.LINKcontract.balanceOf(this.StakingInstance.address);
+            let balanceContractAfterStaked = await this.LINKcontract.balanceOf(this.StakingInstance.address);
             let balanceStakerAfterStaked = await this.LINKcontract.balanceOf(staker_1);
 
-            console.log(balanceContractAfterStaked.toString());
-            console.log(balanceStakerAfterStaked.toString());
 
-           expect(balanceContractBeforeStaked).equal(amount.add(amount));*/
-          //  expect(balanceStakerBeforeStaked).to.be.bignumber.equal(balanceStakerAfterStaked);
+            amount = new BN(amount.toString());
+            balanceContractBeforeStaked = new BN(balanceContractBeforeStaked.toString());
+            balanceContractAfterStaked = new BN(balanceContractAfterStaked.toString());
+            balanceStakerBeforeStaked = new BN(balanceStakerBeforeStaked.toString());
+            balanceStakerAfterStaked = new BN(balanceStakerAfterStaked.toString());
+
+            expect(balanceContractBeforeStaked).to.be.bignumber.equal(balanceContractAfterStaked.sub(amount));
+            expect(balanceStakerBeforeStaked).to.be.bignumber.equal(balanceStakerAfterStaked.add(amount));
+                        
+            /*console.log("Staker");
+            console.log(balanceStakerBeforeStaked.toString());
+            console.log(balanceStakerAfterStaked.toString());
+            console.log("-----------------------------------------------");
+            console.log("Contract");
+            console.log(balanceContractAfterStaked.toString());
+            console.log(balanceContractBeforeStaked.toString());*/
+
             
+
+        })
+
+        it("checks if the position has been added", async function() {
+            let amount_1 = ethers.BigNumber.from('10000000000000000000');
+            //The staker approve the Staking contract to spend an amount of LINK token before calling Stake function 
+            await this.LINKcontract.approve(this.StakingInstance.address, amount_1,  {from : staker_1});
+
+            //The staker stakes his LINK Token in the staking contract
+            await this.StakingInstance.Stake(process.env.LINK, amount_1, process.env.LINK_ETH, {from : staker_1});
+            let LiquidityPosition = await this.StakingInstance.getLiquidityPosition(staker_1, process.env.LINK, {from : staker_1});
+            expect(LiquidityPosition.toString()).equal(amount_1.toString());
+
+
+            let amount_2 = ethers.BigNumber.from('12340000000000000000');
+            //The staker approve the Staking contract to spend an amount of LINK token before calling Stake function 
+            await this.LINKcontract.approve(this.StakingInstance.address, amount_2,  {from : staker_1});
+
+            //The staker stakes again his LINK Token in the staking contract
+            await this.StakingInstance.Stake(process.env.LINK, amount_2, process.env.LINK_ETH, {from : staker_1});
+            LiquidityPosition = await this.StakingInstance.getLiquidityPosition(staker_1, process.env.LINK, {from : staker_1});
+            expect(LiquidityPosition.toString()).equal((amount_2.add(amount_1)).toString());
+
+        })
+
+        it("checks if the TVL has been updated correctly", async function() {
+            let amount = ethers.BigNumber.from('10000000000000000000');
+            this.StakingLibraryInstance = await StakingLibrary.new();
+            let TVLbeforeStake = await this.StakingInstance.TVL();
+            
+
+            //The staker approve the Staking contract to spend an amount of LINK token before calling Stake function 
+            await this.LINKcontract.approve(this.StakingInstance.address, amount,  {from : staker_1});
+            //The staker stakes his LINK Token in the staking contract
+            await this.StakingInstance.Stake(process.env.LINK, amount, process.env.LINK_ETH, {from : staker_1});
+
+            let priceFeed = await this.StakingLibraryInstance.getLatestPrice(process.env.LINK_ETH);
+            priceFeed = ethers.BigNumber.from(priceFeed.toString());
+            let TVLafterStake = await this.StakingInstance.TVL();
+
+            expect(String(TVLafterStake)).equal(String((amount.mul(priceFeed.toString())).add(TVLbeforeStake.toString())));
+
 
         })
     })

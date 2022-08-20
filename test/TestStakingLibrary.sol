@@ -25,7 +25,7 @@ contract TestStakingLibrary {
         StakingLibrary.Position memory PositionMANA = StakingLibrary.Position(0x0F5D2fB29fb7d3CFeE444a200298f468908cC942, 50);
         StakingLibrary.Position memory PositionUSDT = StakingLibrary.Position(0xdAC17F958D2ee523a2206206994597C13D831ec7, 90);
         StakingLibrary.Position memory PositionMATIC = StakingLibrary.Position(0x7D1AfA7B718fb893dB30A3aBc0Cfc608AaCfeBB0, 50);
-        StakingLibrary.Position memory PositionWBTC = StakingLibrary.Position(0x2260FAC5E5542a773Aa44fBCfeDf7C193bc2C599, 4);
+
         tabPositions.push(PositionWETH);
         tabPositions.push(PositionBNB);
         tabPositions.push(PositionLINK);
