@@ -14,10 +14,6 @@ contract TestStakingLibrary {
 
         uint result;
 
-        //Test when the staker have no positions
-        result = StakingLibrary.getIndexTokenStaked(tabPositions, 0x514910771AF9Ca656af840dff83E8264EcF986CA);
-        Assert.equal(result, 0, "It sould return 0 when the staker have no positions");
-
         //Initialize positions
         StakingLibrary.Position memory PositionWETH = StakingLibrary.Position(0xC02aaA39b223FE8D0A0e5C4F27eAD9083C756Cc2, 10);
         StakingLibrary.Position memory PositionBNB = StakingLibrary.Position(0xB8c77482e45F1F44dE1745F52C74426C631bDD52, 3);
@@ -35,7 +31,7 @@ contract TestStakingLibrary {
 
         //Test when the staker have positions but no position for this token
         result = StakingLibrary.getIndexTokenStaked(tabPositions, 0x2260FAC5E5542a773Aa44fBCfeDf7C193bc2C599);
-        Assert.equal(result, 6, "It sould return 6 when the staker have positions but no position for this token");
+        Assert.equal(result, 6, "It sould return 6 when the staker have no position staked for this token");
 
         //Test when the staker have positions for this token
         result = StakingLibrary.getIndexTokenStaked(tabPositions, 0x514910771AF9Ca656af840dff83E8264EcF986CA);

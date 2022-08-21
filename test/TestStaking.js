@@ -1,15 +1,15 @@
 //const Swap = require("../utils/Swap");
 const { ChainId, Token, WETH, Fetcher, Trade, Route, TokenAmount, TradeType , Percent } = require('@uniswap/sdk');
-
 const Staking = artifacts.require("Staking");
-const {BN} = require("@openzeppelin/test-helpers");
+const {expectRevert, expectEvent,BN} = require("@openzeppelin/test-helpers");
 const {expect} = require("chai");
 const ethers = require("ethers");
 const StakingLibrary = artifacts.require("StakingLibrary");
 require("dotenv").config();
 
+const ERR_NO_TOKEN_STAKED = "You don't have any tokens staked";
+const ERR_NO_TOKEN_STAKED_FOR_THIS_TOKEN = "You don't have this token staked";
 
-//Swap("0xB8c77482e45F1F44dE1745F52C74426C631bDD52", 10);
 
 
 const Swap = async ( _tokenAddress, _amount, _to) =>  {
@@ -27,7 +27,7 @@ const Swap = async ( _tokenAddress, _amount, _to) =>  {
     const deadline = Math.floor(Date.now() / 1000) + 60 * 20; // 20 minutes from the current Unix time
     const value = trade.inputAmount.raw; // // needs to be converted to e.g. hex
     
-    const provider = ethers.getDefaultProvider('http://localhost:8545'); // utilisation du provider infura https://kovan.infura.io/v3/8235e88771864d7a8b201b72fba8a130 effectuer une transaction  
+    const provider = ethers.getDefaultProvider('http://localhost:8545', {etherscan: "DSRX1Z864PE2PSU2VU11JWANDX8DVKUQE2"}); // utilisation du provider infura https://kovan.infura.io/v3/8235e88771864d7a8b201b72fba8a130 effectuer une transaction  
     const signer = new ethers.Wallet(process.env.PRIVATEKEY); // récupérer son wallet grâce au private key
     const account = signer.connect(provider); // récupérer l’account qui va effectuer la transaction 
     
@@ -55,7 +55,7 @@ contract('Staking', function(accounts){
     const _rate = 200;
 
     //Get provider in order to create instance of erc20 tokens for tests
-    const provider = ethers.getDefaultProvider("http://localhost:8545");
+    const provider = ethers.getDefaultProvider("http://localhost:8545", {etherscan: "DSRX1Z864PE2PSU2VU11JWANDX8DVKUQE2"});
     const signer = new ethers.Wallet(process.env.PRIVATEKEY);
     const account = signer.connect(provider);
 
@@ -80,56 +80,16 @@ contract('Staking', function(accounts){
         });
     });
 
-    describe("verify Stake", () => {
+    describe("verify Stake function", () => {
         beforeEach(async function() {
             this.LINKcontract = await new ethers.Contract(process.env.LINK, LINKabiContract, account);
 
-            //Init accounts with ERC20 tokens by swapping ETH to ERC20 tokens
-
+            //Init staker account with ERC20 tokens by swapping ETH to ERC20 tokens
             //CHAINLINK
-            
             await Swap(process.env.LINK, 100, staker_1);
-            //await Swap(process.env.LINK, 100, staker_2);
-            //await Swap(process.env.LINK, 100, staker_3);
-
-            //DECENTRALAND
-            /*this.MANAcontract = await new ethers.Contract(process.env.MANA, MANAabiContract, Provider);
-            await Swap(process.env.MANA, 100, staker_1);
-            await Swap(process.env.LINK, 100, this.StakingInstance.address);
-            //await Swap(process.env.MANA, 100, staker_2);
-            //await Swap(process.env.MANA, 100, staker_3);
-
-            //DAI STABLECOIN
-            this.DAIcontract = await new ethers.Contract(process.env.DAI, DAIabiContract, Provider);
-            await Swap(process.env.LINK, 100, this.StakingInstance.address);
-            //await Swap(process.env.DAI, 100, staker_1);
-            //await Swap(process.env.DAI, 100, staker_2);
-            //await Swap(process.env.DAI, 100, staker_3);
-
-            //TETHER
-            this.USDTcontract = await new ethers.Contract(process.env.USDT, USDTabiContract, Provider);
-            await Swap(process.env.LINK, 100, this.StakingInstance.address);
-            await Swap(process.env.USDT, 100, staker_1);
-            //await Swap(process.env.USDT, 100, staker_2);
-           // await Swap(process.env.USDT, 100, staker_3);
-
-            //POLYGON
-            this.MATICcontract = await new ethers.Contract(process.env.MATIC, MATICabiContract, Provider);
-            await Swap(process.env.LINK, 100, this.StakingInstance.address);
-            await Swap(process.env.MATIC, 10, staker_1);
-            //await Swap(process.env.MATIC, 10, staker_2);
-            //await Swap(process.env.MATIC, 10, staker_3);
-
-            //WRAPPED BITCOIN
-            this.WBTCcontract = await new ethers.Contract(process.env.WBTC, WBTCabiContract, Provider);
-            await Swap(process.env.LINK, 100, this.StakingInstance.address);
-            await Swap(process.env.WBTC, 10, staker_1);
-            //await Swap(process.env.WBTC, 10, staker_2);
-            //await Swap(process.env.WBTC, 10, staker_3);*/
            
         });
 
-        
         it("checks if the Staking contract has well received the token staked", async function() {
             let amount = ethers.BigNumber.from('10000000000000000000');
             let balanceContractBeforeStaked = await this.LINKcontract.balanceOf(this.StakingInstance.address);
@@ -152,41 +112,37 @@ contract('Staking', function(accounts){
             balanceStakerAfterStaked = new BN(balanceStakerAfterStaked.toString());
 
             expect(balanceContractBeforeStaked).to.be.bignumber.equal(balanceContractAfterStaked.sub(amount));
-            expect(balanceStakerBeforeStaked).to.be.bignumber.equal(balanceStakerAfterStaked.add(amount));
-                        
-            /*console.log("Staker");
-            console.log(balanceStakerBeforeStaked.toString());
-            console.log(balanceStakerAfterStaked.toString());
-            console.log("-----------------------------------------------");
-            console.log("Contract");
-            console.log(balanceContractAfterStaked.toString());
-            console.log(balanceContractBeforeStaked.toString());*/
+            expect(balanceStakerBeforeStaked).to.be.bignumber.equal(balanceStakerAfterStaked.add(amount));    
+        });
 
-            
-
-        })
-
-        it("checks if the position has been added", async function() {
+        it("checks if the position has been added and the event logged", async function() {
             let amount_1 = ethers.BigNumber.from('10000000000000000000');
+            let amount_2 = ethers.BigNumber.from('12340000000000000000');
+
             //The staker approve the Staking contract to spend an amount of LINK token before calling Stake function 
             await this.LINKcontract.approve(this.StakingInstance.address, amount_1,  {from : staker_1});
-
             //The staker stakes his LINK Token in the staking contract
-            await this.StakingInstance.Stake(process.env.LINK, amount_1, process.env.LINK_ETH, {from : staker_1});
+            let receipt_1 = await this.StakingInstance.Stake(process.env.LINK, amount_1, process.env.LINK_ETH, {from : staker_1});
             let LiquidityPosition = await this.StakingInstance.getLiquidityPosition(staker_1, process.env.LINK, {from : staker_1});
+
             expect(LiquidityPosition.toString()).equal(amount_1.toString());
-
-
-            let amount_2 = ethers.BigNumber.from('12340000000000000000');
+            
             //The staker approve the Staking contract to spend an amount of LINK token before calling Stake function 
             await this.LINKcontract.approve(this.StakingInstance.address, amount_2,  {from : staker_1});
-
             //The staker stakes again his LINK Token in the staking contract
-            await this.StakingInstance.Stake(process.env.LINK, amount_2, process.env.LINK_ETH, {from : staker_1});
+            let receipt_2 = await this.StakingInstance.Stake(process.env.LINK, amount_2, process.env.LINK_ETH, {from : staker_1});
             LiquidityPosition = await this.StakingInstance.getLiquidityPosition(staker_1, process.env.LINK, {from : staker_1});
+
             expect(LiquidityPosition.toString()).equal((amount_2.add(amount_1)).toString());
 
-        })
+            amount_1 = amount_1.toString();
+            amount_2 = amount_2.toString();
+
+            //Checks if event has been logged
+            expectEvent(receipt_1, "stake",{staker : staker_1, token :process.env.LINK, amount : new BN(amount_1)});
+            expectEvent(receipt_2, "stake",{staker : staker_1, token :process.env.LINK, amount : new BN(amount_2)});
+
+        });
 
         it("checks if the TVL has been updated correctly", async function() {
             let amount = ethers.BigNumber.from('10000000000000000000');
@@ -206,10 +162,111 @@ contract('Staking', function(accounts){
             expect(String(TVLafterStake)).equal(String((amount.mul(priceFeed.toString())).add(TVLbeforeStake.toString())));
 
 
-        })
-    })
+        });
+    });
 
-})
+
+    describe('verify unstake function', () => {
+        beforeEach(async function() {
+            this.LINKcontract = await new ethers.Contract(process.env.LINK, LINKabiContract, account);
+        });
+
+        it("requires the staker have at least one position", async function() {
+            let amount = ethers.BigNumber.from('10000000000000000000');
+
+            //The staker unstakes his LINK Token in the staking contract
+            await expectRevert(this.StakingInstance.UnstakePosition(process.env.LINK, amount, process.env.LINK_ETH, {from : staker_1}), ERR_NO_TOKEN_STAKED);
+            //event link contrats
+        });
+
+        it("requires the staker have a position for this token, with a liquidity > 0", async function() {
+            let amount = ethers.BigNumber.from('10000000000000000000');
+
+            //The staker approve the Staking contract to spend an amount of LINK token before calling Stake function 
+            await this.LINKcontract.approve(this.StakingInstance.address, amount,  {from : staker_1});
+
+            //The staker stakes his LINK Token in the staking contract
+            await this.StakingInstance.Stake(process.env.LINK, amount, process.env.LINK_ETH, {from : staker_1});
+
+            //The staker unstakes his LINK Token in the staking contract
+            await expectRevert(this.StakingInstance.UnstakePosition(process.env.MANA, amount, process.env.MANA_ETH, {from : staker_1}), ERR_NO_TOKEN_STAKED_FOR_THIS_TOKEN);
+
+        });
+
+        it("checks if the staking contract sent the token staked to the staker", async function() {
+            let amountStaked = ethers.BigNumber.from('10000000000000000000');
+            let amountUnStaked = ethers.BigNumber.from('1000000000000000000');
+
+            //The staker approve the Staking contract to spend an amount of LINK token before calling Stake function 
+            await this.LINKcontract.approve(this.StakingInstance.address, amountStaked,  {from : staker_1});
+            //The staker stakes his LINK Token in the staking contract
+            await this.StakingInstance.Stake(process.env.LINK, amountStaked, process.env.LINK_ETH, {from : staker_1});
+
+            let balanceContractBeforeUnStaked = await this.LINKcontract.balanceOf(this.StakingInstance.address);
+            let balanceStakerBeforeUnStaked = await this.LINKcontract.balanceOf(staker_1);
+
+            //The staker unstakes his LINK Token in the staking contract
+            await this.StakingInstance.UnstakePosition(process.env.LINK, amountUnStaked, process.env.LINK_ETH, {from : staker_1});
+
+            let balanceContractAfterUnStaked = await this.LINKcontract.balanceOf(this.StakingInstance.address);
+            let balanceStakerAfterUnStaked = await this.LINKcontract.balanceOf(staker_1);
+
+            expect(String(balanceContractBeforeUnStaked)).equal(String(balanceContractAfterUnStaked.add(amountUnStaked)));
+            expect(String(balanceStakerBeforeUnStaked)).equal(String(balanceStakerAfterUnStaked.sub(amountUnStaked)));
+
+        });
+
+        it("checks if the position has been withdrawn and the event logged", async function() {
+            let amountStaked = ethers.BigNumber.from('10000000000000000000');
+            let amountUnStaked = ethers.BigNumber.from('1000000000000000000');
+
+            //The staker approve the Staking contract to spend an amount of LINK token before calling Stake function 
+            await this.LINKcontract.approve(this.StakingInstance.address, amountStaked,  {from : staker_1});
+            //The staker stakes his LINK Token in the staking contract
+            await this.StakingInstance.Stake(process.env.LINK, amountStaked, process.env.LINK_ETH, {from : staker_1});
+
+            //The staker unstakes his LINK Token in the staking contract
+            let receipt = await this.StakingInstance.UnstakePosition(process.env.LINK, amountUnStaked, process.env.LINK_ETH, {from : staker_1});
+            let LiquidityPosition = await this.StakingInstance.getLiquidityPosition(staker_1, process.env.LINK, {from : staker_1});
+
+            //Expect liquidity has been correctly changed
+            expect(LiquidityPosition.toString()).equal((amountStaked.sub(amountUnStaked)).toString());
+
+            amountUnStaked = amountUnStaked.toString();
+
+            expectEvent(receipt, "unStake",{staker : staker_1, token :process.env.LINK, amount : new BN(amountUnStaked)});
+        });
+
+        it("checks if the TVL has been updated correctly", async function () {
+            let amountStaked = ethers.BigNumber.from('10000000000000000000');
+            let amountUnStaked = ethers.BigNumber.from('1000000000000000000');
+            this.StakingLibraryInstance = await StakingLibrary.new();
+
+            //The staker approve the Staking contract to spend an amount of LINK token before calling Stake function 
+            await this.LINKcontract.approve(this.StakingInstance.address, amountStaked,  {from : staker_1});
+            //The staker stakes his LINK Token in the staking contract
+            await this.StakingInstance.Stake(process.env.LINK, amountStaked, process.env.LINK_ETH, {from : staker_1});
+
+            let TVLbeforeUnStake = await this.StakingInstance.TVL();
+            TVLbeforeUnStake = ethers.BigNumber.from(TVLbeforeUnStake.toString());
+
+            //The staker unstakes his LINK Token in the staking contract
+            await this.StakingInstance.UnstakePosition(process.env.LINK, amountUnStaked, process.env.LINK_ETH, {from : staker_1});
+
+            //Get the price LINK/ETH
+            let priceFeed = await this.StakingLibraryInstance.getLatestPrice(process.env.LINK_ETH);
+            priceFeed = ethers.BigNumber.from(priceFeed.toString());
+
+            let TVLafterUnStake = await this.StakingInstance.TVL();
+            let amountUnstakedinEther = amountUnStaked.mul((ethers.BigNumber.from(priceFeed)).toString());
+
+            //Expect TVL has been correctly changed after the unstake
+            expect(String(TVLafterUnStake)).equal(String(TVLbeforeUnStake.sub(amountUnstakedinEther)));
+
+            });
+    });
+
+});
 
 
 

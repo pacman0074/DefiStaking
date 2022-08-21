@@ -76,17 +76,15 @@ contract Staking {
         TVL += amountTokenStakedinEther;
 
         //Event log position staked
-        emit stake(msg.sender, _token, amountTokenStakedinEther);
+        emit stake(msg.sender, _token, _amount);
 
         Reward(msg.sender, amountTokenStakedinEther);
     }
 
     function UnstakePosition(address _token, uint256 _amount, address _priceFeedContract ) external {
         require(PositionsList[msg.sender].length > 0, "You don't have any tokens staked");
-        
         uint indexTokenStaked = StakingLibrary.getIndexTokenStaked(PositionsList[msg.sender], _token);
-        require(PositionsList[msg.sender].length != indexTokenStaked, "You don't stake this token");
-        require(PositionsList[msg.sender][indexTokenStaked].liquidity < _amount, "You don't) have that many tokens staked");
+        require(PositionsList[msg.sender].length != indexTokenStaked, "You don't have this token staked");
 
         //Unstake staking position 
         IERC20(_token).safeTransfer(msg.sender, _amount);
@@ -102,7 +100,7 @@ contract Staking {
         uint amountTokenUnstakedinEther = uint(StakingLibrary.getLatestPrice(_priceFeedContract)) * _amount;
         TVL -= amountTokenUnstakedinEther;
 
-        emit unStake(msg.sender, _token, amountTokenUnstakedinEther);
+        emit unStake(msg.sender, _token, _amount);
 
     }
 

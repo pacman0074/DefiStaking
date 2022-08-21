@@ -27,7 +27,7 @@ library StakingLibrary {
     function getIndexTokenStaked(Position[] memory _deposits, address _token) public pure returns (uint) {
 
         for (uint index = 0; index < _deposits.length; index++) {
-            if (_deposits[index].token == _token){
+            if (_deposits[index].token == _token && _deposits[index].liquidity != 0){
                return index;
             }
         }
