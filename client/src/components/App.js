@@ -6,7 +6,7 @@ import Nav from 'react-bootstrap/Nav';
 import "../styles/index.css";
 
 class App extends Component {
-  state = { storageValue: 0, web3: null, accounts: null, contract: null };
+  state = { web3: null, accounts: null, contract: null };
 
   componentDidMount = async () => {
     try {
@@ -54,18 +54,33 @@ class App extends Component {
       return <div>Loading Web3, accounts, and contract...</div>;
     }
     return (
+     
       <div className="App">
-        <Nav justify variant="tabs">
-          <Nav.Item>
-            <Nav.Link active eventKey="">Stake</Nav.Link> 
-          </Nav.Item>
-          <Nav.Item>
-            <Nav.Link eventKey="">Unstake</Nav.Link>
-          </Nav.Item>
-          <Nav.Item>
-            <Nav.Link eventKey="">Reward</Nav.Link>
-          </Nav.Item>
-        </Nav>
+        <header className="container-fluid row d-flex justify-content-between shadow mb-5 p-4">
+          <span className="col-3">BLUE STAKING</span>
+          <Nav className="col-6">
+            <Nav.Item className="nav-item">
+              <Nav.Link className="nav-link" eventKey="">Stake</Nav.Link> 
+            </Nav.Item>
+
+            <Nav.Item>
+              <Nav.Link className="nav-link2" eventKey="">Unstake</Nav.Link>
+            </Nav.Item>
+
+            <Nav.Item>
+              <Nav.Link eventKey="">Reward</Nav.Link>
+            </Nav.Item>
+
+            <Nav.Item>
+              <Nav.Link eventKey="">Your liquidity</Nav.Link>
+            </Nav.Item>
+
+            <Nav.Item>
+              <Nav.Link eventKey="">README</Nav.Link>
+            </Nav.Item>
+
+          </Nav>
+        </header>
       </div>
     );
   }

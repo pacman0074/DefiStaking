@@ -27,7 +27,7 @@ const Swap = async ( _tokenAddress, _amount, _to) =>  {
     const deadline = Math.floor(Date.now() / 1000) + 60 * 20; // 20 minutes from the current Unix time
     const value = trade.inputAmount.raw; // // needs to be converted to e.g. hex
     
-    const provider = ethers.getDefaultProvider('http://localhost:8545', {etherscan: "DSRX1Z864PE2PSU2VU11JWANDX8DVKUQE2"}); // utilisation du provider infura https://kovan.infura.io/v3/8235e88771864d7a8b201b72fba8a130 effectuer une transaction  
+    const provider = ethers.getDefaultProvider('http://localhost:8545'); // utilisation du provider infura https://kovan.infura.io/v3/8235e88771864d7a8b201b72fba8a130 effectuer une transaction  
     const signer = new ethers.Wallet(process.env.PRIVATEKEY); // récupérer son wallet grâce au private key
     const account = signer.connect(provider); // récupérer l’account qui va effectuer la transaction 
     
@@ -38,11 +38,6 @@ const Swap = async ( _tokenAddress, _amount, _to) =>  {
     
     const montant = ethers.BigNumber.from('1000000000000000000');
     const Tx = await contractUniswap.swapExactETHForTokens(String(amountOutMin), path, to , deadline , { value : montant, gasPrice: 20e10, gasLimit: 250000 });
-    
-    /*console.log(`Transaction hash: ${Tx.hash}`); // afficher le hash de la transaction 
-     
-    const receipt = await Tx.wait(); // récupérer la transaction receipt 
-    console.log(`Transaction was mined in block ${receipt.blockNumber}`);*/
 }
 
 contract('Staking', function(accounts){
@@ -55,7 +50,7 @@ contract('Staking', function(accounts){
     const _rate = 200;
 
     //Get provider in order to create instance of erc20 tokens for tests
-    const provider = ethers.getDefaultProvider("http://localhost:8545", {etherscan: "DSRX1Z864PE2PSU2VU11JWANDX8DVKUQE2"});
+    const provider = ethers.getDefaultProvider("http://localhost:8545");
     const signer = new ethers.Wallet(process.env.PRIVATEKEY);
     const account = signer.connect(provider);
 

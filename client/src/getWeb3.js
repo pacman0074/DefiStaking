@@ -6,10 +6,10 @@ const getWeb3 = () =>
     window.addEventListener("load", async () => {
       // Modern dapp browsers...
       if (window.ethereum) {
-        const web3 = new Web3(window.ethereum);
+        const web3 = new Web3(window.ethereum); // permet d’initialiser l’objet Web3 en se basant sur le provider injecté dans la page web 
         try {
           // Request account access if needed
-          await window.ethereum.enable();
+          await window.ethereum.enable(); //demande à Metamask de laisser la page web accéder à l’objet web3 injecté
           // Accounts now exposed
           resolve(web3);
         } catch (error) {
@@ -19,7 +19,7 @@ const getWeb3 = () =>
       // Legacy dapp browsers...
       else if (window.web3) {
         // Use Mist/MetaMask's provider.
-        const web3 = window.web3;
+        const web3 = window.web3; // si l’objet web3 existe déjà, l’objet Web3 est initialisé en se basant sur le provider du web3 actuel
         console.log("Injected web3 detected.");
         resolve(web3);
       }

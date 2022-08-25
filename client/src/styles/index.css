@@ -1,3 +1,30 @@
+@font-face {
+  font-family: "AlexBrush-Regular";
+  src: url("../font/AlexBrush-Regular.ttf");
+
+}
+
+@font-face {
+  font-family: "Hendrickson-K7GOD";
+  src: url("../font/Hendrickson-K7GOD.otf");
+}
+
+@font-face {
+  font-family: "Mishella-w1Pdw";
+  src: url("../font/Mishella-w1Pdw.otf");
+}
+
+@font-face {
+  font-family: "KgHolocene";
+  src: url("../font/KgHoloceneRegular-lgjKy.ttf");
+  
+}
+
+@font-face {
+  font-family: "AGENTORANGE" ;
+  src: url("../font/AGENTORANGE.TTF");
+}
+
 body {
   margin: 0;
   font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen",
@@ -11,3 +38,43 @@ code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New",
     monospace;
 }
+
+header span{
+  font-family: "AGENTORANGE";
+  font-size: xx-large;
+  color: rgba(12, 56, 122, 100);
+  
+  
+}
+
+.nav-item
+{
+  margin-right: 30px;
+  
+}
+
+.nav-item .nav-link
+{
+  color: dodgerblue;
+  padding-left: 30px;
+  font-family: "KgHolocene";
+
+}
+
+
+.nav-item :hover
+{
+  
+  border-bottom: 1px solid rgb(230, 157, 234)  ;
+  
+}
+
+.nav-item :focus
+{
+  
+  border-bottom: 1px  solid rgb(230, 157, 234);
+  
+}
+
+
+
