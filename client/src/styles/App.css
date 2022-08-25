@@ -1,0 +1,123 @@
+@font-face {
+  font-family: "AlexBrush-Regular";
+  src: url("../font/AlexBrush-Regular.ttf");
+
+}
+
+@font-face {
+  font-family: "Hendrickson-K7GOD";
+  src: url("../font/Hendrickson-K7GOD.otf");
+}
+
+@font-face {
+  font-family: "Mishella-w1Pdw";
+  src: url("../font/Mishella-w1Pdw.otf");
+}
+
+@font-face {
+  font-family: "KgHolocene";
+  src: url("../font/KgHoloceneRegular-lgjKy.ttf");
+  
+}
+
+@font-face {
+  font-family: "AGENTORANGE" ;
+  src: url("../font/AGENTORANGE.TTF");
+}
+
+body {
+  margin: 0;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen",
+    "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue",
+    sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+
+
+code {
+  font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New",
+    monospace;
+    
+}
+
+header
+{
+  box-shadow: 0em 0.1em 3em rgba(93, 172, 189, 100);
+  /*background-color: rgb(233, 246, 249);
+  background-image: url("../images/background_header.jpg");*/
+  background: linear-gradient(to right, white, rgb(240, 248, 250));
+
+}
+
+
+header span{
+  font-family: "AGENTORANGE";
+  font-size: xx-large;
+  margin-left: 30px;
+  color: rgba(93, 172, 189, 100); 
+  
+  
+}
+
+.nav-item
+{
+  margin-right: 30px;
+  
+  
+}
+
+.nav-item .nav-link
+{
+  color: dodgerblue;
+
+  font-family: "KgHolocene";
+
+}
+
+.nav-item .nav-link:hover
+{
+  color: rgb(93, 172, 189);
+}
+
+.nav-item .nav-link:focus
+{
+  color: rgb(93, 172, 189);
+}
+
+
+.nav-item :hover
+{
+  
+  border-bottom: 0.5px solid rgb(93, 172, 189) ;
+  transform: scale(1.25);
+  transition: transform 600ms;
+ 
+  
+  
+}
+
+.nav-item :focus
+{
+  
+  border-bottom: 1px  solid rgb(93, 172, 189);
+  transform: scale(1.25);
+
+  
+}
+
+.content
+{
+  background-image: url("../images/logo_transparent_2.png");
+  background-attachment:fixed;
+  background-size: 100px;
+  position: absolute;
+  height: 70%;
+  width: 100%;
+
+}
+
+
+
+

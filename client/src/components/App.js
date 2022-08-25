@@ -3,7 +3,9 @@ import LiquidityExamples from '../contracts/LiquidityExamples.json';
 import getWeb3 from "../getWeb3";
 import 'bootstrap/dist/css/bootstrap.min.css';
 import Nav from 'react-bootstrap/Nav';
-import "../styles/index.css";
+import "../styles/App.css";
+import logo from "../images/logo_transparent.png";
+
 
 class App extends Component {
   state = { web3: null, accounts: null, contract: null };
@@ -56,15 +58,19 @@ class App extends Component {
     return (
      
       <div className="App">
-        <header className="container-fluid row d-flex justify-content-between shadow mb-5 p-4">
+        <header className="container-fluid  d-flex justify-content-between align-items-center mb-5 ">
           <span className="col-3">BLUE STAKING</span>
           <Nav className="col-6">
             <Nav.Item className="nav-item">
-              <Nav.Link className="nav-link" eventKey="">Stake</Nav.Link> 
+              <Nav.Link className="nav-link" eventKey="">Dashboard</Nav.Link> 
             </Nav.Item>
 
             <Nav.Item>
-              <Nav.Link className="nav-link2" eventKey="">Unstake</Nav.Link>
+              <Nav.Link className="nav-link2" eventKey="">Stake</Nav.Link>
+            </Nav.Item>
+
+            <Nav.Item>
+              <Nav.Link eventKey="">Unstake</Nav.Link>
             </Nav.Item>
 
             <Nav.Item>
@@ -74,13 +80,13 @@ class App extends Component {
             <Nav.Item>
               <Nav.Link eventKey="">Your liquidity</Nav.Link>
             </Nav.Item>
-
-            <Nav.Item>
-              <Nav.Link eventKey="">README</Nav.Link>
-            </Nav.Item>
-
           </Nav>
+          <figure className="col-1">
+            <img className="h-50 w-50 mt-3" src={logo} alt="Logo"/>
+          </figure>
         </header>
+
+       <div className="content"></div> 
       </div>
     );
   }
