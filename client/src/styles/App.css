@@ -57,9 +57,12 @@ header span{
   font-size: xx-large;
   margin-left: 30px;
   color: rgba(93, 172, 189, 100); 
+  border-right: 2px rgba(93, 172, 189, 100) solid;
+
   
   
 }
+
 
 .nav-item
 {
@@ -107,16 +110,21 @@ header span{
   
 }
 
+
 .content
 {
   background-image: url("../images/logo_transparent_2.png");
   background-attachment:fixed;
   background-size: 100px;
   position: absolute;
-  height: 70%;
+  height: 75%;
   width: 100%;
 
+
 }
+
+
+
 
 
 

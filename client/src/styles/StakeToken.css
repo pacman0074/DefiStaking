@@ -1,0 +1,61 @@
+@font-face {
+    font-family: "AGENTORANGE" ;
+    src: url("../font/AGENTORANGE.TTF");
+  }
+
+
+#StakeToken-container
+{
+    border: 2px solid rgb(240, 248, 250);
+    height: 60%;
+    width: 50%;
+    margin-left: 25%;
+    margin-top: 7%;
+    border-radius: 50px ;
+    background-color: white;
+    box-shadow: 10px 10px 10px gainsboro;
+    display: flex;
+    flex-direction: column;
+    
+
+  
+}
+
+#StakeToken-container span
+{
+    margin-left: 50px;
+    margin-top: 20px;
+    font-family: "AGENTORANGE";
+    font-size: 15px;
+    font-weight: bolder;
+    color:dodgerblue;
+    
+}
+
+#StakeToken-stakeMenu
+{
+    border: 0.5px solid rgb(93, 172, 189);
+    border-radius: 10px;
+    height: 20%;
+    width: 90%;
+    margin-left: 40px;
+    margin-top: 40px;
+}
+
+#StakeToken-statsMenu {
+    height: 50%;
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-evenly;
+    align-items: flex-end;
+
+}
+
+#StakeToken-statsMenu div {
+    height: 90%;
+    width: 45%;
+    border: 0.5px solid rgb(93, 172, 189);
+    border-radius: 10px;
+    
+}

@@ -5,6 +5,8 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import Nav from 'react-bootstrap/Nav';
 import "../styles/App.css";
 import logo from "../images/logo_transparent.png";
+import getRequireError from "../utils/getRequireError" ;
+import StakeToken from "./StakeToken" ;
 
 
 class App extends Component {
@@ -52,6 +54,8 @@ class App extends Component {
   };*/
 
   render() {
+
+    const {accounts, contract} = this.state;
     if (!this.state.web3) {
       return <div>Loading Web3, accounts, and contract...</div>;
     }
@@ -78,7 +82,7 @@ class App extends Component {
             </Nav.Item>
 
             <Nav.Item>
-              <Nav.Link eventKey="">Your liquidity</Nav.Link>
+              <Nav.Link eventKey="">Docs</Nav.Link>
             </Nav.Item>
           </Nav>
           <figure className="col-1">
@@ -86,7 +90,9 @@ class App extends Component {
           </figure>
         </header>
 
-       <div className="content"></div> 
+        <div className="content">
+          <StakeToken getRequireError={getRequireError} contract={contract} accounts={accounts}/>
+        </div> 
       </div>
     );
   }
