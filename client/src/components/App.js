@@ -62,15 +62,15 @@ class App extends Component {
     return (
      
       <div className="App">
-        <header className="container-fluid  d-flex justify-content-between align-items-center mb-5 ">
+        <header className="container-fluid row d-flex justify-content-between align-items-center mb-5 ">
           <span className="col-3">BLUE STAKING</span>
           <Nav className="col-6">
-            <Nav.Item className="nav-item">
-              <Nav.Link className="nav-link" eventKey="">Dashboard</Nav.Link> 
+            <Nav.Item>
+              <Nav.Link eventKey="">Dashboard</Nav.Link> 
             </Nav.Item>
 
             <Nav.Item>
-              <Nav.Link className="nav-link2" eventKey="">Stake</Nav.Link>
+              <Nav.Link  eventKey="">Stake</Nav.Link>
             </Nav.Item>
 
             <Nav.Item>

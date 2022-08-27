@@ -16,9 +16,6 @@
     box-shadow: 10px 10px 10px gainsboro;
     display: flex;
     flex-direction: column;
-    
-
-  
 }
 
 #StakeToken-container span
@@ -40,6 +37,9 @@
     width: 90%;
     margin-left: 40px;
     margin-top: 40px;
+    display:flex;
+    flex-direction: row;
+    align-items: center;
 }
 
 #StakeToken-statsMenu {
@@ -57,5 +57,9 @@
     width: 45%;
     border: 0.5px solid rgb(93, 172, 189);
     border-radius: 10px;
-    
+}
+
+#dropdown-erc20
+{
+    margin-left: 20px;
 }
