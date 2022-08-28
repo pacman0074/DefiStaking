@@ -48,6 +48,7 @@ header
   /*background-color: rgb(233, 246, 249);
   background-image: url("../images/background_header.jpg");*/
   background: linear-gradient(to right, white, rgb(240, 248, 250));
+  width: 100%;
 
 }
 

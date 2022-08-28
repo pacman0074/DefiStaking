@@ -7440,12 +7440,12 @@
         }
       },
       "links": {},
-      "address": "0xb932C8342106776E73E39D695F3FFC3A9624eCE0",
-      "transactionHash": "0x3d250bbe810c8964b3c5549dbc4cbaf7f3bc5b79df3d3595972e2b23446852d5"
+      "address": "0xB22C255250d74B0ADD1bfB936676D2a299BF48Bd",
+      "transactionHash": "0x6f1895e4c2040e3129b979f6c90684be3f4558f798ce6013f5ef4261eac05dcf"
     }
   },
   "schemaVersion": "3.4.4",
-  "updatedAt": "2022-08-21T16:39:54.359Z",
+  "updatedAt": "2022-08-28T21:22:51.699Z",
   "networkType": "ethereum",
   "devdoc": {
     "kind": "dev",

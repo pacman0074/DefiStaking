@@ -56,6 +56,7 @@ contract Staking {
 
     //Investors can stake any amount of an ERC20 token
     function Stake(address _token, uint256 _amount, address _priceFeedContract) external payable {
+        require(IERC20(_token).balanceOf(msg.sender) > _amount, "You don't have enough tokens");
         //Send the token of the staker to the contract Staking
         IERC20(_token).safeTransferFrom(msg.sender, address(this), _amount);
         

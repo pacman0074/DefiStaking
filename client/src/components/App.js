@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import LiquidityExamples from '../contracts/LiquidityExamples.json';
+import Staking from '../contracts/Staking.json';
 import getWeb3 from "../getWeb3";
 import 'bootstrap/dist/css/bootstrap.min.css';
 import Nav from 'react-bootstrap/Nav';
@@ -22,9 +22,9 @@ class App extends Component {
 
       // Get the contract instance.
       const networkId = await web3.eth.net.getId();
-      const deployedNetwork = LiquidityExamples.networks[networkId];
+      const deployedNetwork = Staking.networks[networkId];
       const instance = new web3.eth.Contract(
-        LiquidityExamples.abi,
+        Staking.abi,
         deployedNetwork && deployedNetwork.address,
       );
 
@@ -55,14 +55,14 @@ class App extends Component {
 
   render() {
 
-    const {accounts, contract} = this.state;
+    const {web3, accounts, contract} = this.state;
     if (!this.state.web3) {
       return <div>Loading Web3, accounts, and contract...</div>;
     }
     return (
      
       <div className="App">
-        <header className="container-fluid row d-flex justify-content-between align-items-center mb-5 ">
+        <header className="container-fluid  d-flex justify-content-between align-items-center mb-5 ">
           <span className="col-3">BLUE STAKING</span>
           <Nav className="col-6">
             <Nav.Item>
@@ -91,7 +91,7 @@ class App extends Component {
         </header>
 
         <div className="content">
-          <StakeToken getRequireError={getRequireError} contract={contract} accounts={accounts}/>
+          <StakeToken web3={web3} getRequireError={getRequireError} contract={contract} accounts={accounts}/>
         </div> 
       </div>
     );

@@ -1,83 +1,70 @@
-import React from "react";
+import React, { useState } from "react";
 import "../styles/StakeToken.css";
 import Dropdown from "react-bootstrap/Dropdown";
 import Figure from "react-bootstrap/Figure";
-import EtherLogo from "../images/token_ether_logo.png";
-import DaiLogo from "../images/token_dai_logo.png";
-import TetherLogo from "../images/token_ether_logo.png";
-import MaticLogo from "../images/token_matic_logo.png";
-import ManaLogo from "../images/token_mana_logo.png";
-import LinkLogo from "../images/token_link_logo.png";
-import WbtcLogo from "../images/token_wbtc_logo.png";
-import WethLogo from "../images/token_weth_logo.png";
+import Token from "./token.json";
 import Form from "react-bootstrap/Form";
-import InputGroup from "react-bootstrap/InputGroup"
+import InputGroup from "react-bootstrap/InputGroup";
+import Button from "react-bootstrap/Button";
 
-export default function STakeToken({accounts, contract, getRequireError}) {
+export default function StakeToken({web3, accounts, contract, getRequireError}) {
+    
+    const[CurrentToken, setCurrentToken] = useState(Token.token[0]);
+    const[amount, setAmount] = useState(0);
+
+    
+    const staker = accounts[0];
+    const Web3 = web3.utils;
+
+    const Stake = async() => {
+        const weiAmount = Web3.toWei(amount);
+        console.log(staker);
+        console.log(weiAmount);
+        //Faire approuver staker avant d'appeler la fonction Stake !!!
+        await contract.methods.Stake(CurrentToken.token_address, weiAmount.toString(), CurrentToken.priceFeed_address).send({from : staker}, (err) => getRequireError(err));
+    }
 
     return(
         <div id="StakeToken-container">
+            {console.log(amount)}
             <span>Stake your ERC20 Token</span>
             <div id="StakeToken-stakeMenu">
-                <Dropdown>
-                    <Dropdown.Toggle id="dropdown-erc20" variant="primary">ERC20 tokens</Dropdown.Toggle>
-                    <Dropdown.Menu>
-                        <Dropdown.Item>
-                            <Figure>
-                                <Figure.Image className="me-2" width={30} height={30} alt="Logo ether" src={EtherLogo}/>Ether
-                            </Figure>
-                        </Dropdown.Item>
-                        <Dropdown.Item>
-                            <Figure>
-                                <Figure.Image className="me-2" width={30} height={30} alt="Logo dai" src={DaiLogo}/>Dai
-                            </Figure>
-                        </Dropdown.Item>
-                        <Dropdown.Item>
-                            <Figure>
-                                <Figure.Image className="me-2" width={30} height={30} alt="Logo tether" src={TetherLogo}/>Tether
-                            </Figure>
-                        </Dropdown.Item>
-                        <Dropdown.Item>
-                            <Figure>
-                                <Figure.Image className="me-2" width={30} height={30} alt="Logo matic" src={MaticLogo}/>Matic
-                            </Figure>
-                        </Dropdown.Item>
-                        <Dropdown.Item>
-                            <Figure>
-                                <Figure.Image className="me-2" width={30} height={30} alt="Logo mana" src={ManaLogo}/>Mana
-                            </Figure>
-                        </Dropdown.Item>
-                        <Dropdown.Item>
-                            <Figure>
-                                <Figure.Image className="me-2" width={30} height={30} alt="Logo link" src={LinkLogo}/>Link
-                            </Figure>
-                        </Dropdown.Item>
-                        <Dropdown.Item>
-                            <Figure>
-                                <Figure.Image className="me-2" width={30} height={30} alt="Logo wbtc" src={WbtcLogo}/>Wbtc
-                            </Figure>
-                        </Dropdown.Item>
-                        <Dropdown.Item>
-                            <Figure>
-                                <Figure.Image className="me-2" width={30} height={30} alt="Logo weth" src={WethLogo}/>Weth
-                            </Figure>
-                        </Dropdown.Item>
+
+                <Dropdown drop="end">
+                    <Dropdown.Toggle id="dropdown-toggle" variant="primary">ERC20 tokens</Dropdown.Toggle>
+                    <Dropdown.Menu id="dropdown-menu">
+                        {
+                            Token.token.map((token) => 
+                            <Dropdown.Item onClick={() => setCurrentToken(token)}> 
+                                    <Figure>
+                                        <Figure.Image className="me-2" width={30} height={30} alt={token.token_name} src={require("../images/"+token.token_img)}/>
+                                        {token.token_name}
+                                    </Figure>
+                            </Dropdown.Item>
+                            )
+                        }
                     </Dropdown.Menu>
                 </Dropdown>
 
-                <InputGroup size="sm" className="mb-3">
-        <InputGroup.Text >ETH</InputGroup.Text>
-        <Form.Control
-          placeholder="Amount"
-          aria-label="Amount"
-          aria-describedby="basic-addon1"
-        />
-      </InputGroup>
+                <InputGroup  >
+                    <InputGroup.Text style={{color :CurrentToken.token_color}} id="input-title" >{CurrentToken.token_shortname}</InputGroup.Text>
+                    <Form.Control onChange={ (input) => setAmount(input.target.value)}/>
+                </InputGroup>
+
+                <Button id="stake-button" variant="outline-primary" onClick={Stake}>Stake</Button>
+      
             </div>
-            <div id="StakeToken-statsMenu">
-                <div>
+            <div style={{color :CurrentToken.token_color}} id="StakeToken-statsMenu">
+                <div className="stats" >
+                    <span class="stats-title">Staked</span>
+                    <span class="stats-amount">10</span>
+                    <span class="stats-annexe">TVL = 100</span>
                 </div>
-                <div></div>
+                <div className="stats">
+                    <span class="stats-title">Reward</span>
+                    <span class="stats-amount">10</span>
+                    <span class="stats-annexe">TVL = 100</span>
+                </div>
             </div>
         </div>
     )
