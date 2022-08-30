@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import Staking from '../contracts/Staking.json';
+import BlueToken from "../contracts/BlueToken.json"
 import getWeb3 from "../getWeb3";
 import 'bootstrap/dist/css/bootstrap.min.css';
 import Nav from 'react-bootstrap/Nav';
@@ -21,20 +22,28 @@ class App extends Component {
       const accounts = await web3.eth.getAccounts();
 
       // Get the contract instance.
+      
       const networkId = await web3.eth.net.getId();
-      const deployedNetwork = Staking.networks[networkId];
-      const instance = new web3.eth.Contract(
+      const deployedNetworkStaking = Staking.networks[networkId];
+      const deployedNetworkBlueToken = BlueToken.networks[networkId];
+
+      const instanceStaking = new web3.eth.Contract(
         Staking.abi,
-        deployedNetwork && deployedNetwork.address,
+        deployedNetworkStaking && deployedNetworkStaking.address,
+      );
+
+      const instanceBlueToken = new web3.eth.Contract(
+        BlueToken.abi,
+        deployedNetworkBlueToken && deployedNetworkBlueToken.address,
       );
 
       // Set web3, accounts, and contract to the state, and then proceed with an
       // example of interacting with the contract's methods.
-      this.setState({ web3, accounts, contract: instance });
+      this.setState({ web3, accounts, contractStaking: instanceStaking, contractBLT : instanceBlueToken});
     } catch (error) {
       // Catch any errors for any of the above operations.
       alert(
-        `Failed to load web3, accounts, or contract. Check console for details.`,
+        `Failed to load web3, accounts, or contracts. Check console for details.`,
       );
       console.error(error);
     }
@@ -55,9 +64,9 @@ class App extends Component {
 
   render() {
 
-    const {web3, accounts, contract} = this.state;
+    const {web3, accounts, contractStaking, contractBLT} = this.state;
     if (!this.state.web3) {
-      return <div>Loading Web3, accounts, and contract...</div>;
+      return <div>Loading Web3, accounts, and contracts...</div>;
     }
     return (
      
@@ -91,7 +100,8 @@ class App extends Component {
         </header>
 
         <div className="content">
-          <StakeToken web3={web3} getRequireError={getRequireError} contract={contract} accounts={accounts}/>
+          <StakeToken web3={web3} getRequireError={getRequireError} accounts={accounts}
+          contractStaking={contractStaking} contractBLT={contractBLT} />
         </div> 
       </div>
     );

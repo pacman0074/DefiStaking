@@ -66,6 +66,7 @@ contract('Staking', function(accounts){
         this.StakingInstance = await Staking.new(_initialsupply);
     });
 
+
     describe("verify TVL intialization", () => {
 
         it("equals to _initialSupply/200", async function() {
@@ -81,6 +82,8 @@ contract('Staking', function(accounts){
             //Init staker account with ERC20 tokens by swapping ETH to ERC20 tokens
             //CHAINLINK
             await Swap(process.env.LINK, 100, staker_1);
+            await Swap(process.env.MANA, 100, staker_1);
+            await Swap(process.env.WBTC, 100, staker_1);
            
         });
 
@@ -259,6 +262,48 @@ contract('Staking', function(accounts){
 
             });
     });
+
+    describe("verify getLiquidityPosition", () => {
+        it("returns the position liquidity of staker_1", async function() {
+            this.LINKcontract = await new ethers.Contract(process.env.LINK, LINKabiContract, account);
+            this.MANAcontract = await new ethers.Contract(process.env.MANA, MANAabiContract, account);
+            this.WBTCcontract = await new ethers.Contract(process.env.WBTC, WBTCabiContract, account);
+
+            let amountStaked1 = ethers.BigNumber.from('20000000000000000000');
+            let amountStaked2 = ethers.BigNumber.from('96000000000000000000');
+            let amountStaked3 = ethers.BigNumber.from('100');
+
+            //The staker approve the Staking contract to spend an amount of LINK token before calling Stake function 
+            await this.LINKcontract.approve(this.StakingInstance.address, amountStaked1,  {from : staker_1});
+            //The staker stakes his LINK Token in the staking contract
+            await this.StakingInstance.Stake(process.env.LINK, amountStaked1, process.env.LINK_ETH, {from : staker_1});
+
+            //The staker approve the Staking contract to spend an amount of LINK token before calling Stake function 
+            await this.MANAcontract.approve(this.StakingInstance.address, amountStaked2,  {from : staker_1});
+            //The staker stakes his LINK Token in the staking contract
+            await this.StakingInstance.Stake(process.env.MANA, amountStaked2, process.env.MANA_ETH, {from : staker_1});
+
+            //The staker approve the Staking contract to spend an amount of LINK token before calling Stake function 
+            await this.WBTCcontract.approve(this.StakingInstance.address, amountStaked3,  {from : staker_1});
+            //The staker stakes his LINK Token in the staking contract
+            await this.StakingInstance.Stake(process.env.WBTC, amountStaked3, process.env.WBTC_ETH, {from : staker_1});
+
+            let liquidityPosition1 = await this.StakingInstance.getLiquidityPosition(staker_1, process.env.LINK , {from : staker_1});
+            let liquidityPosition2 = await this.StakingInstance.getLiquidityPosition(staker_1, process.env.MANA, {from : staker_1} );
+            let liquidityPosition3 = await this.StakingInstance.getLiquidityPosition(staker_1, process.env.WBTC , {from : staker_1});
+            let liquidityPosition4 = await this.StakingInstance.getLiquidityPosition(staker_1, process.env.WETH , {from : staker_1});
+
+            expect(liquidityPosition1.toString()).equal(amountStaked1.toString());
+            expect(liquidityPosition2.toString()).equal(amountStaked2.toString());
+            expect(liquidityPosition3.toString()).equal(amountStaked3.toString());
+            expect(liquidityPosition4.toString()).equal('0');
+
+        });
+    });
+    
+
+
+
 
 });
 

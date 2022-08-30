@@ -26,5 +26,5 @@ contract TestStakingReward is Staking (1000*10**18) {
         
         Assert.equal(balanceContractAfterRewardtoken, balanceContractBeforeRewardtoken - rewardBLTExpected, "it should return 920 BLT token left for Staking contract");
         Assert.equal(balanceStakerAfterRewardtoken, balanceStakerBeforeRewardtoken + rewardBLTExpected, "it should return 80 BLT token for the balance of the staker");
-    } 
+    }
 }

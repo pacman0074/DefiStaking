@@ -28,10 +28,12 @@ contract TestStakingLibrary {
 
         //Test when the staker have positions but no position for this token
         result = StakingLibrary.getIndexTokenStaked(tabPositions, 0x2260FAC5E5542a773Aa44fBCfeDf7C193bc2C599);
-        Assert.equal(result, 6, "It sould return 6 when the staker have no position staked for this token");
+        Assert.equal(result, 4, "It sould return 6 when the staker have no position staked for this token");
 
         //Test when the staker have positions for this token
         result = StakingLibrary.getIndexTokenStaked(tabPositions, 0x514910771AF9Ca656af840dff83E8264EcF986CA);
-        Assert.equal(result, 2, "It should return the index of the token staked (index = 2)");
+        Assert.equal(result, 1, "It should return the index of the token staked (index = 2)");
     }
+
+    
 }

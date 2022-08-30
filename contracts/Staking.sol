@@ -61,7 +61,7 @@ contract Staking {
         IERC20(_token).safeTransferFrom(msg.sender, address(this), _amount);
         
         //Add the new Position to the PositionsList or only updates the amount
-        //if a Position has been already done for this token
+        //if a Position has been already created for this token
         uint indexTokenStaked = StakingLibrary.getIndexTokenStaked(PositionsList[msg.sender], _token);
         if (indexTokenStaked != PositionsList[msg.sender].length) {
             //The Position of the staker is updated with new amount of token staked
@@ -73,9 +73,10 @@ contract Staking {
         }
 
         //Update the TVL with the token just staked
-        uint amountTokenStakedinEther = uint(StakingLibrary.getLatestPrice(_priceFeedContract)) * _amount;
+        uint amountTokenStakedinEther;
+        amountTokenStakedinEther = uint(StakingLibrary.getLatestPrice(_priceFeedContract)) * _amount;
         TVL += amountTokenStakedinEther;
-
+        
         //Event log position staked
         emit stake(msg.sender, _token, _amount);
 
@@ -111,8 +112,11 @@ contract Staking {
 
     function getLiquidityPosition(address _caller, address _token)  public view returns(uint) {
         require(_caller == msg.sender, "It's not your account !!");
-        uint indexToken = StakingLibrary.getIndexTokenStaked(this.getAllPositions(), _token);
+        uint indexToken = StakingLibrary.getIndexTokenStaked(PositionsList[_caller], _token);
 
+        if(PositionsList[_caller].length == indexToken){
+            return 0;
+        }
         return PositionsList[_caller][indexToken].liquidity;
     }
 
