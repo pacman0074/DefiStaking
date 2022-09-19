@@ -1,6 +1,7 @@
 //const Swap = require("../utils/Swap");
 const { ChainId, Token, WETH, Fetcher, Trade, Route, TokenAmount, TradeType , Percent } = require('@uniswap/sdk');
 const Staking = artifacts.require("Staking");
+const BlueToken = artifacts.require("BlueToken");
 const {expectRevert, expectEvent,BN} = require("@openzeppelin/test-helpers");
 const {expect} = require("chai");
 const ethers = require("ethers");
@@ -10,7 +11,7 @@ require("dotenv").config();
 const ERR_NO_TOKEN_STAKED = "You don't have any tokens staked";
 const ERR_NO_TOKEN_STAKED_FOR_THIS_TOKEN = "You don't have this token staked";
 
-
+//Il faut tout refaire maintenant que j'ai changé le constructeur de staking
 
 const Swap = async ( _tokenAddress, _amount, _to) =>  {
     const token = new Token(ChainId.MAINNET, _tokenAddress, 18);
@@ -42,19 +43,20 @@ const Swap = async ( _tokenAddress, _amount, _to) =>  {
 
 contract('Staking', function(accounts){
 
+    const contractOwner = accounts[0];
     const staker_1 = accounts[1];
     const staker_2 = accounts[2];
     const staker_3 = accounts[3];
 
-    const _initialsupply = new BN(1000);
-    const _rate = 200;
+    const _initialsupply = ethers.BigNumber.from('1000000000000000000000000');
+    const _rate = ethers.BigNumber.from('200000000000000000000');
 
     //Get provider in order to create instance of erc20 tokens for tests
     const provider = ethers.getDefaultProvider("http://localhost:8545");
     const signer = new ethers.Wallet(process.env.PRIVATEKEY);
     const account = signer.connect(provider);
 
-    //LINK
+    //Token abi contract
     const LINKabiContract = [{"constant":true,"inputs":[],"name":"name","outputs":[{"name":"","type":"string"}],"payable":false,"type":"function"},{"constant":false,"inputs":[{"name":"_spender","type":"address"},{"name":"_value","type":"uint256"}],"name":"approve","outputs":[{"name":"success","type":"bool"}],"payable":false,"type":"function"},{"constant":true,"inputs":[],"name":"totalSupply","outputs":[{"name":"","type":"uint256"}],"payable":false,"type":"function"},{"constant":false,"inputs":[{"name":"_from","type":"address"},{"name":"_to","type":"address"},{"name":"_value","type":"uint256"}],"name":"transferFrom","outputs":[{"name":"success","type":"bool"}],"payable":false,"type":"function"},{"constant":true,"inputs":[],"name":"decimals","outputs":[{"name":"","type":"uint8"}],"payable":false,"type":"function"},{"constant":false,"inputs":[{"name":"amount","type":"uint256"}],"name":"withdrawEther","outputs":[],"payable":false,"type":"function"},{"constant":false,"inputs":[{"name":"_value","type":"uint256"}],"name":"burn","outputs":[{"name":"success","type":"bool"}],"payable":false,"type":"function"},{"constant":false,"inputs":[{"name":"_value","type":"uint256"}],"name":"unfreeze","outputs":[{"name":"success","type":"bool"}],"payable":false,"type":"function"},{"constant":true,"inputs":[{"name":"","type":"address"}],"name":"balanceOf","outputs":[{"name":"","type":"uint256"}],"payable":false,"type":"function"},{"constant":true,"inputs":[],"name":"owner","outputs":[{"name":"","type":"address"}],"payable":false,"type":"function"},{"constant":true,"inputs":[],"name":"symbol","outputs":[{"name":"","type":"string"}],"payable":false,"type":"function"},{"constant":false,"inputs":[{"name":"_to","type":"address"},{"name":"_value","type":"uint256"}],"name":"transfer","outputs":[],"payable":false,"type":"function"},{"constant":true,"inputs":[{"name":"","type":"address"}],"name":"freezeOf","outputs":[{"name":"","type":"uint256"}],"payable":false,"type":"function"},{"constant":false,"inputs":[{"name":"_value","type":"uint256"}],"name":"freeze","outputs":[{"name":"success","type":"bool"}],"payable":false,"type":"function"},{"constant":true,"inputs":[{"name":"","type":"address"},{"name":"","type":"address"}],"name":"allowance","outputs":[{"name":"","type":"uint256"}],"payable":false,"type":"function"},{"inputs":[{"name":"initialSupply","type":"uint256"},{"name":"tokenName","type":"string"},{"name":"decimalUnits","type":"uint8"},{"name":"tokenSymbol","type":"string"}],"payable":false,"type":"constructor"},{"payable":true,"type":"fallback"},{"anonymous":false,"inputs":[{"indexed":true,"name":"from","type":"address"},{"indexed":true,"name":"to","type":"address"},{"indexed":false,"name":"value","type":"uint256"}],"name":"Transfer","type":"event"},{"anonymous":false,"inputs":[{"indexed":true,"name":"from","type":"address"},{"indexed":false,"name":"value","type":"uint256"}],"name":"Burn","type":"event"},{"anonymous":false,"inputs":[{"indexed":true,"name":"from","type":"address"},{"indexed":false,"name":"value","type":"uint256"}],"name":"Freeze","type":"event"},{"anonymous":false,"inputs":[{"indexed":true,"name":"from","type":"address"},{"indexed":false,"name":"value","type":"uint256"}],"name":"Unfreeze","type":"event"}];
     const MANAabiContract = [{"constant":true,"inputs":[],"name":"mintingFinished","outputs":[{"name":"","type":"bool"}],"payable":false,"type":"function"},{"constant":true,"inputs":[],"name":"name","outputs":[{"name":"","type":"string"}],"payable":false,"type":"function"},{"constant":false,"inputs":[{"name":"_spender","type":"address"},{"name":"_value","type":"uint256"}],"name":"approve","outputs":[{"name":"","type":"bool"}],"payable":false,"type":"function"},{"constant":true,"inputs":[],"name":"totalSupply","outputs":[{"name":"","type":"uint256"}],"payable":false,"type":"function"},{"constant":false,"inputs":[{"name":"_from","type":"address"},{"name":"_to","type":"address"},{"name":"_value","type":"uint256"}],"name":"transferFrom","outputs":[{"name":"","type":"bool"}],"payable":false,"type":"function"},{"constant":true,"inputs":[],"name":"decimals","outputs":[{"name":"","type":"uint8"}],"payable":false,"type":"function"},{"constant":false,"inputs":[],"name":"unpause","outputs":[{"name":"","type":"bool"}],"payable":false,"type":"function"},{"constant":false,"inputs":[{"name":"_to","type":"address"},{"name":"_amount","type":"uint256"}],"name":"mint","outputs":[{"name":"","type":"bool"}],"payable":false,"type":"function"},{"constant":false,"inputs":[{"name":"_value","type":"uint256"}],"name":"burn","outputs":[],"payable":false,"type":"function"},{"constant":true,"inputs":[],"name":"paused","outputs":[{"name":"","type":"bool"}],"payable":false,"type":"function"},{"constant":true,"inputs":[{"name":"_owner","type":"address"}],"name":"balanceOf","outputs":[{"name":"balance","type":"uint256"}],"payable":false,"type":"function"},{"constant":false,"inputs":[],"name":"finishMinting","outputs":[{"name":"","type":"bool"}],"payable":false,"type":"function"},{"constant":false,"inputs":[],"name":"pause","outputs":[{"name":"","type":"bool"}],"payable":false,"type":"function"},{"constant":true,"inputs":[],"name":"owner","outputs":[{"name":"","type":"address"}],"payable":false,"type":"function"},{"constant":true,"inputs":[],"name":"symbol","outputs":[{"name":"","type":"string"}],"payable":false,"type":"function"},{"constant":false,"inputs":[{"name":"_to","type":"address"},{"name":"_value","type":"uint256"}],"name":"transfer","outputs":[{"name":"","type":"bool"}],"payable":false,"type":"function"},{"constant":true,"inputs":[{"name":"_owner","type":"address"},{"name":"_spender","type":"address"}],"name":"allowance","outputs":[{"name":"remaining","type":"uint256"}],"payable":false,"type":"function"},{"constant":false,"inputs":[{"name":"newOwner","type":"address"}],"name":"transferOwnership","outputs":[],"payable":false,"type":"function"},{"anonymous":false,"inputs":[{"indexed":true,"name":"to","type":"address"},{"indexed":false,"name":"amount","type":"uint256"}],"name":"Mint","type":"event"},{"anonymous":false,"inputs":[],"name":"MintFinished","type":"event"},{"anonymous":false,"inputs":[],"name":"Pause","type":"event"},{"anonymous":false,"inputs":[],"name":"Unpause","type":"event"},{"anonymous":false,"inputs":[{"indexed":true,"name":"burner","type":"address"},{"indexed":false,"name":"value","type":"uint256"}],"name":"Burn","type":"event"},{"anonymous":false,"inputs":[{"indexed":true,"name":"owner","type":"address"},{"indexed":true,"name":"spender","type":"address"},{"indexed":false,"name":"value","type":"uint256"}],"name":"Approval","type":"event"},{"anonymous":false,"inputs":[{"indexed":true,"name":"from","type":"address"},{"indexed":true,"name":"to","type":"address"},{"indexed":false,"name":"value","type":"uint256"}],"name":"Transfer","type":"event"}];
     const USDTabiContract = [{"constant":true,"inputs":[],"name":"name","outputs":[{"name":"","type":"string"}],"payable":false,"stateMutability":"view","type":"function"},{"constant":false,"inputs":[{"name":"_upgradedAddress","type":"address"}],"name":"deprecate","outputs":[],"payable":false,"stateMutability":"nonpayable","type":"function"},{"constant":false,"inputs":[{"name":"_spender","type":"address"},{"name":"_value","type":"uint256"}],"name":"approve","outputs":[],"payable":false,"stateMutability":"nonpayable","type":"function"},{"constant":true,"inputs":[],"name":"deprecated","outputs":[{"name":"","type":"bool"}],"payable":false,"stateMutability":"view","type":"function"},{"constant":false,"inputs":[{"name":"_evilUser","type":"address"}],"name":"addBlackList","outputs":[],"payable":false,"stateMutability":"nonpayable","type":"function"},{"constant":true,"inputs":[],"name":"totalSupply","outputs":[{"name":"","type":"uint256"}],"payable":false,"stateMutability":"view","type":"function"},{"constant":false,"inputs":[{"name":"_from","type":"address"},{"name":"_to","type":"address"},{"name":"_value","type":"uint256"}],"name":"transferFrom","outputs":[],"payable":false,"stateMutability":"nonpayable","type":"function"},{"constant":true,"inputs":[],"name":"upgradedAddress","outputs":[{"name":"","type":"address"}],"payable":false,"stateMutability":"view","type":"function"},{"constant":true,"inputs":[{"name":"","type":"address"}],"name":"balances","outputs":[{"name":"","type":"uint256"}],"payable":false,"stateMutability":"view","type":"function"},{"constant":true,"inputs":[],"name":"decimals","outputs":[{"name":"","type":"uint256"}],"payable":false,"stateMutability":"view","type":"function"},{"constant":true,"inputs":[],"name":"maximumFee","outputs":[{"name":"","type":"uint256"}],"payable":false,"stateMutability":"view","type":"function"},{"constant":true,"inputs":[],"name":"_totalSupply","outputs":[{"name":"","type":"uint256"}],"payable":false,"stateMutability":"view","type":"function"},{"constant":false,"inputs":[],"name":"unpause","outputs":[],"payable":false,"stateMutability":"nonpayable","type":"function"},{"constant":true,"inputs":[{"name":"_maker","type":"address"}],"name":"getBlackListStatus","outputs":[{"name":"","type":"bool"}],"payable":false,"stateMutability":"view","type":"function"},{"constant":true,"inputs":[{"name":"","type":"address"},{"name":"","type":"address"}],"name":"allowed","outputs":[{"name":"","type":"uint256"}],"payable":false,"stateMutability":"view","type":"function"},{"constant":true,"inputs":[],"name":"paused","outputs":[{"name":"","type":"bool"}],"payable":false,"stateMutability":"view","type":"function"},{"constant":true,"inputs":[{"name":"who","type":"address"}],"name":"balanceOf","outputs":[{"name":"","type":"uint256"}],"payable":false,"stateMutability":"view","type":"function"},{"constant":false,"inputs":[],"name":"pause","outputs":[],"payable":false,"stateMutability":"nonpayable","type":"function"},{"constant":true,"inputs":[],"name":"getOwner","outputs":[{"name":"","type":"address"}],"payable":false,"stateMutability":"view","type":"function"},{"constant":true,"inputs":[],"name":"owner","outputs":[{"name":"","type":"address"}],"payable":false,"stateMutability":"view","type":"function"},{"constant":true,"inputs":[],"name":"symbol","outputs":[{"name":"","type":"string"}],"payable":false,"stateMutability":"view","type":"function"},{"constant":false,"inputs":[{"name":"_to","type":"address"},{"name":"_value","type":"uint256"}],"name":"transfer","outputs":[],"payable":false,"stateMutability":"nonpayable","type":"function"},{"constant":false,"inputs":[{"name":"newBasisPoints","type":"uint256"},{"name":"newMaxFee","type":"uint256"}],"name":"setParams","outputs":[],"payable":false,"stateMutability":"nonpayable","type":"function"},{"constant":false,"inputs":[{"name":"amount","type":"uint256"}],"name":"issue","outputs":[],"payable":false,"stateMutability":"nonpayable","type":"function"},{"constant":false,"inputs":[{"name":"amount","type":"uint256"}],"name":"redeem","outputs":[],"payable":false,"stateMutability":"nonpayable","type":"function"},{"constant":true,"inputs":[{"name":"_owner","type":"address"},{"name":"_spender","type":"address"}],"name":"allowance","outputs":[{"name":"remaining","type":"uint256"}],"payable":false,"stateMutability":"view","type":"function"},{"constant":true,"inputs":[],"name":"basisPointsRate","outputs":[{"name":"","type":"uint256"}],"payable":false,"stateMutability":"view","type":"function"},{"constant":true,"inputs":[{"name":"","type":"address"}],"name":"isBlackListed","outputs":[{"name":"","type":"bool"}],"payable":false,"stateMutability":"view","type":"function"},{"constant":false,"inputs":[{"name":"_clearedUser","type":"address"}],"name":"removeBlackList","outputs":[],"payable":false,"stateMutability":"nonpayable","type":"function"},{"constant":true,"inputs":[],"name":"MAX_UINT","outputs":[{"name":"","type":"uint256"}],"payable":false,"stateMutability":"view","type":"function"},{"constant":false,"inputs":[{"name":"newOwner","type":"address"}],"name":"transferOwnership","outputs":[],"payable":false,"stateMutability":"nonpayable","type":"function"},{"constant":false,"inputs":[{"name":"_blackListedUser","type":"address"}],"name":"destroyBlackFunds","outputs":[],"payable":false,"stateMutability":"nonpayable","type":"function"},{"inputs":[{"name":"_initialSupply","type":"uint256"},{"name":"_name","type":"string"},{"name":"_symbol","type":"string"},{"name":"_decimals","type":"uint256"}],"payable":false,"stateMutability":"nonpayable","type":"constructor"},{"anonymous":false,"inputs":[{"indexed":false,"name":"amount","type":"uint256"}],"name":"Issue","type":"event"},{"anonymous":false,"inputs":[{"indexed":false,"name":"amount","type":"uint256"}],"name":"Redeem","type":"event"},{"anonymous":false,"inputs":[{"indexed":false,"name":"newAddress","type":"address"}],"name":"Deprecate","type":"event"},{"anonymous":false,"inputs":[{"indexed":false,"name":"feeBasisPoints","type":"uint256"},{"indexed":false,"name":"maxFee","type":"uint256"}],"name":"Params","type":"event"},{"anonymous":false,"inputs":[{"indexed":false,"name":"_blackListedUser","type":"address"},{"indexed":false,"name":"_balance","type":"uint256"}],"name":"DestroyedBlackFunds","type":"event"},{"anonymous":false,"inputs":[{"indexed":false,"name":"_user","type":"address"}],"name":"AddedBlackList","type":"event"},{"anonymous":false,"inputs":[{"indexed":false,"name":"_user","type":"address"}],"name":"RemovedBlackList","type":"event"},{"anonymous":false,"inputs":[{"indexed":true,"name":"owner","type":"address"},{"indexed":true,"name":"spender","type":"address"},{"indexed":false,"name":"value","type":"uint256"}],"name":"Approval","type":"event"},{"anonymous":false,"inputs":[{"indexed":true,"name":"from","type":"address"},{"indexed":true,"name":"to","type":"address"},{"indexed":false,"name":"value","type":"uint256"}],"name":"Transfer","type":"event"},{"anonymous":false,"inputs":[],"name":"Pause","type":"event"},{"anonymous":false,"inputs":[],"name":"Unpause","type":"event"}];
@@ -63,15 +65,19 @@ contract('Staking', function(accounts){
 
 
     beforeEach(async function() {
-        this.StakingInstance = await Staking.new(_initialsupply);
+        this.BlueTokenInstance = await BlueToken.new(_initialsupply);
+        this.StakingInstance = await Staking.new(_initialsupply, this.BlueTokenInstance.address);
+        await this.BlueTokenInstance.transfer(this.StakingInstance.address,_initialsupply );
     });
 
 
     describe("verify TVL intialization", () => {
 
         it("equals to _initialSupply/200", async function() {
-            let TVL = new BN( (_initialsupply.toNumber())/_rate ); 
-            expect(await this.StakingInstance.TVL()).to.be.bignumber.equal(TVL);
+            //let TVL = new BN( (_initialsupply.toNumber())/_rate ); 
+            let TVL = (_initialsupply.div(_rate)).mul('1000000000000000000');
+            let TVLexpected = await this.StakingInstance.TVL();
+            expect(TVLexpected.toString()).equal(TVL.toString());
         });
     });
 
@@ -81,9 +87,10 @@ contract('Staking', function(accounts){
 
             //Init staker account with ERC20 tokens by swapping ETH to ERC20 tokens
             //CHAINLINK
-            await Swap(process.env.LINK, 100, staker_1);
-            await Swap(process.env.MANA, 100, staker_1);
-            await Swap(process.env.WBTC, 100, staker_1);
+            await Swap(process.env.LINK, 10, staker_1);
+            await Swap(process.env.MANA, 10, staker_1);
+            await Swap(process.env.WBTC, 10, staker_1);
+            await Swap(process.env.USDT, 10, staker_1);
            
         });
 
@@ -120,17 +127,17 @@ contract('Staking', function(accounts){
             await this.LINKcontract.approve(this.StakingInstance.address, amount_1,  {from : staker_1});
             //The staker stakes his LINK Token in the staking contract
             let receipt_1 = await this.StakingInstance.Stake(process.env.LINK, amount_1, process.env.LINK_ETH, {from : staker_1});
-            let LiquidityPosition = await this.StakingInstance.getLiquidityPosition(staker_1, process.env.LINK, {from : staker_1});
+            let Position = await this.StakingInstance.getPosition(staker_1, process.env.LINK, {from : staker_1});
 
-            expect(LiquidityPosition.toString()).equal(amount_1.toString());
+            expect(Position[1].toString()).equal(amount_1.toString());
             
             //The staker approve the Staking contract to spend an amount of LINK token before calling Stake function 
             await this.LINKcontract.approve(this.StakingInstance.address, amount_2,  {from : staker_1});
             //The staker stakes again his LINK Token in the staking contract
             let receipt_2 = await this.StakingInstance.Stake(process.env.LINK, amount_2, process.env.LINK_ETH, {from : staker_1});
-            LiquidityPosition = await this.StakingInstance.getLiquidityPosition(staker_1, process.env.LINK, {from : staker_1});
+            Position = await this.StakingInstance.getPosition(staker_1, process.env.LINK, {from : staker_1});
 
-            expect(LiquidityPosition.toString()).equal((amount_2.add(amount_1)).toString());
+            expect(Position[1].toString()).equal((amount_2.add(amount_1)).toString());
 
             amount_1 = amount_1.toString();
             amount_2 = amount_2.toString();
@@ -156,7 +163,9 @@ contract('Staking', function(accounts){
             priceFeed = ethers.BigNumber.from(priceFeed.toString());
             let TVLafterStake = await this.StakingInstance.TVL();
 
-            expect(String(TVLafterStake)).equal(String((amount.mul(priceFeed.toString())).add(TVLbeforeStake.toString())));
+            let amountTokenStakedinEther = (amount.mul(priceFeed.toString())).div('1000000000000000000');
+
+            expect(String(TVLafterStake)).equal(String(amountTokenStakedinEther.add(TVLbeforeStake.toString())));
 
 
         });
@@ -224,10 +233,10 @@ contract('Staking', function(accounts){
 
             //The staker unstakes his LINK Token in the staking contract
             let receipt = await this.StakingInstance.UnstakePosition(process.env.LINK, amountUnStaked, process.env.LINK_ETH, {from : staker_1});
-            let LiquidityPosition = await this.StakingInstance.getLiquidityPosition(staker_1, process.env.LINK, {from : staker_1});
+            let Position = await this.StakingInstance.getPosition(staker_1, process.env.LINK, {from : staker_1});
 
             //Expect liquidity has been correctly changed
-            expect(LiquidityPosition.toString()).equal((amountStaked.sub(amountUnStaked)).toString());
+            expect(Position[1].toString()).equal((amountStaked.sub(amountUnStaked)).toString());
 
             amountUnStaked = amountUnStaked.toString();
 
@@ -255,7 +264,7 @@ contract('Staking', function(accounts){
             priceFeed = ethers.BigNumber.from(priceFeed.toString());
 
             let TVLafterUnStake = await this.StakingInstance.TVL();
-            let amountUnstakedinEther = amountUnStaked.mul((ethers.BigNumber.from(priceFeed)).toString());
+            let amountUnstakedinEther = (amountUnStaked.mul((ethers.BigNumber.from(priceFeed))).div('1000000000000000000').toString());
 
             //Expect TVL has been correctly changed after the unstake
             expect(String(TVLafterUnStake)).equal(String(TVLbeforeUnStake.sub(amountUnstakedinEther)));
@@ -263,7 +272,7 @@ contract('Staking', function(accounts){
             });
     });
 
-    describe("verify getLiquidityPosition", () => {
+    describe("verify getPosition", () => {
         it("returns the position liquidity of staker_1", async function() {
             this.LINKcontract = await new ethers.Contract(process.env.LINK, LINKabiContract, account);
             this.MANAcontract = await new ethers.Contract(process.env.MANA, MANAabiContract, account);
@@ -276,27 +285,44 @@ contract('Staking', function(accounts){
             //The staker approve the Staking contract to spend an amount of LINK token before calling Stake function 
             await this.LINKcontract.approve(this.StakingInstance.address, amountStaked1,  {from : staker_1});
             //The staker stakes his LINK Token in the staking contract
+            let rewardBLT1 = await this.StakingInstance.Stake.call(process.env.LINK, amountStaked1, process.env.LINK_ETH, {from : staker_1});
             await this.StakingInstance.Stake(process.env.LINK, amountStaked1, process.env.LINK_ETH, {from : staker_1});
 
             //The staker approve the Staking contract to spend an amount of LINK token before calling Stake function 
             await this.MANAcontract.approve(this.StakingInstance.address, amountStaked2,  {from : staker_1});
             //The staker stakes his LINK Token in the staking contract
+            let rewardBLT2 = await this.StakingInstance.Stake.call(process.env.MANA, amountStaked2, process.env.MANA_ETH, {from : staker_1});
             await this.StakingInstance.Stake(process.env.MANA, amountStaked2, process.env.MANA_ETH, {from : staker_1});
 
             //The staker approve the Staking contract to spend an amount of LINK token before calling Stake function 
             await this.WBTCcontract.approve(this.StakingInstance.address, amountStaked3,  {from : staker_1});
             //The staker stakes his LINK Token in the staking contract
+            let rewardBLT3 = await this.StakingInstance.Stake.call(process.env.WBTC, amountStaked3, process.env.WBTC_ETH, {from : staker_1});
             await this.StakingInstance.Stake(process.env.WBTC, amountStaked3, process.env.WBTC_ETH, {from : staker_1});
 
-            let liquidityPosition1 = await this.StakingInstance.getLiquidityPosition(staker_1, process.env.LINK , {from : staker_1});
-            let liquidityPosition2 = await this.StakingInstance.getLiquidityPosition(staker_1, process.env.MANA, {from : staker_1} );
-            let liquidityPosition3 = await this.StakingInstance.getLiquidityPosition(staker_1, process.env.WBTC , {from : staker_1});
-            let liquidityPosition4 = await this.StakingInstance.getLiquidityPosition(staker_1, process.env.WETH , {from : staker_1});
+            let Position1 = await this.StakingInstance.getPosition(staker_1, process.env.LINK , {from : staker_1});
+            let Position2 = await this.StakingInstance.getPosition(staker_1, process.env.MANA,  {from : staker_1});
+            let Position3 = await this.StakingInstance.getPosition(staker_1, process.env.WBTC , {from : staker_1});
+            let Position4 = await this.StakingInstance.getPosition(staker_1, process.env.WETH , {from : staker_1});
 
-            expect(liquidityPosition1.toString()).equal(amountStaked1.toString());
-            expect(liquidityPosition2.toString()).equal(amountStaked2.toString());
-            expect(liquidityPosition3.toString()).equal(amountStaked3.toString());
-            expect(liquidityPosition4.toString()).equal('0');
+            //Check token address
+            expect(Position1[0]).equal(process.env.LINK);
+            expect(Position2[0]).equal(process.env.MANA);
+            expect(Position3[0]).equal(process.env.WBTC);
+            expect(Position4[0]).equal('0x0000000000000000000000000000000000000000');
+
+
+            //Check position amount staked
+            expect(Position1[1].toString()).equal(amountStaked1.toString());
+            expect(Position2[1].toString()).equal(amountStaked2.toString());
+            expect(Position3[1].toString()).equal(amountStaked3.toString());
+            expect(Position4[1].toString()).equal('0');
+
+            //Check reward
+            expect(Position1[2].toString()).equal(rewardBLT1.toString());
+            expect(Position2[2].toString()).equal(rewardBLT2.toString());
+            expect(Position3[2].toString()).equal(rewardBLT3.toString());
+            expect(Position4[2].toString()).equal('0');
 
         });
     });

@@ -9,18 +9,22 @@ library StakingLibrary {
     struct Position {
         address token;
         uint256 liquidity;
+        uint256 rewardBLT;
     }
 
     function getLatestPrice(address priceFeedContract) public view returns (int) {
-        AggregatorV3Interface  priceFeed = AggregatorV3Interface(priceFeedContract);
-        (
-            /*uint80 roundID*/,
-            int price,
-            /*uint startedAt*/,
-            /*uint timeStamp*/,
-            /*uint80 answeredInRound*/
-        ) = priceFeed.latestRoundData();
-        return price;
+        if(priceFeedContract != address(0)){
+            AggregatorV3Interface  priceFeed = AggregatorV3Interface(priceFeedContract);
+            (
+                /*uint80 roundID*/,
+                int price,
+                /*uint startedAt*/,
+                /*uint timeStamp*/,
+                /*uint80 answeredInRound*/
+            ) = priceFeed.latestRoundData();
+            return price;
+
+        } else return 1;
     }
 
 
