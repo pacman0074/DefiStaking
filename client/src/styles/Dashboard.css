@@ -11,18 +11,26 @@
 #Dashboard-container
 {
     border: 2px solid rgb(240, 248, 250);
-    height: 75%;
+    height: 90%;
     width: 60%;
     margin-left: 20%;
-    margin-top: 4%;
-    border-radius: 50px ;
+    margin-top: 2%;
+    border-radius: 20px ;
     background-color: white;
     box-shadow: 10px 10px 10px gainsboro;
     display: flex;
     flex-direction: column;
+    overflow: hidden;
 }
 
-#Dashboard-container > span
+#dashboard-container-header
+{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+}
+
+#dashboard-container-header > span
 {
     margin-left: 50px;
     margin-top: 20px;
@@ -32,3 +40,4 @@
     color:dodgerblue;
     
 }
+
