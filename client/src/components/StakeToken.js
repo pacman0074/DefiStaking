@@ -8,7 +8,7 @@ import Form from "react-bootstrap/Form";
 import InputGroup from "react-bootstrap/InputGroup";
 import Button from "react-bootstrap/Button";
 
-export default function StakeToken({web3, accounts,contractStaking , getRequireError, contractBLT}) {
+export default function StakeToken({web3, accounts,contractStaking , getRequireError}) {
     
 
     const[CurrentToken, setCurrentToken] = useState(Token.token[0]);
@@ -56,6 +56,9 @@ export default function StakeToken({web3, accounts,contractStaking , getRequireE
         await instanceIERC20.methods.approve(contractStaking.options.address,amountBN.toString() ).send({from : staker}, (err) => getRequireError(err));
 
         //Stake ERC20 token
+        const amountStakedinEther = await contractStaking.methods.Stake(CurrentToken.token_address, amountBN.toString(),CurrentToken.priceFeed_address).call({from : staker}, (err) => getRequireError(err));
+        console.log("amount Staked in Ether");
+        console.log(amountStakedinEther);
         await contractStaking.methods.Stake(CurrentToken.token_address, amountBN.toString(),CurrentToken.priceFeed_address).send({from : staker}, (err) => getRequireError(err));
 
         setStatsAmounts(decimals); 
@@ -70,7 +73,6 @@ export default function StakeToken({web3, accounts,contractStaking , getRequireE
     return(
         
         <div id="StakeToken-container">
-            {console.log("render")}
             <span>Stake your ERC20 Token</span>
             <div id="StakeToken-stakeMenu">
 
@@ -101,12 +103,12 @@ export default function StakeToken({web3, accounts,contractStaking , getRequireE
             <div style={{color :CurrentToken.token_color}} id="StakeToken-statsMenu">
                 <div className="stats" >
                     <span class="stats-title">Staked</span>
-                    <span class="stats-amount">{Math.round(Position.amountTokenStaked * 100)/100}</span>
+                    <span class="stats-amount">{Math.round(Position.amountTokenStaked * 100000)/100000}</span>
                     <span class="stats-annexe">{CurrentToken.token_shortname}</span>
                 </div>
                 <div className="stats">
                     <span class="stats-title">Reward</span>
-                    <span class="stats-amount">{Math.round(Position.rewardBLT * 100)/100}</span>
+                    <span class="stats-amount">{Math.round(Position.rewardBLT * 100000)/100000}</span>
                     <span class="stats-annexe">BLT</span>
                 </div>
             </div>

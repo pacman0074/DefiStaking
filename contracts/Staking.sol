@@ -1,5 +1,5 @@
 // SPDX-License-Identifier: GPL-2.0-or-later
-pragma solidity 0.8.16;
+pragma solidity 0.8.17;
 
 
 import "./BlueToken.sol";
@@ -73,7 +73,7 @@ contract Staking {
 
         // Update the TVL with the token just staked
         uint amountTokenStakedinEther;
-        amountTokenStakedinEther = uint(StakingLibrary.getLatestPrice(_priceFeedContract)) * _amount/ 1 ether;
+        amountTokenStakedinEther = uint(StakingLibrary.getLatestPrice(_priceFeedContract)) * _amount/ 10**IERC20Metadata(_token).decimals();
 
         //Reward the staker and update the TVL of the staking contract
         uint rewardBLT = Reward(msg.sender, amountTokenStakedinEther);

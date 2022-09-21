@@ -1,0 +1,34 @@
+@font-face {
+    font-family: "AGENTORANGE" ;
+    src: url("../font/AGENTORANGE.TTF");
+}
+
+@font-face {
+    font-family: "KgHolocene";
+    src: url("../font/KgHoloceneRegular-lgjKy.ttf");
+}
+
+#Dashboard-container
+{
+    border: 2px solid rgb(240, 248, 250);
+    height: 75%;
+    width: 60%;
+    margin-left: 20%;
+    margin-top: 4%;
+    border-radius: 50px ;
+    background-color: white;
+    box-shadow: 10px 10px 10px gainsboro;
+    display: flex;
+    flex-direction: column;
+}
+
+#Dashboard-container > span
+{
+    margin-left: 50px;
+    margin-top: 20px;
+    font-family: "AGENTORANGE";
+    font-size: 20px;
+    font-weight: bolder;
+    color:dodgerblue;
+    
+}

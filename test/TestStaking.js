@@ -13,7 +13,7 @@ const ERR_NO_TOKEN_STAKED_FOR_THIS_TOKEN = "You don't have this token staked";
 
 //Il faut tout refaire maintenant que j'ai changé le constructeur de staking
 
-const Swap = async ( _tokenAddress, _amount, _to) =>  {
+const Swap = async ( _tokenAddress, _to) =>  {
     const token = new Token(ChainId.MAINNET, _tokenAddress, 18);
 
     const pair = await Fetcher.fetchPairData(token, WETH[token.chainId]);
@@ -84,13 +84,14 @@ contract('Staking', function(accounts){
     describe("verify Stake function", () => {
         beforeEach(async function() {
             this.LINKcontract = await new ethers.Contract(process.env.LINK, LINKabiContract, account);
+            this.USDTcontract = await new ethers.Contract(process.env.USDT, USDTabiContract, account);
 
             //Init staker account with ERC20 tokens by swapping ETH to ERC20 tokens
             //CHAINLINK
-            await Swap(process.env.LINK, 10, staker_1);
-            await Swap(process.env.MANA, 10, staker_1);
-            await Swap(process.env.WBTC, 10, staker_1);
-            await Swap(process.env.USDT, 10, staker_1);
+            await Swap(process.env.LINK, staker_1);
+            await Swap(process.env.MANA, staker_1);
+            await Swap(process.env.WBTC, staker_1);
+            await Swap(process.env.USDT, staker_1);
            
         });
 
@@ -149,17 +150,17 @@ contract('Staking', function(accounts){
         });
 
         it("checks if the TVL has been updated correctly", async function() {
-            let amount = ethers.BigNumber.from('10000000000000000000');
+            let amount = ethers.BigNumber.from('100000000');
             this.StakingLibraryInstance = await StakingLibrary.new();
             let TVLbeforeStake = await this.StakingInstance.TVL();
             
 
             //The staker approve the Staking contract to spend an amount of LINK token before calling Stake function 
-            await this.LINKcontract.approve(this.StakingInstance.address, amount,  {from : staker_1});
+            await this.USDTcontract.approve(this.StakingInstance.address, amount,  {from : staker_1});
             //The staker stakes his LINK Token in the staking contract
-            await this.StakingInstance.Stake(process.env.LINK, amount, process.env.LINK_ETH, {from : staker_1});
+            await this.StakingInstance.Stake(process.env.USDT, amount, process.env.USDT_ETH, {from : staker_1});
 
-            let priceFeed = await this.StakingLibraryInstance.getLatestPrice(process.env.LINK_ETH);
+            let priceFeed = await this.StakingLibraryInstance.getLatestPrice(process.env.USDT_ETH);
             priceFeed = ethers.BigNumber.from(priceFeed.toString());
             let TVLafterStake = await this.StakingInstance.TVL();
 

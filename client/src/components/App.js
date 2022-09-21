@@ -8,10 +8,11 @@ import "../styles/App.css";
 import logo from "../images/logo_transparent.png";
 import getRequireError from "../utils/getRequireError" ;
 import StakeToken from "./StakeToken" ;
+import Dashboard from "./Dashboard";
 
 
 class App extends Component {
-  state = { web3: null, accounts: null, contract: null };
+  state = { web3: null, accounts: null, contract: null, currentComponent : "" };
 
   componentDidMount = async () => {
     try {
@@ -30,6 +31,7 @@ class App extends Component {
       const instanceStaking = new web3.eth.Contract(
         Staking.abi,
         deployedNetworkStaking && deployedNetworkStaking.address,
+        
       );
 
       const instanceBlueToken = new web3.eth.Contract(
@@ -39,7 +41,7 @@ class App extends Component {
 
       // Set web3, accounts, and contract to the state, and then proceed with an
       // example of interacting with the contract's methods.
-      this.setState({ web3, accounts, contractStaking: instanceStaking, contractBLT : instanceBlueToken});
+      this.setState({ web3, accounts, contractStaking: instanceStaking, contractBLT : instanceBlueToken, currentComponent : "Stake"});
     } catch (error) {
       // Catch any errors for any of the above operations.
       alert(
@@ -49,22 +51,21 @@ class App extends Component {
     }
   };
 
-  /*runExample = async () => {
-    const { accounts, contract } = this.state;
+  contentNavigation = () => {
+    const {web3, accounts, contractStaking, currentComponent} = this.state;
 
-    // Stores a given value, 5 by default.
-    await contract.methods.set(5).send({ from: accounts[0] });
+    switch(currentComponent) {
+      case "Dashboard" :
+        return <Dashboard web3={web3} getRequireError={getRequireError} accounts={accounts} contractStaking={contractStaking} />
+      case "Stake" :
+        return <StakeToken web3={web3} getRequireError={getRequireError} accounts={accounts} contractStaking={contractStaking} />
+      default:
+        return null
+    }
+  }
 
-    // Get the value from the contract to prove it worked.
-    const response = await contract.methods.get().call();
-
-    // Update state with the result.
-    this.setState({ storageValue: response });
-  };*/
 
   render() {
-
-    const {web3, accounts, contractStaking, contractBLT} = this.state;
     if (!this.state.web3) {
       return <div>Loading Web3, accounts, and contracts...</div>;
     }
@@ -75,34 +76,34 @@ class App extends Component {
           <span className="col-3">BLUE STAKING</span>
           <Nav className="col-6">
             <Nav.Item>
-              <Nav.Link eventKey="">Dashboard</Nav.Link> 
+              <Nav.Link onClick={ () => this.setState({currentComponent : "Dashboard"})} eventKey="">Dashboard</Nav.Link> 
             </Nav.Item>
 
             <Nav.Item>
-              <Nav.Link  eventKey="">Stake</Nav.Link>
+              <Nav.Link onClick={ () => this.setState({currentComponent : "Stake"})}  eventKey="">Stake</Nav.Link>
             </Nav.Item>
 
             <Nav.Item>
-              <Nav.Link eventKey="">Unstake</Nav.Link>
+              <Nav.Link onClick={ () => this.setState({currentComponent : "Unstake"})} eventKey="">Unstake</Nav.Link>
             </Nav.Item>
 
             <Nav.Item>
-              <Nav.Link eventKey="">Reward</Nav.Link>
+              <Nav.Link onClick={ () => this.setState({currentComponent : "Reward"})} eventKey="">Reward</Nav.Link>
             </Nav.Item>
 
             <Nav.Item>
-              <Nav.Link eventKey="">Docs</Nav.Link>
+              <Nav.Link onClick={ () => this.setState({currentComponent : "Docs"})} eventKey="">Docs</Nav.Link>
             </Nav.Item>
           </Nav>
           <figure className="col-1">
             <img className="h-50 w-50 mt-3" src={logo} alt="Logo"/>
           </figure>
         </header>
-
+        
         <div className="content">
-          <StakeToken web3={web3} getRequireError={getRequireError} accounts={accounts}
-          contractStaking={contractStaking} contractBLT={contractBLT} />
+          {this.contentNavigation()}
         </div> 
+        
       </div>
     );
   }
