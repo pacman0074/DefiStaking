@@ -10,13 +10,13 @@
 
 #Dashboard-container
 {
-    border: 2px solid rgb(240, 248, 250);
-    height: 90%;
+    border: 7px solid rgb(240, 248, 250);
+    height: 91%;
     width: 60%;
     margin-left: 20%;
     margin-top: 2%;
     border-radius: 20px ;
-    background-color: white;
+    background-color: rgb(44, 48, 52);
     box-shadow: 10px 10px 10px gainsboro;
     display: flex;
     flex-direction: column;
@@ -39,5 +39,10 @@
     font-weight: bolder;
     color:dodgerblue;
     
+}
+
+td span
+{
+    font-size:14px;
 }
 

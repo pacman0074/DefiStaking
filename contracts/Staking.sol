@@ -23,6 +23,15 @@ contract Staking {
     // List of stakers address
     address [] private Stakers;
 
+    // TVL (in ether) by token
+    mapping(address => uint) public TVLtokeninEther;
+
+    // TVL (in ERC20) by token
+    mapping(address => uint) public TVLtoken;
+
+    // Total reward (in BLT) earned by token
+    mapping(address => uint) public TotalRewardtoken;
+
     // List of Positions attached to the staker address
     mapping (address => StakingLibrary.Position[]) private PositionsList;
 
@@ -54,7 +63,7 @@ contract Staking {
     }
 
     //Investors can stake any amount of an ERC20 token
-    function Stake(address _token, uint256 _amount, address _priceFeedContract) external payable returns(uint) {
+    function Stake(address _token, uint256 _amount, address _priceFeedContract) external returns(uint) {
         require(IERC20(_token).balanceOf(msg.sender) > _amount, "You don't have enough tokens");
         // Send the token of the staker to the contract Staking
         IERC20Metadata(_token).safeTransferFrom(msg.sender, address(this), _amount);
@@ -75,11 +84,19 @@ contract Staking {
         uint amountTokenStakedinEther;
         amountTokenStakedinEther = uint(StakingLibrary.getLatestPrice(_priceFeedContract)) * _amount/ 10**IERC20Metadata(_token).decimals();
 
+        // Update the TVL by token
+        TVLtoken[_token] += _amount;
+        TVLtokeninEther[_token] += amountTokenStakedinEther;
+
         //Reward the staker and update the TVL of the staking contract
         uint rewardBLT = Reward(msg.sender, amountTokenStakedinEther);
 
+        // Update the total reward earned by token
+        TotalRewardtoken[_token] += rewardBLT;
+
         //Update reward amount for this position
         PositionsList[msg.sender][indexTokenStaked].rewardBLT += rewardBLT;
+        // Update the TVL
         TVL += amountTokenStakedinEther;
 
         //Event log position staked
@@ -89,10 +106,12 @@ contract Staking {
         
     }
 
-    function UnstakePosition(address _token, uint256 _amount, address _priceFeedContract ) external {
-        require(PositionsList[msg.sender].length > 0, "You don't have any tokens staked");
+    function UnstakePosition(address _token, uint256 _amount, address _priceFeedContract ) external returns(uint){
         uint indexTokenStaked = StakingLibrary.getIndexTokenStaked(PositionsList[msg.sender], _token);
+
+        require(PositionsList[msg.sender].length > 0, "You don't have any tokens staked");     
         require(PositionsList[msg.sender].length != indexTokenStaked, "You don't have this token staked");
+        require(PositionsList[msg.sender][indexTokenStaked].liquidity >= _amount, "Your unstake amount is greater than the token staked amount !");
 
         // Unstake staking position 
         IERC20Metadata(_token).safeTransfer(msg.sender, _amount);
@@ -105,10 +124,17 @@ contract Staking {
         } else PositionsList[msg.sender][indexTokenStaked].liquidity -= _amount;
 
         // Update the TVL with the token just unstaked
-        uint amountTokenUnstakedinEther = uint(StakingLibrary.getLatestPrice(_priceFeedContract)) * _amount/ 1 ether;
+        uint amountTokenUnstakedinEther = uint(StakingLibrary.getLatestPrice(_priceFeedContract)) * _amount/ 10**IERC20Metadata(_token).decimals();
+        // Update the TVL by token
+        TVLtoken[_token] -= _amount;
+        TVLtokeninEther[_token] -= amountTokenUnstakedinEther;
+
+        // Update the TVL
         TVL -= amountTokenUnstakedinEther;
 
         emit unStake(msg.sender, _token, _amount);
+
+        return amountTokenUnstakedinEther;
 
     }
 

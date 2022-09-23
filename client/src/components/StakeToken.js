@@ -21,28 +21,21 @@ export default function StakeToken({web3, accounts,contractStaking , getRequireE
         var amountStakedinWei;
         await contractStaking.methods.getPosition(staker, CurrentToken.token_address).call({from : staker}, (err, res) => {
             if(!err){
-                
                 if(decimals != 18){  
-                    console.log('res');
-                    console.log(res);
                     //Convert the amount in wei and afterwards get the value in the biggest unit of the token
-                    amountStakedinWei = web3.utils.toBN(res[1]).mul(web3.utils.toBN(Math.pow(10,18))).div(web3.utils.toBN(Math.pow(10,decimals)));
-
+                    amountStakedinWei = web3.utils.toBN(res[1]).mul(web3.utils.toBN(Math.pow(10, 18 - decimals)))
                 } 
                 else {
                     amountStakedinWei = res[1];
                 }
 
                 let amountStaked = web3.utils.fromWei(amountStakedinWei);
-                
                 let amountReward = web3.utils.fromWei(res[2]);
-                console.log(amountReward);
+                
                 setPosition({amountTokenStaked : amountStaked, rewardBLT : amountReward});
 
             } else getRequireError(err);
         });
-
-        //console.log(await contractStaking.methods.getPosition(staker, CurrentToken.token_address).call({from : staker}));
     }
 
     const Stake = async() => {
@@ -51,17 +44,29 @@ export default function StakeToken({web3, accounts,contractStaking , getRequireE
         const decimals = await instanceIERC20.methods.decimals().call({from : staker});
 
         const weiAmountBN = web3.utils.toBN(web3.utils.toWei(amount));
-        const amountBN = weiAmountBN.mul(web3.utils.toBN(Math.pow(10,decimals))).div(web3.utils.toBN(Math.pow(10,18)))
+        const amountBN = weiAmountBN.mul(web3.utils.toBN(Math.pow(10,decimals))).div(web3.utils.toBN(Math.pow(10,18)));
         // Approve the Staking contract to spend the staker's ERC20 tokens
         await instanceIERC20.methods.approve(contractStaking.options.address,amountBN.toString() ).send({from : staker}, (err) => getRequireError(err));
 
         //Stake ERC20 token
-        const amountStakedinEther = await contractStaking.methods.Stake(CurrentToken.token_address, amountBN.toString(),CurrentToken.priceFeed_address).call({from : staker}, (err) => getRequireError(err));
-        console.log("amount Staked in Ether");
-        console.log(amountStakedinEther);
         await contractStaking.methods.Stake(CurrentToken.token_address, amountBN.toString(),CurrentToken.priceFeed_address).send({from : staker}, (err) => getRequireError(err));
 
-        setStatsAmounts(decimals); 
+        setStatsAmounts(decimals);
+
+        
+    }
+
+    const unStake = async() => {
+        const instanceIERC20 = await new web3.eth.Contract(IERC20Metadata.abi, CurrentToken.token_address);
+        const decimals = await instanceIERC20.methods.decimals().call();
+
+        const weiAmountBN = web3.utils.toBN(web3.utils.toWei(amount));
+        const amountBN = weiAmountBN.mul(web3.utils.toBN(Math.pow(10,decimals))).div(web3.utils.toBN(Math.pow(10,18)));
+
+        await contractStaking.methods.UnstakePosition(CurrentToken.token_address, amountBN.toString(),CurrentToken.priceFeed_address).send({from : staker}, (err) => getRequireError(err));
+
+        setStatsAmounts(decimals);
+
     }
     
 
@@ -76,7 +81,7 @@ export default function StakeToken({web3, accounts,contractStaking , getRequireE
             <span>Stake your ERC20 Token</span>
             <div id="StakeToken-stakeMenu">
 
-                <Dropdown drop="end">
+                <Dropdown>
                     <Dropdown.Toggle id="dropdown-toggle" variant="primary">ERC20 tokens</Dropdown.Toggle>
                     <Dropdown.Menu id="dropdown-menu">
                         {
@@ -94,10 +99,13 @@ export default function StakeToken({web3, accounts,contractStaking , getRequireE
 
                 <InputGroup  >
                     <InputGroup.Text style={{color :CurrentToken.token_color}} id="input-title" >{CurrentToken.token_shortname}</InputGroup.Text>
-                    <Form.Control onChange={ (input) => setAmount(input.target.value)}/>
+                    <Form.Control id="StakeToken-stakeMenu-inputText" onChange={ (input) => setAmount(input.target.value)}/>
                 </InputGroup>
-
+                
                 <Button id="stake-button" variant="outline-primary" onClick={Stake}>Stake</Button>
+                <Button id="stake-button" variant="outline-danger" onClick={unStake}>Unstake</Button>
+
+                
             </div>
 
             <div style={{color :CurrentToken.token_color}} id="StakeToken-statsMenu">

@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import Staking from '../contracts/Staking.json';
-import BlueToken from "../contracts/BlueToken.json"
+import StakingLibrary from '../contracts/StakingLibrary.json';
+import BlueToken from "../contracts/BlueToken.json";
 import getWeb3 from "../getWeb3";
 import 'bootstrap/dist/css/bootstrap.min.css';
 import Nav from 'react-bootstrap/Nav';
@@ -12,7 +13,8 @@ import Dashboard from "./Dashboard";
 
 
 class App extends Component {
-  state = { web3: null, accounts: null, contract: null, currentComponent : "" };
+  state = { web3: null, accounts: null, contractStaking : null, contractBLT :null, 
+    contractStakingLibrary : null, currentComponent : "" };
 
   componentDidMount = async () => {
     try {
@@ -27,6 +29,7 @@ class App extends Component {
       const networkId = await web3.eth.net.getId();
       const deployedNetworkStaking = Staking.networks[networkId];
       const deployedNetworkBlueToken = BlueToken.networks[networkId];
+      const deployedNetworkStakingLibrary = StakingLibrary.networks[networkId];
 
       const instanceStaking = new web3.eth.Contract(
         Staking.abi,
@@ -39,9 +42,14 @@ class App extends Component {
         deployedNetworkBlueToken && deployedNetworkBlueToken.address,
       );
 
+      const instanceStakingLibrary = new web3.eth.Contract(
+        StakingLibrary.abi,
+        deployedNetworkStakingLibrary && deployedNetworkStakingLibrary.address,
+      )
+
       // Set web3, accounts, and contract to the state, and then proceed with an
       // example of interacting with the contract's methods.
-      this.setState({ web3, accounts, contractStaking: instanceStaking, contractBLT : instanceBlueToken, currentComponent : "Stake"});
+      this.setState({ web3, accounts, contractStaking: instanceStaking, contractBLT : instanceBlueToken, contractStakingLibrary : instanceStakingLibrary, currentComponent : "Stake"});
     } catch (error) {
       // Catch any errors for any of the above operations.
       alert(
@@ -52,13 +60,14 @@ class App extends Component {
   };
 
   contentNavigation = () => {
-    const {web3, accounts, contractStaking, currentComponent} = this.state;
+    const {web3, accounts, contractStaking, contractStakingLibrary, currentComponent} = this.state;
 
     switch(currentComponent) {
       case "Dashboard" :
-        return <Dashboard web3={web3} getRequireError={getRequireError} accounts={accounts} contractStaking={contractStaking} />
+        return <Dashboard web3={web3} getRequireError={getRequireError} accounts={accounts}
+         contractStaking={contractStaking} contractStakingLibrary={contractStakingLibrary} />
       case "Stake" :
-        return <StakeToken web3={web3} getRequireError={getRequireError} accounts={accounts} contractStaking={contractStaking} />
+        return <StakeToken web3={web3} getRequireError={getRequireError} accounts={accounts} contractStaking={contractStaking}  />
       default:
         return null
     }
@@ -81,10 +90,6 @@ class App extends Component {
 
             <Nav.Item>
               <Nav.Link onClick={ () => this.setState({currentComponent : "Stake"})}  eventKey="">Stake</Nav.Link>
-            </Nav.Item>
-
-            <Nav.Item>
-              <Nav.Link onClick={ () => this.setState({currentComponent : "Unstake"})} eventKey="">Unstake</Nav.Link>
             </Nav.Item>
 
             <Nav.Item>
