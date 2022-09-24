@@ -51,12 +51,14 @@ export default function StakeToken({web3, accounts,contractStaking , getRequireE
         //Stake ERC20 token
         await contractStaking.methods.Stake(CurrentToken.token_address, amountBN.toString(),CurrentToken.priceFeed_address).send({from : staker}, (err) => getRequireError(err));
 
+        document.getElementById("StakeToken-stakeMenu-inputText").value = '';
         setStatsAmounts(decimals);
 
         
     }
 
     const unStake = async() => {
+        // Create an instance current token address and retrieves the decimal of the token
         const instanceIERC20 = await new web3.eth.Contract(IERC20Metadata.abi, CurrentToken.token_address);
         const decimals = await instanceIERC20.methods.decimals().call();
 
@@ -65,6 +67,7 @@ export default function StakeToken({web3, accounts,contractStaking , getRequireE
 
         await contractStaking.methods.UnstakePosition(CurrentToken.token_address, amountBN.toString(),CurrentToken.priceFeed_address).send({from : staker}, (err) => getRequireError(err));
 
+        document.getElementById("StakeToken-stakeMenu-inputText").value = '';
         setStatsAmounts(decimals);
 
     }
@@ -81,7 +84,7 @@ export default function StakeToken({web3, accounts,contractStaking , getRequireE
             <span>Stake your ERC20 Token</span>
             <div id="StakeToken-stakeMenu">
 
-                <Dropdown>
+                <Dropdown align={{ lg: 'end' }}>
                     <Dropdown.Toggle id="dropdown-toggle" variant="primary">ERC20 tokens</Dropdown.Toggle>
                     <Dropdown.Menu id="dropdown-menu">
                         {
@@ -98,8 +101,8 @@ export default function StakeToken({web3, accounts,contractStaking , getRequireE
                 </Dropdown>
 
                 <InputGroup  >
-                    <InputGroup.Text style={{color :CurrentToken.token_color}} id="input-title" >{CurrentToken.token_shortname}</InputGroup.Text>
-                    <Form.Control id="StakeToken-stakeMenu-inputText" onChange={ (input) => setAmount(input.target.value)}/>
+                    <InputGroup.Text style={{color :CurrentToken.token_color}} id="input-title">{CurrentToken.token_shortname}</InputGroup.Text>
+                    <Form.Control id="StakeToken-stakeMenu-inputText" onChange={ (input) => setAmount(input.target.value)}  type="number" min="0"/>
                 </InputGroup>
                 
                 <Button id="stake-button" variant="outline-primary" onClick={Stake}>Stake</Button>

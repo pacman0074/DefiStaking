@@ -78,6 +78,10 @@ class App extends Component {
     if (!this.state.web3) {
       return <div>Loading Web3, accounts, and contracts...</div>;
     }
+
+    // Reload the page when we change user on metamask browser
+    window.ethereum.on('accountsChanged', () => window.location.reload());
+
     return (
      
       <div className="App">
@@ -89,16 +93,9 @@ class App extends Component {
             </Nav.Item>
 
             <Nav.Item>
-              <Nav.Link onClick={ () => this.setState({currentComponent : "Stake"})}  eventKey="">Stake</Nav.Link>
+              <Nav.Link onClick={ () => this.setState({currentComponent : "Stake"})}  eventKey="">Staking</Nav.Link>
             </Nav.Item>
 
-            <Nav.Item>
-              <Nav.Link onClick={ () => this.setState({currentComponent : "Reward"})} eventKey="">Reward</Nav.Link>
-            </Nav.Item>
-
-            <Nav.Item>
-              <Nav.Link onClick={ () => this.setState({currentComponent : "Docs"})} eventKey="">Docs</Nav.Link>
-            </Nav.Item>
           </Nav>
           <figure className="col-1">
             <img className="h-50 w-50 mt-3" src={logo} alt="Logo"/>
