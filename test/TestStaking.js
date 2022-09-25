@@ -153,6 +153,7 @@ contract('Staking', function(accounts){
             let amount = ethers.BigNumber.from('100000000');
             this.StakingLibraryInstance = await StakingLibrary.new();
             let TVLbeforeStake = await this.StakingInstance.TVL();
+            let decimals = await this.USDTcontract.decimals();
             
 
             //The staker approve the Staking contract to spend an amount of LINK token before calling Stake function 
@@ -164,7 +165,7 @@ contract('Staking', function(accounts){
             priceFeed = ethers.BigNumber.from(priceFeed.toString());
             let TVLafterStake = await this.StakingInstance.TVL();
 
-            let amountTokenStakedinEther = (amount.mul(priceFeed.toString())).div('1000000000000000000');
+            let amountTokenStakedinEther = (amount.mul(priceFeed.toString())).div(Math.pow(10,decimals.toNumber()));
 
             expect(String(TVLafterStake)).equal(String(amountTokenStakedinEther.add(TVLbeforeStake.toString())));
 
