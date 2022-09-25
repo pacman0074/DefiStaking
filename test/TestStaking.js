@@ -128,7 +128,7 @@ contract('Staking', function(accounts){
             await this.LINKcontract.approve(this.StakingInstance.address, amount_1,  {from : staker_1});
             //The staker stakes his LINK Token in the staking contract
             let receipt_1 = await this.StakingInstance.Stake(process.env.LINK, amount_1, process.env.LINK_ETH, {from : staker_1});
-            let Position = await this.StakingInstance.getPosition(staker_1, process.env.LINK, {from : staker_1});
+            let Position = await this.StakingInstance.getPosition(process.env.LINK, {from : staker_1});
 
             expect(Position[1].toString()).equal(amount_1.toString());
             
@@ -136,7 +136,7 @@ contract('Staking', function(accounts){
             await this.LINKcontract.approve(this.StakingInstance.address, amount_2,  {from : staker_1});
             //The staker stakes again his LINK Token in the staking contract
             let receipt_2 = await this.StakingInstance.Stake(process.env.LINK, amount_2, process.env.LINK_ETH, {from : staker_1});
-            Position = await this.StakingInstance.getPosition(staker_1, process.env.LINK, {from : staker_1});
+            Position = await this.StakingInstance.getPosition(process.env.LINK, {from : staker_1});
 
             expect(Position[1].toString()).equal((amount_2.add(amount_1)).toString());
 
@@ -235,7 +235,7 @@ contract('Staking', function(accounts){
 
             //The staker unstakes his LINK Token in the staking contract
             let receipt = await this.StakingInstance.UnstakePosition(process.env.LINK, amountUnStaked, process.env.LINK_ETH, {from : staker_1});
-            let Position = await this.StakingInstance.getPosition(staker_1, process.env.LINK, {from : staker_1});
+            let Position = await this.StakingInstance.getPosition(process.env.LINK, {from : staker_1});
 
             //Expect liquidity has been correctly changed
             expect(Position[1].toString()).equal((amountStaked.sub(amountUnStaked)).toString());
@@ -302,10 +302,10 @@ contract('Staking', function(accounts){
             let rewardBLT3 = await this.StakingInstance.Stake.call(process.env.WBTC, amountStaked3, process.env.WBTC_ETH, {from : staker_1});
             await this.StakingInstance.Stake(process.env.WBTC, amountStaked3, process.env.WBTC_ETH, {from : staker_1});
 
-            let Position1 = await this.StakingInstance.getPosition(staker_1, process.env.LINK , {from : staker_1});
-            let Position2 = await this.StakingInstance.getPosition(staker_1, process.env.MANA,  {from : staker_1});
-            let Position3 = await this.StakingInstance.getPosition(staker_1, process.env.WBTC , {from : staker_1});
-            let Position4 = await this.StakingInstance.getPosition(staker_1, process.env.WETH , {from : staker_1});
+            let Position1 = await this.StakingInstance.getPosition(process.env.LINK , {from : staker_1});
+            let Position2 = await this.StakingInstance.getPosition(process.env.MANA,  {from : staker_1});
+            let Position3 = await this.StakingInstance.getPosition(process.env.WBTC , {from : staker_1});
+            let Position4 = await this.StakingInstance.getPosition(process.env.WETH , {from : staker_1});
 
             //Check token address
             expect(Position1[0]).equal(process.env.LINK);

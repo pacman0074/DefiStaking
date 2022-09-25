@@ -19,7 +19,7 @@ export default function StakeToken({web3, accounts,contractStaking , getRequireE
     
     const setStatsAmounts = async(decimals) => {
         var amountStakedinWei;
-        await contractStaking.methods.getPosition(staker, CurrentToken.token_address).call({from : staker}, (err, res) => {
+        await contractStaking.methods.getPosition(CurrentToken.token_address).call({from : staker}, (err, res) => {
             if(!err){
                 if(decimals != 18){  
                     //Convert the amount in wei and afterwards get the value in the biggest unit of the token

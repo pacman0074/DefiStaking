@@ -2247,7 +2247,7 @@
                 }
               ]
             },
-            "name": "abi_decode_tuple_t_array$_t_struct$_Position_$1904_memory_ptr_$dyn_memory_ptrt_address",
+            "name": "abi_decode_tuple_t_array$_t_struct$_Position_$1895_memory_ptr_$dyn_memory_ptrt_address",
             "nodeType": "YulFunctionDefinition",
             "parameters": [
               {
@@ -3184,7 +3184,7 @@
           }
         ]
       },
-      "contents": "{\n    { }\n    function abi_decode_address(offset) -> value\n    {\n        value := calldataload(offset)\n        if iszero(eq(value, and(value, sub(shl(160, 1), 1)))) { revert(0, 0) }\n    }\n    function abi_decode_tuple_t_address(headStart, dataEnd) -> value0\n    {\n        if slt(sub(dataEnd, headStart), 32) { revert(0, 0) }\n        value0 := abi_decode_address(headStart)\n    }\n    function abi_encode_tuple_t_int256__to_t_int256__fromStack_library_reversed(headStart, value0) -> tail\n    {\n        tail := add(headStart, 32)\n        mstore(headStart, value0)\n    }\n    function panic_error_0x41()\n    {\n        mstore(0, shl(224, 0x4e487b71))\n        mstore(4, 0x41)\n        revert(0, 0x24)\n    }\n    function allocate_memory_697() -> memPtr\n    {\n        memPtr := mload(64)\n        let newFreePtr := add(memPtr, 0x60)\n        if or(gt(newFreePtr, 0xffffffffffffffff), lt(newFreePtr, memPtr)) { panic_error_0x41() }\n        mstore(64, newFreePtr)\n    }\n    function allocate_memory(size) -> memPtr\n    {\n        memPtr := mload(64)\n        let newFreePtr := add(memPtr, and(add(size, 31), not(31)))\n        if or(gt(newFreePtr, 0xffffffffffffffff), lt(newFreePtr, memPtr)) { panic_error_0x41() }\n        mstore(64, newFreePtr)\n    }\n    function abi_decode_tuple_t_array$_t_struct$_Position_$1904_memory_ptr_$dyn_memory_ptrt_address(headStart, dataEnd) -> value0, value1\n    {\n        let _1 := 64\n        if slt(sub(dataEnd, headStart), _1) { revert(0, 0) }\n        let offset := calldataload(headStart)\n        let _2 := 0xffffffffffffffff\n        if gt(offset, _2) { revert(0, 0) }\n        let _3 := add(headStart, offset)\n        if iszero(slt(add(_3, 0x1f), dataEnd)) { revert(0, 0) }\n        let _4 := calldataload(_3)\n        let _5 := 0x20\n        if gt(_4, _2) { panic_error_0x41() }\n        let dst := allocate_memory(add(shl(5, _4), _5))\n        let dst_1 := dst\n        mstore(dst, _4)\n        dst := add(dst, _5)\n        let _6 := 0x60\n        let srcEnd := add(add(_3, mul(_4, _6)), _5)\n        if gt(srcEnd, dataEnd) { revert(0, 0) }\n        let src := add(_3, _5)\n        for { } lt(src, srcEnd) { src := add(src, _6) }\n        {\n            if slt(sub(dataEnd, src), _6)\n            {\n                let _7 := 0\n                revert(_7, _7)\n            }\n            let value := allocate_memory_697()\n            mstore(value, abi_decode_address(src))\n            mstore(add(value, _5), calldataload(add(src, _5)))\n            mstore(add(value, _1), calldataload(add(src, _1)))\n            mstore(dst, value)\n            dst := add(dst, _5)\n        }\n        value0 := dst_1\n        value1 := abi_decode_address(add(headStart, _5))\n    }\n    function abi_encode_tuple_t_uint256__to_t_uint256__fromStack_library_reversed(headStart, value0) -> tail\n    {\n        tail := add(headStart, 32)\n        mstore(headStart, value0)\n    }\n    function abi_decode_uint80_fromMemory(offset) -> value\n    {\n        value := mload(offset)\n        if iszero(eq(value, and(value, 0xffffffffffffffffffff))) { revert(0, 0) }\n    }\n    function abi_decode_tuple_t_uint80t_int256t_uint256t_uint256t_uint80_fromMemory(headStart, dataEnd) -> value0, value1, value2, value3, value4\n    {\n        if slt(sub(dataEnd, headStart), 160) { revert(0, 0) }\n        value0 := abi_decode_uint80_fromMemory(headStart)\n        value1 := mload(add(headStart, 32))\n        value2 := mload(add(headStart, 64))\n        value3 := mload(add(headStart, 96))\n        value4 := abi_decode_uint80_fromMemory(add(headStart, 128))\n    }\n    function panic_error_0x32()\n    {\n        mstore(0, shl(224, 0x4e487b71))\n        mstore(4, 0x32)\n        revert(0, 0x24)\n    }\n    function increment_t_uint256(value) -> ret\n    {\n        if eq(value, not(0))\n        {\n            mstore(0, shl(224, 0x4e487b71))\n            mstore(4, 0x11)\n            revert(0, 0x24)\n        }\n        ret := add(value, 1)\n    }\n}",
+      "contents": "{\n    { }\n    function abi_decode_address(offset) -> value\n    {\n        value := calldataload(offset)\n        if iszero(eq(value, and(value, sub(shl(160, 1), 1)))) { revert(0, 0) }\n    }\n    function abi_decode_tuple_t_address(headStart, dataEnd) -> value0\n    {\n        if slt(sub(dataEnd, headStart), 32) { revert(0, 0) }\n        value0 := abi_decode_address(headStart)\n    }\n    function abi_encode_tuple_t_int256__to_t_int256__fromStack_library_reversed(headStart, value0) -> tail\n    {\n        tail := add(headStart, 32)\n        mstore(headStart, value0)\n    }\n    function panic_error_0x41()\n    {\n        mstore(0, shl(224, 0x4e487b71))\n        mstore(4, 0x41)\n        revert(0, 0x24)\n    }\n    function allocate_memory_697() -> memPtr\n    {\n        memPtr := mload(64)\n        let newFreePtr := add(memPtr, 0x60)\n        if or(gt(newFreePtr, 0xffffffffffffffff), lt(newFreePtr, memPtr)) { panic_error_0x41() }\n        mstore(64, newFreePtr)\n    }\n    function allocate_memory(size) -> memPtr\n    {\n        memPtr := mload(64)\n        let newFreePtr := add(memPtr, and(add(size, 31), not(31)))\n        if or(gt(newFreePtr, 0xffffffffffffffff), lt(newFreePtr, memPtr)) { panic_error_0x41() }\n        mstore(64, newFreePtr)\n    }\n    function abi_decode_tuple_t_array$_t_struct$_Position_$1895_memory_ptr_$dyn_memory_ptrt_address(headStart, dataEnd) -> value0, value1\n    {\n        let _1 := 64\n        if slt(sub(dataEnd, headStart), _1) { revert(0, 0) }\n        let offset := calldataload(headStart)\n        let _2 := 0xffffffffffffffff\n        if gt(offset, _2) { revert(0, 0) }\n        let _3 := add(headStart, offset)\n        if iszero(slt(add(_3, 0x1f), dataEnd)) { revert(0, 0) }\n        let _4 := calldataload(_3)\n        let _5 := 0x20\n        if gt(_4, _2) { panic_error_0x41() }\n        let dst := allocate_memory(add(shl(5, _4), _5))\n        let dst_1 := dst\n        mstore(dst, _4)\n        dst := add(dst, _5)\n        let _6 := 0x60\n        let srcEnd := add(add(_3, mul(_4, _6)), _5)\n        if gt(srcEnd, dataEnd) { revert(0, 0) }\n        let src := add(_3, _5)\n        for { } lt(src, srcEnd) { src := add(src, _6) }\n        {\n            if slt(sub(dataEnd, src), _6)\n            {\n                let _7 := 0\n                revert(_7, _7)\n            }\n            let value := allocate_memory_697()\n            mstore(value, abi_decode_address(src))\n            mstore(add(value, _5), calldataload(add(src, _5)))\n            mstore(add(value, _1), calldataload(add(src, _1)))\n            mstore(dst, value)\n            dst := add(dst, _5)\n        }\n        value0 := dst_1\n        value1 := abi_decode_address(add(headStart, _5))\n    }\n    function abi_encode_tuple_t_uint256__to_t_uint256__fromStack_library_reversed(headStart, value0) -> tail\n    {\n        tail := add(headStart, 32)\n        mstore(headStart, value0)\n    }\n    function abi_decode_uint80_fromMemory(offset) -> value\n    {\n        value := mload(offset)\n        if iszero(eq(value, and(value, 0xffffffffffffffffffff))) { revert(0, 0) }\n    }\n    function abi_decode_tuple_t_uint80t_int256t_uint256t_uint256t_uint80_fromMemory(headStart, dataEnd) -> value0, value1, value2, value3, value4\n    {\n        if slt(sub(dataEnd, headStart), 160) { revert(0, 0) }\n        value0 := abi_decode_uint80_fromMemory(headStart)\n        value1 := mload(add(headStart, 32))\n        value2 := mload(add(headStart, 64))\n        value3 := mload(add(headStart, 96))\n        value4 := abi_decode_uint80_fromMemory(add(headStart, 128))\n    }\n    function panic_error_0x32()\n    {\n        mstore(0, shl(224, 0x4e487b71))\n        mstore(4, 0x32)\n        revert(0, 0x24)\n    }\n    function increment_t_uint256(value) -> ret\n    {\n        if eq(value, not(0))\n        {\n            mstore(0, shl(224, 0x4e487b71))\n            mstore(4, 0x11)\n            revert(0, 0x24)\n        }\n        ret := add(value, 1)\n    }\n}",
       "id": 11,
       "language": "Yul",
       "name": "#utility.yul"
@@ -3201,15 +3201,15 @@
         45
       ],
       "StakingLibrary": [
-        1983
+        1974
       ]
     },
-    "id": 1984,
+    "id": 1975,
     "license": "GPL-2.0-or-later",
     "nodeType": "SourceUnit",
     "nodes": [
       {
-        "id": 1896,
+        "id": 1887,
         "literals": [
           "solidity",
           "0.8",
@@ -3221,10 +3221,10 @@
       {
         "absolutePath": "@chainlink/contracts/src/v0.8/interfaces/AggregatorV3Interface.sol",
         "file": "@chainlink/contracts/src/v0.8/interfaces/AggregatorV3Interface.sol",
-        "id": 1897,
+        "id": 1888,
         "nameLocation": "-1:-1:-1",
         "nodeType": "ImportDirective",
-        "scope": 1984,
+        "scope": 1975,
         "sourceUnit": 46,
         "src": "73:76:10",
         "symbolAliases": [],
@@ -3237,9 +3237,9 @@
         "contractDependencies": [],
         "contractKind": "library",
         "fullyImplemented": true,
-        "id": 1983,
+        "id": 1974,
         "linearizedBaseContracts": [
-          1983
+          1974
         ],
         "name": "StakingLibrary",
         "nameLocation": "161:14:10",
@@ -3247,16 +3247,16 @@
         "nodes": [
           {
             "canonicalName": "StakingLibrary.Position",
-            "id": 1904,
+            "id": 1895,
             "members": [
               {
                 "constant": false,
-                "id": 1899,
+                "id": 1890,
                 "mutability": "mutable",
                 "name": "token",
                 "nameLocation": "272:5:10",
                 "nodeType": "VariableDeclaration",
-                "scope": 1904,
+                "scope": 1895,
                 "src": "264:13:10",
                 "stateVariable": false,
                 "storageLocation": "default",
@@ -3265,7 +3265,7 @@
                   "typeString": "address"
                 },
                 "typeName": {
-                  "id": 1898,
+                  "id": 1889,
                   "name": "address",
                   "nodeType": "ElementaryTypeName",
                   "src": "264:7:10",
@@ -3279,12 +3279,12 @@
               },
               {
                 "constant": false,
-                "id": 1901,
+                "id": 1892,
                 "mutability": "mutable",
                 "name": "liquidity",
                 "nameLocation": "296:9:10",
                 "nodeType": "VariableDeclaration",
-                "scope": 1904,
+                "scope": 1895,
                 "src": "288:17:10",
                 "stateVariable": false,
                 "storageLocation": "default",
@@ -3293,7 +3293,7 @@
                   "typeString": "uint256"
                 },
                 "typeName": {
-                  "id": 1900,
+                  "id": 1891,
                   "name": "uint256",
                   "nodeType": "ElementaryTypeName",
                   "src": "288:7:10",
@@ -3306,12 +3306,12 @@
               },
               {
                 "constant": false,
-                "id": 1903,
+                "id": 1894,
                 "mutability": "mutable",
                 "name": "rewardBLT",
                 "nameLocation": "324:9:10",
                 "nodeType": "VariableDeclaration",
-                "scope": 1904,
+                "scope": 1895,
                 "src": "316:17:10",
                 "stateVariable": false,
                 "storageLocation": "default",
@@ -3320,7 +3320,7 @@
                   "typeString": "uint256"
                 },
                 "typeName": {
-                  "id": 1902,
+                  "id": 1893,
                   "name": "uint256",
                   "nodeType": "ElementaryTypeName",
                   "src": "316:7:10",
@@ -3335,13 +3335,13 @@
             "name": "Position",
             "nameLocation": "244:8:10",
             "nodeType": "StructDefinition",
-            "scope": 1983,
+            "scope": 1974,
             "src": "237:104:10",
             "visibility": "public"
           },
           {
             "body": {
-              "id": 1936,
+              "id": 1927,
               "nodeType": "Block",
               "src": "426:443:10",
               "statements": [
@@ -3351,17 +3351,17 @@
                       "typeIdentifier": "t_address",
                       "typeString": "address"
                     },
-                    "id": 1916,
+                    "id": 1907,
                     "isConstant": false,
                     "isLValue": false,
                     "isPure": false,
                     "lValueRequested": false,
                     "leftExpression": {
-                      "id": 1911,
+                      "id": 1902,
                       "name": "priceFeedContract",
                       "nodeType": "Identifier",
                       "overloadedDeclarations": [],
-                      "referencedDeclaration": 1906,
+                      "referencedDeclaration": 1897,
                       "src": "440:17:10",
                       "typeDescriptions": {
                         "typeIdentifier": "t_address",
@@ -3374,7 +3374,7 @@
                       "arguments": [
                         {
                           "hexValue": "30",
-                          "id": 1914,
+                          "id": 1905,
                           "isConstant": false,
                           "isLValue": false,
                           "isPure": true,
@@ -3396,7 +3396,7 @@
                             "typeString": "int_const 0"
                           }
                         ],
-                        "id": 1913,
+                        "id": 1904,
                         "isConstant": false,
                         "isLValue": false,
                         "isPure": true,
@@ -3408,14 +3408,14 @@
                           "typeString": "type(address)"
                         },
                         "typeName": {
-                          "id": 1912,
+                          "id": 1903,
                           "name": "address",
                           "nodeType": "ElementaryTypeName",
                           "src": "461:7:10",
                           "typeDescriptions": {}
                         }
                       },
-                      "id": 1915,
+                      "id": 1906,
                       "isConstant": false,
                       "isLValue": false,
                       "isPure": true,
@@ -3440,7 +3440,7 @@
                   "falseBody": {
                     "expression": {
                       "hexValue": "31",
-                      "id": 1933,
+                      "id": 1924,
                       "isConstant": false,
                       "isLValue": false,
                       "isPure": true,
@@ -3454,32 +3454,32 @@
                       },
                       "value": "1"
                     },
-                    "functionReturnParameters": 1910,
-                    "id": 1934,
+                    "functionReturnParameters": 1901,
+                    "id": 1925,
                     "nodeType": "Return",
                     "src": "853:8:10"
                   },
-                  "id": 1935,
+                  "id": 1926,
                   "nodeType": "IfStatement",
                   "src": "437:424:10",
                   "trueBody": {
-                    "id": 1932,
+                    "id": 1923,
                     "nodeType": "Block",
                     "src": "472:375:10",
                     "statements": [
                       {
                         "assignments": [
-                          1919
+                          1910
                         ],
                         "declarations": [
                           {
                             "constant": false,
-                            "id": 1919,
+                            "id": 1910,
                             "mutability": "mutable",
                             "name": "priceFeed",
                             "nameLocation": "510:9:10",
                             "nodeType": "VariableDeclaration",
-                            "scope": 1932,
+                            "scope": 1923,
                             "src": "487:32:10",
                             "stateVariable": false,
                             "storageLocation": "default",
@@ -3488,10 +3488,10 @@
                               "typeString": "contract AggregatorV3Interface"
                             },
                             "typeName": {
-                              "id": 1918,
+                              "id": 1909,
                               "nodeType": "UserDefinedTypeName",
                               "pathNode": {
-                                "id": 1917,
+                                "id": 1908,
                                 "name": "AggregatorV3Interface",
                                 "nameLocations": [
                                   "487:21:10"
@@ -3510,15 +3510,15 @@
                             "visibility": "internal"
                           }
                         ],
-                        "id": 1923,
+                        "id": 1914,
                         "initialValue": {
                           "arguments": [
                             {
-                              "id": 1921,
+                              "id": 1912,
                               "name": "priceFeedContract",
                               "nodeType": "Identifier",
                               "overloadedDeclarations": [],
-                              "referencedDeclaration": 1906,
+                              "referencedDeclaration": 1897,
                               "src": "544:17:10",
                               "typeDescriptions": {
                                 "typeIdentifier": "t_address",
@@ -3533,7 +3533,7 @@
                                 "typeString": "address"
                               }
                             ],
-                            "id": 1920,
+                            "id": 1911,
                             "name": "AggregatorV3Interface",
                             "nodeType": "Identifier",
                             "overloadedDeclarations": [],
@@ -3544,7 +3544,7 @@
                               "typeString": "type(contract AggregatorV3Interface)"
                             }
                           },
-                          "id": 1922,
+                          "id": 1913,
                           "isConstant": false,
                           "isLValue": false,
                           "isPure": false,
@@ -3566,7 +3566,7 @@
                       {
                         "assignments": [
                           null,
-                          1925,
+                          1916,
                           null,
                           null,
                           null
@@ -3575,12 +3575,12 @@
                           null,
                           {
                             "constant": false,
-                            "id": 1925,
+                            "id": 1916,
                             "mutability": "mutable",
                             "name": "price",
                             "nameLocation": "637:5:10",
                             "nodeType": "VariableDeclaration",
-                            "scope": 1932,
+                            "scope": 1923,
                             "src": "633:9:10",
                             "stateVariable": false,
                             "storageLocation": "default",
@@ -3589,7 +3589,7 @@
                               "typeString": "int256"
                             },
                             "typeName": {
-                              "id": 1924,
+                              "id": 1915,
                               "name": "int",
                               "nodeType": "ElementaryTypeName",
                               "src": "633:3:10",
@@ -3604,24 +3604,24 @@
                           null,
                           null
                         ],
-                        "id": 1929,
+                        "id": 1920,
                         "initialValue": {
                           "arguments": [],
                           "expression": {
                             "argumentTypes": [],
                             "expression": {
-                              "id": 1926,
+                              "id": 1917,
                               "name": "priceFeed",
                               "nodeType": "Identifier",
                               "overloadedDeclarations": [],
-                              "referencedDeclaration": 1919,
+                              "referencedDeclaration": 1910,
                               "src": "779:9:10",
                               "typeDescriptions": {
                                 "typeIdentifier": "t_contract$_AggregatorV3Interface_$45",
                                 "typeString": "contract AggregatorV3Interface"
                               }
                             },
-                            "id": 1927,
+                            "id": 1918,
                             "isConstant": false,
                             "isLValue": false,
                             "isPure": false,
@@ -3636,7 +3636,7 @@
                               "typeString": "function () view external returns (uint80,int256,uint256,uint256,uint80)"
                             }
                           },
-                          "id": 1928,
+                          "id": 1919,
                           "isConstant": false,
                           "isLValue": false,
                           "isPure": false,
@@ -3657,19 +3657,19 @@
                       },
                       {
                         "expression": {
-                          "id": 1930,
+                          "id": 1921,
                           "name": "price",
                           "nodeType": "Identifier",
                           "overloadedDeclarations": [],
-                          "referencedDeclaration": 1925,
+                          "referencedDeclaration": 1916,
                           "src": "828:5:10",
                           "typeDescriptions": {
                             "typeIdentifier": "t_int256",
                             "typeString": "int256"
                           }
                         },
-                        "functionReturnParameters": 1910,
-                        "id": 1931,
+                        "functionReturnParameters": 1901,
+                        "id": 1922,
                         "nodeType": "Return",
                         "src": "821:12:10"
                       }
@@ -3679,7 +3679,7 @@
               ]
             },
             "functionSelector": "16345f18",
-            "id": 1937,
+            "id": 1928,
             "implemented": true,
             "kind": "function",
             "modifiers": [],
@@ -3687,17 +3687,17 @@
             "nameLocation": "358:14:10",
             "nodeType": "FunctionDefinition",
             "parameters": {
-              "id": 1907,
+              "id": 1898,
               "nodeType": "ParameterList",
               "parameters": [
                 {
                   "constant": false,
-                  "id": 1906,
+                  "id": 1897,
                   "mutability": "mutable",
                   "name": "priceFeedContract",
                   "nameLocation": "381:17:10",
                   "nodeType": "VariableDeclaration",
-                  "scope": 1937,
+                  "scope": 1928,
                   "src": "373:25:10",
                   "stateVariable": false,
                   "storageLocation": "default",
@@ -3706,7 +3706,7 @@
                     "typeString": "address"
                   },
                   "typeName": {
-                    "id": 1905,
+                    "id": 1896,
                     "name": "address",
                     "nodeType": "ElementaryTypeName",
                     "src": "373:7:10",
@@ -3722,17 +3722,17 @@
               "src": "372:27:10"
             },
             "returnParameters": {
-              "id": 1910,
+              "id": 1901,
               "nodeType": "ParameterList",
               "parameters": [
                 {
                   "constant": false,
-                  "id": 1909,
+                  "id": 1900,
                   "mutability": "mutable",
                   "name": "",
                   "nameLocation": "-1:-1:-1",
                   "nodeType": "VariableDeclaration",
-                  "scope": 1937,
+                  "scope": 1928,
                   "src": "421:3:10",
                   "stateVariable": false,
                   "storageLocation": "default",
@@ -3741,7 +3741,7 @@
                     "typeString": "int256"
                   },
                   "typeName": {
-                    "id": 1908,
+                    "id": 1899,
                     "name": "int",
                     "nodeType": "ElementaryTypeName",
                     "src": "421:3:10",
@@ -3755,7 +3755,7 @@
               ],
               "src": "420:5:10"
             },
-            "scope": 1983,
+            "scope": 1974,
             "src": "349:520:10",
             "stateMutability": "view",
             "virtual": false,
@@ -3763,13 +3763,13 @@
           },
           {
             "body": {
-              "id": 1981,
+              "id": 1972,
               "nodeType": "Block",
               "src": "980:254:10",
               "statements": [
                 {
                   "body": {
-                    "id": 1976,
+                    "id": 1967,
                     "nodeType": "Block",
                     "src": "1049:144:10",
                     "statements": [
@@ -3779,7 +3779,7 @@
                             "typeIdentifier": "t_bool",
                             "typeString": "bool"
                           },
-                          "id": 1971,
+                          "id": 1962,
                           "isConstant": false,
                           "isLValue": false,
                           "isPure": false,
@@ -3789,7 +3789,7 @@
                               "typeIdentifier": "t_address",
                               "typeString": "address"
                             },
-                            "id": 1964,
+                            "id": 1955,
                             "isConstant": false,
                             "isLValue": false,
                             "isPure": false,
@@ -3797,24 +3797,24 @@
                             "leftExpression": {
                               "expression": {
                                 "baseExpression": {
-                                  "id": 1959,
+                                  "id": 1950,
                                   "name": "_deposits",
                                   "nodeType": "Identifier",
                                   "overloadedDeclarations": [],
-                                  "referencedDeclaration": 1941,
+                                  "referencedDeclaration": 1932,
                                   "src": "1068:9:10",
                                   "typeDescriptions": {
-                                    "typeIdentifier": "t_array$_t_struct$_Position_$1904_memory_ptr_$dyn_memory_ptr",
+                                    "typeIdentifier": "t_array$_t_struct$_Position_$1895_memory_ptr_$dyn_memory_ptr",
                                     "typeString": "struct StakingLibrary.Position memory[] memory"
                                   }
                                 },
-                                "id": 1961,
+                                "id": 1952,
                                 "indexExpression": {
-                                  "id": 1960,
+                                  "id": 1951,
                                   "name": "index",
                                   "nodeType": "Identifier",
                                   "overloadedDeclarations": [],
-                                  "referencedDeclaration": 1949,
+                                  "referencedDeclaration": 1940,
                                   "src": "1078:5:10",
                                   "typeDescriptions": {
                                     "typeIdentifier": "t_uint256",
@@ -3828,11 +3828,11 @@
                                 "nodeType": "IndexAccess",
                                 "src": "1068:16:10",
                                 "typeDescriptions": {
-                                  "typeIdentifier": "t_struct$_Position_$1904_memory_ptr",
+                                  "typeIdentifier": "t_struct$_Position_$1895_memory_ptr",
                                   "typeString": "struct StakingLibrary.Position memory"
                                 }
                               },
-                              "id": 1962,
+                              "id": 1953,
                               "isConstant": false,
                               "isLValue": true,
                               "isPure": false,
@@ -3840,7 +3840,7 @@
                               "memberLocation": "1085:5:10",
                               "memberName": "token",
                               "nodeType": "MemberAccess",
-                              "referencedDeclaration": 1899,
+                              "referencedDeclaration": 1890,
                               "src": "1068:22:10",
                               "typeDescriptions": {
                                 "typeIdentifier": "t_address",
@@ -3850,11 +3850,11 @@
                             "nodeType": "BinaryOperation",
                             "operator": "==",
                             "rightExpression": {
-                              "id": 1963,
+                              "id": 1954,
                               "name": "_token",
                               "nodeType": "Identifier",
                               "overloadedDeclarations": [],
-                              "referencedDeclaration": 1943,
+                              "referencedDeclaration": 1934,
                               "src": "1094:6:10",
                               "typeDescriptions": {
                                 "typeIdentifier": "t_address",
@@ -3874,7 +3874,7 @@
                               "typeIdentifier": "t_uint256",
                               "typeString": "uint256"
                             },
-                            "id": 1970,
+                            "id": 1961,
                             "isConstant": false,
                             "isLValue": false,
                             "isPure": false,
@@ -3882,24 +3882,24 @@
                             "leftExpression": {
                               "expression": {
                                 "baseExpression": {
-                                  "id": 1965,
+                                  "id": 1956,
                                   "name": "_deposits",
                                   "nodeType": "Identifier",
                                   "overloadedDeclarations": [],
-                                  "referencedDeclaration": 1941,
+                                  "referencedDeclaration": 1932,
                                   "src": "1104:9:10",
                                   "typeDescriptions": {
-                                    "typeIdentifier": "t_array$_t_struct$_Position_$1904_memory_ptr_$dyn_memory_ptr",
+                                    "typeIdentifier": "t_array$_t_struct$_Position_$1895_memory_ptr_$dyn_memory_ptr",
                                     "typeString": "struct StakingLibrary.Position memory[] memory"
                                   }
                                 },
-                                "id": 1967,
+                                "id": 1958,
                                 "indexExpression": {
-                                  "id": 1966,
+                                  "id": 1957,
                                   "name": "index",
                                   "nodeType": "Identifier",
                                   "overloadedDeclarations": [],
-                                  "referencedDeclaration": 1949,
+                                  "referencedDeclaration": 1940,
                                   "src": "1114:5:10",
                                   "typeDescriptions": {
                                     "typeIdentifier": "t_uint256",
@@ -3913,11 +3913,11 @@
                                 "nodeType": "IndexAccess",
                                 "src": "1104:16:10",
                                 "typeDescriptions": {
-                                  "typeIdentifier": "t_struct$_Position_$1904_memory_ptr",
+                                  "typeIdentifier": "t_struct$_Position_$1895_memory_ptr",
                                   "typeString": "struct StakingLibrary.Position memory"
                                 }
                               },
-                              "id": 1968,
+                              "id": 1959,
                               "isConstant": false,
                               "isLValue": true,
                               "isPure": false,
@@ -3925,7 +3925,7 @@
                               "memberLocation": "1121:9:10",
                               "memberName": "liquidity",
                               "nodeType": "MemberAccess",
-                              "referencedDeclaration": 1901,
+                              "referencedDeclaration": 1892,
                               "src": "1104:26:10",
                               "typeDescriptions": {
                                 "typeIdentifier": "t_uint256",
@@ -3936,7 +3936,7 @@
                             "operator": "!=",
                             "rightExpression": {
                               "hexValue": "30",
-                              "id": 1969,
+                              "id": 1960,
                               "isConstant": false,
                               "isLValue": false,
                               "isPure": true,
@@ -3962,29 +3962,29 @@
                             "typeString": "bool"
                           }
                         },
-                        "id": 1975,
+                        "id": 1966,
                         "nodeType": "IfStatement",
                         "src": "1064:118:10",
                         "trueBody": {
-                          "id": 1974,
+                          "id": 1965,
                           "nodeType": "Block",
                           "src": "1136:46:10",
                           "statements": [
                             {
                               "expression": {
-                                "id": 1972,
+                                "id": 1963,
                                 "name": "index",
                                 "nodeType": "Identifier",
                                 "overloadedDeclarations": [],
-                                "referencedDeclaration": 1949,
+                                "referencedDeclaration": 1940,
                                 "src": "1161:5:10",
                                 "typeDescriptions": {
                                   "typeIdentifier": "t_uint256",
                                   "typeString": "uint256"
                                 }
                               },
-                              "functionReturnParameters": 1947,
-                              "id": 1973,
+                              "functionReturnParameters": 1938,
+                              "id": 1964,
                               "nodeType": "Return",
                               "src": "1154:12:10"
                             }
@@ -3998,17 +3998,17 @@
                       "typeIdentifier": "t_uint256",
                       "typeString": "uint256"
                     },
-                    "id": 1955,
+                    "id": 1946,
                     "isConstant": false,
                     "isLValue": false,
                     "isPure": false,
                     "lValueRequested": false,
                     "leftExpression": {
-                      "id": 1952,
+                      "id": 1943,
                       "name": "index",
                       "nodeType": "Identifier",
                       "overloadedDeclarations": [],
-                      "referencedDeclaration": 1949,
+                      "referencedDeclaration": 1940,
                       "src": "1014:5:10",
                       "typeDescriptions": {
                         "typeIdentifier": "t_uint256",
@@ -4019,18 +4019,18 @@
                     "operator": "<",
                     "rightExpression": {
                       "expression": {
-                        "id": 1953,
+                        "id": 1944,
                         "name": "_deposits",
                         "nodeType": "Identifier",
                         "overloadedDeclarations": [],
-                        "referencedDeclaration": 1941,
+                        "referencedDeclaration": 1932,
                         "src": "1022:9:10",
                         "typeDescriptions": {
-                          "typeIdentifier": "t_array$_t_struct$_Position_$1904_memory_ptr_$dyn_memory_ptr",
+                          "typeIdentifier": "t_array$_t_struct$_Position_$1895_memory_ptr_$dyn_memory_ptr",
                           "typeString": "struct StakingLibrary.Position memory[] memory"
                         }
                       },
-                      "id": 1954,
+                      "id": 1945,
                       "isConstant": false,
                       "isLValue": false,
                       "isPure": false,
@@ -4050,20 +4050,20 @@
                       "typeString": "bool"
                     }
                   },
-                  "id": 1977,
+                  "id": 1968,
                   "initializationExpression": {
                     "assignments": [
-                      1949
+                      1940
                     ],
                     "declarations": [
                       {
                         "constant": false,
-                        "id": 1949,
+                        "id": 1940,
                         "mutability": "mutable",
                         "name": "index",
                         "nameLocation": "1003:5:10",
                         "nodeType": "VariableDeclaration",
-                        "scope": 1977,
+                        "scope": 1968,
                         "src": "998:10:10",
                         "stateVariable": false,
                         "storageLocation": "default",
@@ -4072,7 +4072,7 @@
                           "typeString": "uint256"
                         },
                         "typeName": {
-                          "id": 1948,
+                          "id": 1939,
                           "name": "uint",
                           "nodeType": "ElementaryTypeName",
                           "src": "998:4:10",
@@ -4084,10 +4084,10 @@
                         "visibility": "internal"
                       }
                     ],
-                    "id": 1951,
+                    "id": 1942,
                     "initialValue": {
                       "hexValue": "30",
-                      "id": 1950,
+                      "id": 1941,
                       "isConstant": false,
                       "isLValue": false,
                       "isPure": true,
@@ -4106,7 +4106,7 @@
                   },
                   "loopExpression": {
                     "expression": {
-                      "id": 1957,
+                      "id": 1948,
                       "isConstant": false,
                       "isLValue": false,
                       "isPure": false,
@@ -4116,11 +4116,11 @@
                       "prefix": false,
                       "src": "1040:7:10",
                       "subExpression": {
-                        "id": 1956,
+                        "id": 1947,
                         "name": "index",
                         "nodeType": "Identifier",
                         "overloadedDeclarations": [],
-                        "referencedDeclaration": 1949,
+                        "referencedDeclaration": 1940,
                         "src": "1040:5:10",
                         "typeDescriptions": {
                           "typeIdentifier": "t_uint256",
@@ -4132,7 +4132,7 @@
                         "typeString": "uint256"
                       }
                     },
-                    "id": 1958,
+                    "id": 1949,
                     "nodeType": "ExpressionStatement",
                     "src": "1040:7:10"
                   },
@@ -4142,18 +4142,18 @@
                 {
                   "expression": {
                     "expression": {
-                      "id": 1978,
+                      "id": 1969,
                       "name": "_deposits",
                       "nodeType": "Identifier",
                       "overloadedDeclarations": [],
-                      "referencedDeclaration": 1941,
+                      "referencedDeclaration": 1932,
                       "src": "1210:9:10",
                       "typeDescriptions": {
-                        "typeIdentifier": "t_array$_t_struct$_Position_$1904_memory_ptr_$dyn_memory_ptr",
+                        "typeIdentifier": "t_array$_t_struct$_Position_$1895_memory_ptr_$dyn_memory_ptr",
                         "typeString": "struct StakingLibrary.Position memory[] memory"
                       }
                     },
-                    "id": 1979,
+                    "id": 1970,
                     "isConstant": false,
                     "isLValue": false,
                     "isPure": false,
@@ -4167,15 +4167,15 @@
                       "typeString": "uint256"
                     }
                   },
-                  "functionReturnParameters": 1947,
-                  "id": 1980,
+                  "functionReturnParameters": 1938,
+                  "id": 1971,
                   "nodeType": "Return",
                   "src": "1203:23:10"
                 }
               ]
             },
             "functionSelector": "4fe053f4",
-            "id": 1982,
+            "id": 1973,
             "implemented": true,
             "kind": "function",
             "modifiers": [],
@@ -4183,50 +4183,50 @@
             "nameLocation": "888:19:10",
             "nodeType": "FunctionDefinition",
             "parameters": {
-              "id": 1944,
+              "id": 1935,
               "nodeType": "ParameterList",
               "parameters": [
                 {
                   "constant": false,
-                  "id": 1941,
+                  "id": 1932,
                   "mutability": "mutable",
                   "name": "_deposits",
                   "nameLocation": "926:9:10",
                   "nodeType": "VariableDeclaration",
-                  "scope": 1982,
+                  "scope": 1973,
                   "src": "908:27:10",
                   "stateVariable": false,
                   "storageLocation": "memory",
                   "typeDescriptions": {
-                    "typeIdentifier": "t_array$_t_struct$_Position_$1904_memory_ptr_$dyn_memory_ptr",
+                    "typeIdentifier": "t_array$_t_struct$_Position_$1895_memory_ptr_$dyn_memory_ptr",
                     "typeString": "struct StakingLibrary.Position[]"
                   },
                   "typeName": {
                     "baseType": {
-                      "id": 1939,
+                      "id": 1930,
                       "nodeType": "UserDefinedTypeName",
                       "pathNode": {
-                        "id": 1938,
+                        "id": 1929,
                         "name": "Position",
                         "nameLocations": [
                           "908:8:10"
                         ],
                         "nodeType": "IdentifierPath",
-                        "referencedDeclaration": 1904,
+                        "referencedDeclaration": 1895,
                         "src": "908:8:10"
                       },
-                      "referencedDeclaration": 1904,
+                      "referencedDeclaration": 1895,
                       "src": "908:8:10",
                       "typeDescriptions": {
-                        "typeIdentifier": "t_struct$_Position_$1904_storage_ptr",
+                        "typeIdentifier": "t_struct$_Position_$1895_storage_ptr",
                         "typeString": "struct StakingLibrary.Position"
                       }
                     },
-                    "id": 1940,
+                    "id": 1931,
                     "nodeType": "ArrayTypeName",
                     "src": "908:10:10",
                     "typeDescriptions": {
-                      "typeIdentifier": "t_array$_t_struct$_Position_$1904_storage_$dyn_storage_ptr",
+                      "typeIdentifier": "t_array$_t_struct$_Position_$1895_storage_$dyn_storage_ptr",
                       "typeString": "struct StakingLibrary.Position[]"
                     }
                   },
@@ -4234,12 +4234,12 @@
                 },
                 {
                   "constant": false,
-                  "id": 1943,
+                  "id": 1934,
                   "mutability": "mutable",
                   "name": "_token",
                   "nameLocation": "945:6:10",
                   "nodeType": "VariableDeclaration",
-                  "scope": 1982,
+                  "scope": 1973,
                   "src": "937:14:10",
                   "stateVariable": false,
                   "storageLocation": "default",
@@ -4248,7 +4248,7 @@
                     "typeString": "address"
                   },
                   "typeName": {
-                    "id": 1942,
+                    "id": 1933,
                     "name": "address",
                     "nodeType": "ElementaryTypeName",
                     "src": "937:7:10",
@@ -4264,17 +4264,17 @@
               "src": "907:45:10"
             },
             "returnParameters": {
-              "id": 1947,
+              "id": 1938,
               "nodeType": "ParameterList",
               "parameters": [
                 {
                   "constant": false,
-                  "id": 1946,
+                  "id": 1937,
                   "mutability": "mutable",
                   "name": "",
                   "nameLocation": "-1:-1:-1",
                   "nodeType": "VariableDeclaration",
-                  "scope": 1982,
+                  "scope": 1973,
                   "src": "974:4:10",
                   "stateVariable": false,
                   "storageLocation": "default",
@@ -4283,7 +4283,7 @@
                     "typeString": "uint256"
                   },
                   "typeName": {
-                    "id": 1945,
+                    "id": 1936,
                     "name": "uint",
                     "nodeType": "ElementaryTypeName",
                     "src": "974:4:10",
@@ -4297,14 +4297,14 @@
               ],
               "src": "973:6:10"
             },
-            "scope": 1983,
+            "scope": 1974,
             "src": "879:355:10",
             "stateMutability": "pure",
             "virtual": false,
             "visibility": "public"
           }
         ],
-        "scope": 1984,
+        "scope": 1975,
         "src": "153:1084:10",
         "usedErrors": []
       }
@@ -4318,15 +4318,15 @@
         45
       ],
       "StakingLibrary": [
-        1983
+        1974
       ]
     },
-    "id": 1984,
+    "id": 1975,
     "license": "GPL-2.0-or-later",
     "nodeType": "SourceUnit",
     "nodes": [
       {
-        "id": 1896,
+        "id": 1887,
         "literals": [
           "solidity",
           "0.8",
@@ -4338,10 +4338,10 @@
       {
         "absolutePath": "@chainlink/contracts/src/v0.8/interfaces/AggregatorV3Interface.sol",
         "file": "@chainlink/contracts/src/v0.8/interfaces/AggregatorV3Interface.sol",
-        "id": 1897,
+        "id": 1888,
         "nameLocation": "-1:-1:-1",
         "nodeType": "ImportDirective",
-        "scope": 1984,
+        "scope": 1975,
         "sourceUnit": 46,
         "src": "73:76:10",
         "symbolAliases": [],
@@ -4354,9 +4354,9 @@
         "contractDependencies": [],
         "contractKind": "library",
         "fullyImplemented": true,
-        "id": 1983,
+        "id": 1974,
         "linearizedBaseContracts": [
-          1983
+          1974
         ],
         "name": "StakingLibrary",
         "nameLocation": "161:14:10",
@@ -4364,16 +4364,16 @@
         "nodes": [
           {
             "canonicalName": "StakingLibrary.Position",
-            "id": 1904,
+            "id": 1895,
             "members": [
               {
                 "constant": false,
-                "id": 1899,
+                "id": 1890,
                 "mutability": "mutable",
                 "name": "token",
                 "nameLocation": "272:5:10",
                 "nodeType": "VariableDeclaration",
-                "scope": 1904,
+                "scope": 1895,
                 "src": "264:13:10",
                 "stateVariable": false,
                 "storageLocation": "default",
@@ -4382,7 +4382,7 @@
                   "typeString": "address"
                 },
                 "typeName": {
-                  "id": 1898,
+                  "id": 1889,
                   "name": "address",
                   "nodeType": "ElementaryTypeName",
                   "src": "264:7:10",
@@ -4396,12 +4396,12 @@
               },
               {
                 "constant": false,
-                "id": 1901,
+                "id": 1892,
                 "mutability": "mutable",
                 "name": "liquidity",
                 "nameLocation": "296:9:10",
                 "nodeType": "VariableDeclaration",
-                "scope": 1904,
+                "scope": 1895,
                 "src": "288:17:10",
                 "stateVariable": false,
                 "storageLocation": "default",
@@ -4410,7 +4410,7 @@
                   "typeString": "uint256"
                 },
                 "typeName": {
-                  "id": 1900,
+                  "id": 1891,
                   "name": "uint256",
                   "nodeType": "ElementaryTypeName",
                   "src": "288:7:10",
@@ -4423,12 +4423,12 @@
               },
               {
                 "constant": false,
-                "id": 1903,
+                "id": 1894,
                 "mutability": "mutable",
                 "name": "rewardBLT",
                 "nameLocation": "324:9:10",
                 "nodeType": "VariableDeclaration",
-                "scope": 1904,
+                "scope": 1895,
                 "src": "316:17:10",
                 "stateVariable": false,
                 "storageLocation": "default",
@@ -4437,7 +4437,7 @@
                   "typeString": "uint256"
                 },
                 "typeName": {
-                  "id": 1902,
+                  "id": 1893,
                   "name": "uint256",
                   "nodeType": "ElementaryTypeName",
                   "src": "316:7:10",
@@ -4452,13 +4452,13 @@
             "name": "Position",
             "nameLocation": "244:8:10",
             "nodeType": "StructDefinition",
-            "scope": 1983,
+            "scope": 1974,
             "src": "237:104:10",
             "visibility": "public"
           },
           {
             "body": {
-              "id": 1936,
+              "id": 1927,
               "nodeType": "Block",
               "src": "426:443:10",
               "statements": [
@@ -4468,17 +4468,17 @@
                       "typeIdentifier": "t_address",
                       "typeString": "address"
                     },
-                    "id": 1916,
+                    "id": 1907,
                     "isConstant": false,
                     "isLValue": false,
                     "isPure": false,
                     "lValueRequested": false,
                     "leftExpression": {
-                      "id": 1911,
+                      "id": 1902,
                       "name": "priceFeedContract",
                       "nodeType": "Identifier",
                       "overloadedDeclarations": [],
-                      "referencedDeclaration": 1906,
+                      "referencedDeclaration": 1897,
                       "src": "440:17:10",
                       "typeDescriptions": {
                         "typeIdentifier": "t_address",
@@ -4491,7 +4491,7 @@
                       "arguments": [
                         {
                           "hexValue": "30",
-                          "id": 1914,
+                          "id": 1905,
                           "isConstant": false,
                           "isLValue": false,
                           "isPure": true,
@@ -4513,7 +4513,7 @@
                             "typeString": "int_const 0"
                           }
                         ],
-                        "id": 1913,
+                        "id": 1904,
                         "isConstant": false,
                         "isLValue": false,
                         "isPure": true,
@@ -4525,14 +4525,14 @@
                           "typeString": "type(address)"
                         },
                         "typeName": {
-                          "id": 1912,
+                          "id": 1903,
                           "name": "address",
                           "nodeType": "ElementaryTypeName",
                           "src": "461:7:10",
                           "typeDescriptions": {}
                         }
                       },
-                      "id": 1915,
+                      "id": 1906,
                       "isConstant": false,
                       "isLValue": false,
                       "isPure": true,
@@ -4557,7 +4557,7 @@
                   "falseBody": {
                     "expression": {
                       "hexValue": "31",
-                      "id": 1933,
+                      "id": 1924,
                       "isConstant": false,
                       "isLValue": false,
                       "isPure": true,
@@ -4571,32 +4571,32 @@
                       },
                       "value": "1"
                     },
-                    "functionReturnParameters": 1910,
-                    "id": 1934,
+                    "functionReturnParameters": 1901,
+                    "id": 1925,
                     "nodeType": "Return",
                     "src": "853:8:10"
                   },
-                  "id": 1935,
+                  "id": 1926,
                   "nodeType": "IfStatement",
                   "src": "437:424:10",
                   "trueBody": {
-                    "id": 1932,
+                    "id": 1923,
                     "nodeType": "Block",
                     "src": "472:375:10",
                     "statements": [
                       {
                         "assignments": [
-                          1919
+                          1910
                         ],
                         "declarations": [
                           {
                             "constant": false,
-                            "id": 1919,
+                            "id": 1910,
                             "mutability": "mutable",
                             "name": "priceFeed",
                             "nameLocation": "510:9:10",
                             "nodeType": "VariableDeclaration",
-                            "scope": 1932,
+                            "scope": 1923,
                             "src": "487:32:10",
                             "stateVariable": false,
                             "storageLocation": "default",
@@ -4605,10 +4605,10 @@
                               "typeString": "contract AggregatorV3Interface"
                             },
                             "typeName": {
-                              "id": 1918,
+                              "id": 1909,
                               "nodeType": "UserDefinedTypeName",
                               "pathNode": {
-                                "id": 1917,
+                                "id": 1908,
                                 "name": "AggregatorV3Interface",
                                 "nameLocations": [
                                   "487:21:10"
@@ -4627,15 +4627,15 @@
                             "visibility": "internal"
                           }
                         ],
-                        "id": 1923,
+                        "id": 1914,
                         "initialValue": {
                           "arguments": [
                             {
-                              "id": 1921,
+                              "id": 1912,
                               "name": "priceFeedContract",
                               "nodeType": "Identifier",
                               "overloadedDeclarations": [],
-                              "referencedDeclaration": 1906,
+                              "referencedDeclaration": 1897,
                               "src": "544:17:10",
                               "typeDescriptions": {
                                 "typeIdentifier": "t_address",
@@ -4650,7 +4650,7 @@
                                 "typeString": "address"
                               }
                             ],
-                            "id": 1920,
+                            "id": 1911,
                             "name": "AggregatorV3Interface",
                             "nodeType": "Identifier",
                             "overloadedDeclarations": [],
@@ -4661,7 +4661,7 @@
                               "typeString": "type(contract AggregatorV3Interface)"
                             }
                           },
-                          "id": 1922,
+                          "id": 1913,
                           "isConstant": false,
                           "isLValue": false,
                           "isPure": false,
@@ -4683,7 +4683,7 @@
                       {
                         "assignments": [
                           null,
-                          1925,
+                          1916,
                           null,
                           null,
                           null
@@ -4692,12 +4692,12 @@
                           null,
                           {
                             "constant": false,
-                            "id": 1925,
+                            "id": 1916,
                             "mutability": "mutable",
                             "name": "price",
                             "nameLocation": "637:5:10",
                             "nodeType": "VariableDeclaration",
-                            "scope": 1932,
+                            "scope": 1923,
                             "src": "633:9:10",
                             "stateVariable": false,
                             "storageLocation": "default",
@@ -4706,7 +4706,7 @@
                               "typeString": "int256"
                             },
                             "typeName": {
-                              "id": 1924,
+                              "id": 1915,
                               "name": "int",
                               "nodeType": "ElementaryTypeName",
                               "src": "633:3:10",
@@ -4721,24 +4721,24 @@
                           null,
                           null
                         ],
-                        "id": 1929,
+                        "id": 1920,
                         "initialValue": {
                           "arguments": [],
                           "expression": {
                             "argumentTypes": [],
                             "expression": {
-                              "id": 1926,
+                              "id": 1917,
                               "name": "priceFeed",
                               "nodeType": "Identifier",
                               "overloadedDeclarations": [],
-                              "referencedDeclaration": 1919,
+                              "referencedDeclaration": 1910,
                               "src": "779:9:10",
                               "typeDescriptions": {
                                 "typeIdentifier": "t_contract$_AggregatorV3Interface_$45",
                                 "typeString": "contract AggregatorV3Interface"
                               }
                             },
-                            "id": 1927,
+                            "id": 1918,
                             "isConstant": false,
                             "isLValue": false,
                             "isPure": false,
@@ -4753,7 +4753,7 @@
                               "typeString": "function () view external returns (uint80,int256,uint256,uint256,uint80)"
                             }
                           },
-                          "id": 1928,
+                          "id": 1919,
                           "isConstant": false,
                           "isLValue": false,
                           "isPure": false,
@@ -4774,19 +4774,19 @@
                       },
                       {
                         "expression": {
-                          "id": 1930,
+                          "id": 1921,
                           "name": "price",
                           "nodeType": "Identifier",
                           "overloadedDeclarations": [],
-                          "referencedDeclaration": 1925,
+                          "referencedDeclaration": 1916,
                           "src": "828:5:10",
                           "typeDescriptions": {
                             "typeIdentifier": "t_int256",
                             "typeString": "int256"
                           }
                         },
-                        "functionReturnParameters": 1910,
-                        "id": 1931,
+                        "functionReturnParameters": 1901,
+                        "id": 1922,
                         "nodeType": "Return",
                         "src": "821:12:10"
                       }
@@ -4796,7 +4796,7 @@
               ]
             },
             "functionSelector": "16345f18",
-            "id": 1937,
+            "id": 1928,
             "implemented": true,
             "kind": "function",
             "modifiers": [],
@@ -4804,17 +4804,17 @@
             "nameLocation": "358:14:10",
             "nodeType": "FunctionDefinition",
             "parameters": {
-              "id": 1907,
+              "id": 1898,
               "nodeType": "ParameterList",
               "parameters": [
                 {
                   "constant": false,
-                  "id": 1906,
+                  "id": 1897,
                   "mutability": "mutable",
                   "name": "priceFeedContract",
                   "nameLocation": "381:17:10",
                   "nodeType": "VariableDeclaration",
-                  "scope": 1937,
+                  "scope": 1928,
                   "src": "373:25:10",
                   "stateVariable": false,
                   "storageLocation": "default",
@@ -4823,7 +4823,7 @@
                     "typeString": "address"
                   },
                   "typeName": {
-                    "id": 1905,
+                    "id": 1896,
                     "name": "address",
                     "nodeType": "ElementaryTypeName",
                     "src": "373:7:10",
@@ -4839,17 +4839,17 @@
               "src": "372:27:10"
             },
             "returnParameters": {
-              "id": 1910,
+              "id": 1901,
               "nodeType": "ParameterList",
               "parameters": [
                 {
                   "constant": false,
-                  "id": 1909,
+                  "id": 1900,
                   "mutability": "mutable",
                   "name": "",
                   "nameLocation": "-1:-1:-1",
                   "nodeType": "VariableDeclaration",
-                  "scope": 1937,
+                  "scope": 1928,
                   "src": "421:3:10",
                   "stateVariable": false,
                   "storageLocation": "default",
@@ -4858,7 +4858,7 @@
                     "typeString": "int256"
                   },
                   "typeName": {
-                    "id": 1908,
+                    "id": 1899,
                     "name": "int",
                     "nodeType": "ElementaryTypeName",
                     "src": "421:3:10",
@@ -4872,7 +4872,7 @@
               ],
               "src": "420:5:10"
             },
-            "scope": 1983,
+            "scope": 1974,
             "src": "349:520:10",
             "stateMutability": "view",
             "virtual": false,
@@ -4880,13 +4880,13 @@
           },
           {
             "body": {
-              "id": 1981,
+              "id": 1972,
               "nodeType": "Block",
               "src": "980:254:10",
               "statements": [
                 {
                   "body": {
-                    "id": 1976,
+                    "id": 1967,
                     "nodeType": "Block",
                     "src": "1049:144:10",
                     "statements": [
@@ -4896,7 +4896,7 @@
                             "typeIdentifier": "t_bool",
                             "typeString": "bool"
                           },
-                          "id": 1971,
+                          "id": 1962,
                           "isConstant": false,
                           "isLValue": false,
                           "isPure": false,
@@ -4906,7 +4906,7 @@
                               "typeIdentifier": "t_address",
                               "typeString": "address"
                             },
-                            "id": 1964,
+                            "id": 1955,
                             "isConstant": false,
                             "isLValue": false,
                             "isPure": false,
@@ -4914,24 +4914,24 @@
                             "leftExpression": {
                               "expression": {
                                 "baseExpression": {
-                                  "id": 1959,
+                                  "id": 1950,
                                   "name": "_deposits",
                                   "nodeType": "Identifier",
                                   "overloadedDeclarations": [],
-                                  "referencedDeclaration": 1941,
+                                  "referencedDeclaration": 1932,
                                   "src": "1068:9:10",
                                   "typeDescriptions": {
-                                    "typeIdentifier": "t_array$_t_struct$_Position_$1904_memory_ptr_$dyn_memory_ptr",
+                                    "typeIdentifier": "t_array$_t_struct$_Position_$1895_memory_ptr_$dyn_memory_ptr",
                                     "typeString": "struct StakingLibrary.Position memory[] memory"
                                   }
                                 },
-                                "id": 1961,
+                                "id": 1952,
                                 "indexExpression": {
-                                  "id": 1960,
+                                  "id": 1951,
                                   "name": "index",
                                   "nodeType": "Identifier",
                                   "overloadedDeclarations": [],
-                                  "referencedDeclaration": 1949,
+                                  "referencedDeclaration": 1940,
                                   "src": "1078:5:10",
                                   "typeDescriptions": {
                                     "typeIdentifier": "t_uint256",
@@ -4945,11 +4945,11 @@
                                 "nodeType": "IndexAccess",
                                 "src": "1068:16:10",
                                 "typeDescriptions": {
-                                  "typeIdentifier": "t_struct$_Position_$1904_memory_ptr",
+                                  "typeIdentifier": "t_struct$_Position_$1895_memory_ptr",
                                   "typeString": "struct StakingLibrary.Position memory"
                                 }
                               },
-                              "id": 1962,
+                              "id": 1953,
                               "isConstant": false,
                               "isLValue": true,
                               "isPure": false,
@@ -4957,7 +4957,7 @@
                               "memberLocation": "1085:5:10",
                               "memberName": "token",
                               "nodeType": "MemberAccess",
-                              "referencedDeclaration": 1899,
+                              "referencedDeclaration": 1890,
                               "src": "1068:22:10",
                               "typeDescriptions": {
                                 "typeIdentifier": "t_address",
@@ -4967,11 +4967,11 @@
                             "nodeType": "BinaryOperation",
                             "operator": "==",
                             "rightExpression": {
-                              "id": 1963,
+                              "id": 1954,
                               "name": "_token",
                               "nodeType": "Identifier",
                               "overloadedDeclarations": [],
-                              "referencedDeclaration": 1943,
+                              "referencedDeclaration": 1934,
                               "src": "1094:6:10",
                               "typeDescriptions": {
                                 "typeIdentifier": "t_address",
@@ -4991,7 +4991,7 @@
                               "typeIdentifier": "t_uint256",
                               "typeString": "uint256"
                             },
-                            "id": 1970,
+                            "id": 1961,
                             "isConstant": false,
                             "isLValue": false,
                             "isPure": false,
@@ -4999,24 +4999,24 @@
                             "leftExpression": {
                               "expression": {
                                 "baseExpression": {
-                                  "id": 1965,
+                                  "id": 1956,
                                   "name": "_deposits",
                                   "nodeType": "Identifier",
                                   "overloadedDeclarations": [],
-                                  "referencedDeclaration": 1941,
+                                  "referencedDeclaration": 1932,
                                   "src": "1104:9:10",
                                   "typeDescriptions": {
-                                    "typeIdentifier": "t_array$_t_struct$_Position_$1904_memory_ptr_$dyn_memory_ptr",
+                                    "typeIdentifier": "t_array$_t_struct$_Position_$1895_memory_ptr_$dyn_memory_ptr",
                                     "typeString": "struct StakingLibrary.Position memory[] memory"
                                   }
                                 },
-                                "id": 1967,
+                                "id": 1958,
                                 "indexExpression": {
-                                  "id": 1966,
+                                  "id": 1957,
                                   "name": "index",
                                   "nodeType": "Identifier",
                                   "overloadedDeclarations": [],
-                                  "referencedDeclaration": 1949,
+                                  "referencedDeclaration": 1940,
                                   "src": "1114:5:10",
                                   "typeDescriptions": {
                                     "typeIdentifier": "t_uint256",
@@ -5030,11 +5030,11 @@
                                 "nodeType": "IndexAccess",
                                 "src": "1104:16:10",
                                 "typeDescriptions": {
-                                  "typeIdentifier": "t_struct$_Position_$1904_memory_ptr",
+                                  "typeIdentifier": "t_struct$_Position_$1895_memory_ptr",
                                   "typeString": "struct StakingLibrary.Position memory"
                                 }
                               },
-                              "id": 1968,
+                              "id": 1959,
                               "isConstant": false,
                               "isLValue": true,
                               "isPure": false,
@@ -5042,7 +5042,7 @@
                               "memberLocation": "1121:9:10",
                               "memberName": "liquidity",
                               "nodeType": "MemberAccess",
-                              "referencedDeclaration": 1901,
+                              "referencedDeclaration": 1892,
                               "src": "1104:26:10",
                               "typeDescriptions": {
                                 "typeIdentifier": "t_uint256",
@@ -5053,7 +5053,7 @@
                             "operator": "!=",
                             "rightExpression": {
                               "hexValue": "30",
-                              "id": 1969,
+                              "id": 1960,
                               "isConstant": false,
                               "isLValue": false,
                               "isPure": true,
@@ -5079,29 +5079,29 @@
                             "typeString": "bool"
                           }
                         },
-                        "id": 1975,
+                        "id": 1966,
                         "nodeType": "IfStatement",
                         "src": "1064:118:10",
                         "trueBody": {
-                          "id": 1974,
+                          "id": 1965,
                           "nodeType": "Block",
                           "src": "1136:46:10",
                           "statements": [
                             {
                               "expression": {
-                                "id": 1972,
+                                "id": 1963,
                                 "name": "index",
                                 "nodeType": "Identifier",
                                 "overloadedDeclarations": [],
-                                "referencedDeclaration": 1949,
+                                "referencedDeclaration": 1940,
                                 "src": "1161:5:10",
                                 "typeDescriptions": {
                                   "typeIdentifier": "t_uint256",
                                   "typeString": "uint256"
                                 }
                               },
-                              "functionReturnParameters": 1947,
-                              "id": 1973,
+                              "functionReturnParameters": 1938,
+                              "id": 1964,
                               "nodeType": "Return",
                               "src": "1154:12:10"
                             }
@@ -5115,17 +5115,17 @@
                       "typeIdentifier": "t_uint256",
                       "typeString": "uint256"
                     },
-                    "id": 1955,
+                    "id": 1946,
                     "isConstant": false,
                     "isLValue": false,
                     "isPure": false,
                     "lValueRequested": false,
                     "leftExpression": {
-                      "id": 1952,
+                      "id": 1943,
                       "name": "index",
                       "nodeType": "Identifier",
                       "overloadedDeclarations": [],
-                      "referencedDeclaration": 1949,
+                      "referencedDeclaration": 1940,
                       "src": "1014:5:10",
                       "typeDescriptions": {
                         "typeIdentifier": "t_uint256",
@@ -5136,18 +5136,18 @@
                     "operator": "<",
                     "rightExpression": {
                       "expression": {
-                        "id": 1953,
+                        "id": 1944,
                         "name": "_deposits",
                         "nodeType": "Identifier",
                         "overloadedDeclarations": [],
-                        "referencedDeclaration": 1941,
+                        "referencedDeclaration": 1932,
                         "src": "1022:9:10",
                         "typeDescriptions": {
-                          "typeIdentifier": "t_array$_t_struct$_Position_$1904_memory_ptr_$dyn_memory_ptr",
+                          "typeIdentifier": "t_array$_t_struct$_Position_$1895_memory_ptr_$dyn_memory_ptr",
                           "typeString": "struct StakingLibrary.Position memory[] memory"
                         }
                       },
-                      "id": 1954,
+                      "id": 1945,
                       "isConstant": false,
                       "isLValue": false,
                       "isPure": false,
@@ -5167,20 +5167,20 @@
                       "typeString": "bool"
                     }
                   },
-                  "id": 1977,
+                  "id": 1968,
                   "initializationExpression": {
                     "assignments": [
-                      1949
+                      1940
                     ],
                     "declarations": [
                       {
                         "constant": false,
-                        "id": 1949,
+                        "id": 1940,
                         "mutability": "mutable",
                         "name": "index",
                         "nameLocation": "1003:5:10",
                         "nodeType": "VariableDeclaration",
-                        "scope": 1977,
+                        "scope": 1968,
                         "src": "998:10:10",
                         "stateVariable": false,
                         "storageLocation": "default",
@@ -5189,7 +5189,7 @@
                           "typeString": "uint256"
                         },
                         "typeName": {
-                          "id": 1948,
+                          "id": 1939,
                           "name": "uint",
                           "nodeType": "ElementaryTypeName",
                           "src": "998:4:10",
@@ -5201,10 +5201,10 @@
                         "visibility": "internal"
                       }
                     ],
-                    "id": 1951,
+                    "id": 1942,
                     "initialValue": {
                       "hexValue": "30",
-                      "id": 1950,
+                      "id": 1941,
                       "isConstant": false,
                       "isLValue": false,
                       "isPure": true,
@@ -5223,7 +5223,7 @@
                   },
                   "loopExpression": {
                     "expression": {
-                      "id": 1957,
+                      "id": 1948,
                       "isConstant": false,
                       "isLValue": false,
                       "isPure": false,
@@ -5233,11 +5233,11 @@
                       "prefix": false,
                       "src": "1040:7:10",
                       "subExpression": {
-                        "id": 1956,
+                        "id": 1947,
                         "name": "index",
                         "nodeType": "Identifier",
                         "overloadedDeclarations": [],
-                        "referencedDeclaration": 1949,
+                        "referencedDeclaration": 1940,
                         "src": "1040:5:10",
                         "typeDescriptions": {
                           "typeIdentifier": "t_uint256",
@@ -5249,7 +5249,7 @@
                         "typeString": "uint256"
                       }
                     },
-                    "id": 1958,
+                    "id": 1949,
                     "nodeType": "ExpressionStatement",
                     "src": "1040:7:10"
                   },
@@ -5259,18 +5259,18 @@
                 {
                   "expression": {
                     "expression": {
-                      "id": 1978,
+                      "id": 1969,
                       "name": "_deposits",
                       "nodeType": "Identifier",
                       "overloadedDeclarations": [],
-                      "referencedDeclaration": 1941,
+                      "referencedDeclaration": 1932,
                       "src": "1210:9:10",
                       "typeDescriptions": {
-                        "typeIdentifier": "t_array$_t_struct$_Position_$1904_memory_ptr_$dyn_memory_ptr",
+                        "typeIdentifier": "t_array$_t_struct$_Position_$1895_memory_ptr_$dyn_memory_ptr",
                         "typeString": "struct StakingLibrary.Position memory[] memory"
                       }
                     },
-                    "id": 1979,
+                    "id": 1970,
                     "isConstant": false,
                     "isLValue": false,
                     "isPure": false,
@@ -5284,15 +5284,15 @@
                       "typeString": "uint256"
                     }
                   },
-                  "functionReturnParameters": 1947,
-                  "id": 1980,
+                  "functionReturnParameters": 1938,
+                  "id": 1971,
                   "nodeType": "Return",
                   "src": "1203:23:10"
                 }
               ]
             },
             "functionSelector": "4fe053f4",
-            "id": 1982,
+            "id": 1973,
             "implemented": true,
             "kind": "function",
             "modifiers": [],
@@ -5300,50 +5300,50 @@
             "nameLocation": "888:19:10",
             "nodeType": "FunctionDefinition",
             "parameters": {
-              "id": 1944,
+              "id": 1935,
               "nodeType": "ParameterList",
               "parameters": [
                 {
                   "constant": false,
-                  "id": 1941,
+                  "id": 1932,
                   "mutability": "mutable",
                   "name": "_deposits",
                   "nameLocation": "926:9:10",
                   "nodeType": "VariableDeclaration",
-                  "scope": 1982,
+                  "scope": 1973,
                   "src": "908:27:10",
                   "stateVariable": false,
                   "storageLocation": "memory",
                   "typeDescriptions": {
-                    "typeIdentifier": "t_array$_t_struct$_Position_$1904_memory_ptr_$dyn_memory_ptr",
+                    "typeIdentifier": "t_array$_t_struct$_Position_$1895_memory_ptr_$dyn_memory_ptr",
                     "typeString": "struct StakingLibrary.Position[]"
                   },
                   "typeName": {
                     "baseType": {
-                      "id": 1939,
+                      "id": 1930,
                       "nodeType": "UserDefinedTypeName",
                       "pathNode": {
-                        "id": 1938,
+                        "id": 1929,
                         "name": "Position",
                         "nameLocations": [
                           "908:8:10"
                         ],
                         "nodeType": "IdentifierPath",
-                        "referencedDeclaration": 1904,
+                        "referencedDeclaration": 1895,
                         "src": "908:8:10"
                       },
-                      "referencedDeclaration": 1904,
+                      "referencedDeclaration": 1895,
                       "src": "908:8:10",
                       "typeDescriptions": {
-                        "typeIdentifier": "t_struct$_Position_$1904_storage_ptr",
+                        "typeIdentifier": "t_struct$_Position_$1895_storage_ptr",
                         "typeString": "struct StakingLibrary.Position"
                       }
                     },
-                    "id": 1940,
+                    "id": 1931,
                     "nodeType": "ArrayTypeName",
                     "src": "908:10:10",
                     "typeDescriptions": {
-                      "typeIdentifier": "t_array$_t_struct$_Position_$1904_storage_$dyn_storage_ptr",
+                      "typeIdentifier": "t_array$_t_struct$_Position_$1895_storage_$dyn_storage_ptr",
                       "typeString": "struct StakingLibrary.Position[]"
                     }
                   },
@@ -5351,12 +5351,12 @@
                 },
                 {
                   "constant": false,
-                  "id": 1943,
+                  "id": 1934,
                   "mutability": "mutable",
                   "name": "_token",
                   "nameLocation": "945:6:10",
                   "nodeType": "VariableDeclaration",
-                  "scope": 1982,
+                  "scope": 1973,
                   "src": "937:14:10",
                   "stateVariable": false,
                   "storageLocation": "default",
@@ -5365,7 +5365,7 @@
                     "typeString": "address"
                   },
                   "typeName": {
-                    "id": 1942,
+                    "id": 1933,
                     "name": "address",
                     "nodeType": "ElementaryTypeName",
                     "src": "937:7:10",
@@ -5381,17 +5381,17 @@
               "src": "907:45:10"
             },
             "returnParameters": {
-              "id": 1947,
+              "id": 1938,
               "nodeType": "ParameterList",
               "parameters": [
                 {
                   "constant": false,
-                  "id": 1946,
+                  "id": 1937,
                   "mutability": "mutable",
                   "name": "",
                   "nameLocation": "-1:-1:-1",
                   "nodeType": "VariableDeclaration",
-                  "scope": 1982,
+                  "scope": 1973,
                   "src": "974:4:10",
                   "stateVariable": false,
                   "storageLocation": "default",
@@ -5400,7 +5400,7 @@
                     "typeString": "uint256"
                   },
                   "typeName": {
-                    "id": 1945,
+                    "id": 1936,
                     "name": "uint",
                     "nodeType": "ElementaryTypeName",
                     "src": "974:4:10",
@@ -5414,14 +5414,14 @@
               ],
               "src": "973:6:10"
             },
-            "scope": 1983,
+            "scope": 1974,
             "src": "879:355:10",
             "stateMutability": "pure",
             "virtual": false,
             "visibility": "public"
           }
         ],
-        "scope": 1984,
+        "scope": 1975,
         "src": "153:1084:10",
         "usedErrors": []
       }
@@ -5436,12 +5436,12 @@
     "31337": {
       "events": {},
       "links": {},
-      "address": "0xd30bF3219A0416602bE8D482E0396eF332b0494E",
-      "transactionHash": "0xe9172583fd8dab020e9b05a6a1f4bce821fb41f9f87556d0cc82da6ac4a77d04"
+      "address": "0xF6a8aD553b265405526030c2102fda2bDcdDC177",
+      "transactionHash": "0xace995b8611713675f92272da363d52257c16a5e2448f15c159b10d582814f03"
     }
   },
   "schemaVersion": "3.4.4",
-  "updatedAt": "2022-09-23T18:37:28.013Z",
+  "updatedAt": "2022-09-25T17:45:41.521Z",
   "networkType": "ethereum",
   "devdoc": {
     "kind": "dev",

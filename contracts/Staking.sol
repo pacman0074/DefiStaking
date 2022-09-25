@@ -20,9 +20,6 @@ contract Staking {
     // Total value locked in the contract in Wei
     uint public TVL = 0;
 
-    // List of stakers address
-    address [] private Stakers;
-
     // TVL (in ether) by token
     mapping(address => uint) public TVLtokeninEther;
 
@@ -142,14 +139,13 @@ contract Staking {
         return PositionsList[msg.sender];
     }
 
-    function getPosition(address _caller, address _token)  public view returns(address, uint, uint) {
-        require(_caller == msg.sender, "It's not your account !!");
+    function getPosition(address _token)  public view returns(address, uint, uint) {
 
-        uint indexToken = StakingLibrary.getIndexTokenStaked(PositionsList[_caller], _token);
-         if(PositionsList[_caller].length == indexToken){
+        uint indexToken = StakingLibrary.getIndexTokenStaked(PositionsList[msg.sender], _token);
+         if(PositionsList[msg.sender].length == indexToken){
             return (address(0),0,0);
         
-        } else  return (_token, PositionsList[_caller][indexToken].liquidity, PositionsList[_caller][indexToken].rewardBLT);
+        } else  return (_token, PositionsList[msg.sender][indexToken].liquidity, PositionsList[msg.sender][indexToken].rewardBLT);
         
     }
 
