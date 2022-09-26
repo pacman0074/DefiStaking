@@ -135,12 +135,7 @@ contract Staking {
 
     }
 
-    function getAllPositions() public view returns (StakingLibrary.Position [] memory) {
-        return PositionsList[msg.sender];
-    }
-
     function getPosition(address _token)  public view returns(address, uint, uint) {
-
         uint indexToken = StakingLibrary.getIndexTokenStaked(PositionsList[msg.sender], _token);
          if(PositionsList[msg.sender].length == indexToken){
             return (address(0),0,0);
