@@ -7,6 +7,17 @@ import "@openzeppelin/contracts/token/ERC20/utils/SafeERC20.sol";
 import "@openzeppelin/contracts/token/ERC20/extensions/IERC20Metadata.sol";
 import {StakingLibrary} from "./StakingLibrary.sol";
 
+/*
+Pour éviter de créer une fonction getindex il est préférable de créer PositionList de la manière suivante
+mapping(address staker => mapping (address token => StakingLibrary.Position ))
+
+Créer 1 rate fee pour les rewards
+
+Faire un claim reward toutes les minutes en se basant sur le timestamp
+
+Dans la fonction stake vérifier que le token passé en argument est bien un ERC20 token
+
+*/
 
 contract Staking {
 
