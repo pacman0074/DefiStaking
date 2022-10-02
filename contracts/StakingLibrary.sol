@@ -8,8 +8,11 @@ library StakingLibrary {
     //This structure represents a staking position
     struct Position {
         address token;
-        uint256 liquidity;
-        uint256 rewardBLT;
+        uint liquidity;
+        uint paidRewardBLT;
+        uint currentRewardBLT;
+        uint lastUpdateReward;
+        uint lastClaimReward;
     }
 
     function getLatestPrice(address priceFeedContract) public view returns (int) {
@@ -29,7 +32,6 @@ library StakingLibrary {
 
 
     function getIndexTokenStaked(Position[] memory _deposits, address _token) public pure returns (uint) {
-
         for (uint index = 0; index < _deposits.length; index++) {
             if (_deposits[index].token == _token && _deposits[index].liquidity != 0){
                return index;

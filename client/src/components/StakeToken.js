@@ -3,7 +3,7 @@ import IERC20Metadata from "../contracts/IERC20Metadata.json";
 import "../styles/StakeToken.css";
 import Dropdown from "react-bootstrap/Dropdown";
 import Figure from "react-bootstrap/Figure";
-import Token from "./token.json";
+import Token from "../token.json";
 import Form from "react-bootstrap/Form";
 import InputGroup from "react-bootstrap/InputGroup";
 import Button from "react-bootstrap/Button";
@@ -76,7 +76,8 @@ export default function StakeToken({web3, accounts,contractStaking , getRequireE
     useEffect( async() => {
         const instanceIERC20 = await new web3.eth.Contract(IERC20Metadata.abi, CurrentToken.token_address);
         const decimals = await instanceIERC20.methods.decimals().call({from : staker});
-        setStatsAmounts(decimals)}, [CurrentToken])
+        setStatsAmounts(decimals)}
+    , [CurrentToken])
 
     return(
         

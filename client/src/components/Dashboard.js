@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import '../styles/Dashboard.css';
 import Table from 'react-bootstrap/Table';
 import Figure from "react-bootstrap/Figure";
-import Token from './token.json';
+import Token from '../token.json';
 import IERC20Metadata from "../contracts/IERC20Metadata.json";
 
 

@@ -10,6 +10,7 @@ import logo from "../images/logo_transparent.png";
 import getRequireError from "../utils/getRequireError" ;
 import StakeToken from "./StakeToken" ;
 import Dashboard from "./Dashboard";
+import Reward from "./Reward";
 
 
 class App extends Component {
@@ -66,8 +67,13 @@ class App extends Component {
       case "Dashboard" :
         return <Dashboard web3={web3} getRequireError={getRequireError} accounts={accounts}
          contractStaking={contractStaking} contractStakingLibrary={contractStakingLibrary} />
+
       case "Stake" :
         return <StakeToken web3={web3} getRequireError={getRequireError} accounts={accounts} contractStaking={contractStaking}  />
+
+      case "Reward" :
+        return <Reward web3={web3} getRequireError={getRequireError} accounts={accounts} contractStaking={contractStaking}  />
+
       default:
         return null
     }
@@ -94,6 +100,10 @@ class App extends Component {
 
             <Nav.Item>
               <Nav.Link onClick={ () => this.setState({currentComponent : "Stake"})}  eventKey="">Staking</Nav.Link>
+            </Nav.Item>
+
+            <Nav.Item>
+              <Nav.Link onClick={ () => this.setState({currentComponent : "Reward"})}  eventKey="">Reward</Nav.Link>
             </Nav.Item>
 
           </Nav>

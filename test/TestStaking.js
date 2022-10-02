@@ -41,6 +41,10 @@ const Swap = async ( _tokenAddress, _to) =>  {
     const Tx = await contractUniswap.swapExactETHForTokens(String(amountOutMin), path, to , deadline , { value : montant, gasPrice: 20e10, gasLimit: 250000 });
 }
 
+const timeout = (ms) =>  {
+    return new Promise(resolve => setTimeout(resolve, ms));
+}
+
 contract('Staking', function(accounts){
 
     const contractOwner = accounts[0];
@@ -68,6 +72,7 @@ contract('Staking', function(accounts){
         this.BlueTokenInstance = await BlueToken.new(_initialsupply);
         this.StakingInstance = await Staking.new(_initialsupply, this.BlueTokenInstance.address);
         await this.BlueTokenInstance.transfer(this.StakingInstance.address,_initialsupply );
+        
     });
 
 
@@ -287,19 +292,16 @@ contract('Staking', function(accounts){
             //The staker approve the Staking contract to spend an amount of LINK token before calling Stake function 
             await this.LINKcontract.approve(this.StakingInstance.address, amountStaked1,  {from : staker_1});
             //The staker stakes his LINK Token in the staking contract
-            let rewardBLT1 = await this.StakingInstance.Stake.call(process.env.LINK, amountStaked1, process.env.LINK_ETH, {from : staker_1});
             await this.StakingInstance.Stake(process.env.LINK, amountStaked1, process.env.LINK_ETH, {from : staker_1});
 
             //The staker approve the Staking contract to spend an amount of LINK token before calling Stake function 
             await this.MANAcontract.approve(this.StakingInstance.address, amountStaked2,  {from : staker_1});
             //The staker stakes his LINK Token in the staking contract
-            let rewardBLT2 = await this.StakingInstance.Stake.call(process.env.MANA, amountStaked2, process.env.MANA_ETH, {from : staker_1});
             await this.StakingInstance.Stake(process.env.MANA, amountStaked2, process.env.MANA_ETH, {from : staker_1});
 
             //The staker approve the Staking contract to spend an amount of LINK token before calling Stake function 
             await this.WBTCcontract.approve(this.StakingInstance.address, amountStaked3,  {from : staker_1});
             //The staker stakes his LINK Token in the staking contract
-            let rewardBLT3 = await this.StakingInstance.Stake.call(process.env.WBTC, amountStaked3, process.env.WBTC_ETH, {from : staker_1});
             await this.StakingInstance.Stake(process.env.WBTC, amountStaked3, process.env.WBTC_ETH, {from : staker_1});
 
             let Position1 = await this.StakingInstance.getPosition(process.env.LINK , {from : staker_1});
@@ -314,17 +316,89 @@ contract('Staking', function(accounts){
             expect(Position4[0]).equal('0x0000000000000000000000000000000000000000');
 
 
-            //Check position amount staked
+            //Check position liquidity
             expect(Position1[1].toString()).equal(amountStaked1.toString());
             expect(Position2[1].toString()).equal(amountStaked2.toString());
             expect(Position3[1].toString()).equal(amountStaked3.toString());
             expect(Position4[1].toString()).equal('0');
 
-            //Check reward
+        });
+    });
+
+
+    describe("verify claimReward", () => {
+        it("checks if the staker received his reward in BLT token and if last Claim Reward has been updated", async function() {
+            this.LINKcontract = await new ethers.Contract(process.env.LINK, LINKabiContract, account);
+            this.MANAcontract = await new ethers.Contract(process.env.MANA, MANAabiContract, account);
+            this.WBTCcontract = await new ethers.Contract(process.env.WBTC, WBTCabiContract, account);
+
+            let amountStaked1 = ethers.BigNumber.from('20000000000000000000');
+            let amountStaked2 = ethers.BigNumber.from('96000000000000000000');
+            let amountStaked3 = ethers.BigNumber.from('100');
+
+            //The staker approve the Staking contract to spend an amount of LINK token before calling Stake function 
+            await this.LINKcontract.approve(this.StakingInstance.address, amountStaked1,  {from : staker_1});
+            //The staker stakes his LINK Token in the staking contract
+            await this.StakingInstance.Stake(process.env.LINK, amountStaked1, process.env.LINK_ETH, {from : staker_1});
+
+            //The staker approve the Staking contract to spend an amount of MANA token before calling Stake function 
+            await this.MANAcontract.approve(this.StakingInstance.address, amountStaked2,  {from : staker_1});
+            //The staker stakes his MANA Token in the staking contract
+            await this.StakingInstance.Stake(process.env.MANA, amountStaked2, process.env.MANA_ETH, {from : staker_1});
+            
+            
+
+            //The staker approve the Staking contract to spend an amount of WBTC token before calling Stake function 
+            await this.WBTCcontract.approve(this.StakingInstance.address, amountStaked3,  {from : staker_1});
+            //The staker stakes his WBTC Token in the staking contract
+            await this.StakingInstance.Stake(process.env.WBTC, amountStaked3, process.env.WBTC_ETH, {from : staker_1});
+
+            // Get blockTimeStamp
+            var lastBlockMinedNumber = await provider.getBlockNumber();
+            var lastBlockMined = await provider.getBlock(lastBlockMinedNumber);
+
+            // Calculate reward
+            let rewardBLT1 = await this.StakingInstance.getReward(process.env.LINK, process.env.LINK_ETH, amountStaked1, lastBlockMined.timestamp -60);
+            let rewardBLT2 = await this.StakingInstance.getReward(process.env.MANA, process.env.MANA_ETH, amountStaked2, lastBlockMined.timestamp -60);
+            let rewardBLT3 = await this.StakingInstance.getReward(process.env.WBTC, process.env.WBTC_ETH, amountStaked3, lastBlockMined.timestamp -60);
+        
+            // Wait 1 min otherwise the staker will not be able to claim reward as reward frequency = 1min
+            await timeout(60000);
+
+            // Claim reward for LINK, MANA and WBTC
+            await this.StakingInstance.claimReward(process.env.LINK, process.env.LINK_ETH, {from : staker_1});
+            // Get blockTimeStamp
+            var lastBlockMinedNumberRewardLINK = await provider.getBlockNumber();
+            var lastBlockMinedRewardLINK = await provider.getBlock(lastBlockMinedNumberRewardLINK);
+
+
+            await this.StakingInstance.claimReward(process.env.MANA, process.env.MANA_ETH, {from : staker_1});
+            // Get blockTimeStamp
+            var lastBlockMinedNumberRewardMANA = await provider.getBlockNumber();
+            var lastBlockMinedRewardMANA = await provider.getBlock(lastBlockMinedNumberRewardMANA);
+
+            await this.StakingInstance.claimReward(process.env.WBTC, process.env.WBTC_ETH, {from : staker_1});
+            // Get blockTimeStamp
+            var lastBlockMinedNumberRewardWBTC = await provider.getBlockNumber();
+            var lastBlockMinedRewardWBTC = await provider.getBlock(lastBlockMinedNumberRewardWBTC);
+
+            // Retrieve position for LINK, MANA, WBTC and WETH
+            let Position1 = await this.StakingInstance.getPosition(process.env.LINK , {from : staker_1});
+            let Position2 = await this.StakingInstance.getPosition(process.env.MANA,  {from : staker_1});
+            let Position3 = await this.StakingInstance.getPosition(process.env.WBTC , {from : staker_1});
+            let Position4 = await this.StakingInstance.getPosition(process.env.WETH , {from : staker_1});
+
+            //Check Paid reward
             expect(Position1[2].toString()).equal(rewardBLT1.toString());
             expect(Position2[2].toString()).equal(rewardBLT2.toString());
             expect(Position3[2].toString()).equal(rewardBLT3.toString());
             expect(Position4[2].toString()).equal('0');
+
+            //Check last claim reward
+            expect(Position1[5].toString()).equal(String(lastBlockMinedRewardLINK.timestamp));
+            expect(Position2[5].toString()).equal(String(lastBlockMinedRewardMANA.timestamp));
+            expect(Position3[5].toString()).equal(String(lastBlockMinedRewardWBTC.timestamp));
+            expect(Position4[5].toString()).equal('0');
 
         });
     });
