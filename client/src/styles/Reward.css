@@ -104,11 +104,10 @@
     width: 38%;
     margin-left: 5px;
     margin-top: 5px;
-    padding-right: 20px;
 
 }
 
-#Reward-menu-currentRewards
+#Reward-menu-pendingRewards
 {
     border: 0.5px solid rgb(93, 172, 189);
     border-radius: 10px;
@@ -118,7 +117,7 @@
     position : absolute;
     margin-left: 5px;
     margin-top: 5px;
-    padding-right: 20px;
+    
 
 
 }

@@ -19,20 +19,17 @@ export default function Reward({web3, accounts,contractStaking , getRequireError
     const refresh = async() => {
         await contractStaking.methods.getPosition(CurrentToken.token_address).call({from : staker}, async(err, res) => {
             if(!err){
-                
                 const paidRewardsinBLT = web3.utils.fromWei(res[2]);
                 const lastUpdateReward = res[4];
-                var currentRewardsinBLT;
-                console.log(res[1])
-                console.log(CurrentToken.token_address)
                 await contractStaking.methods.getReward(CurrentToken.token_address, CurrentToken.priceFeed_address, res[1], lastUpdateReward).call({from: staker}, (err, res) => {
                     if(!err) {
-                        console.log(res)
-                        currentRewardsinBLT = web3.utils.fromWei(res);
+                        var currentRewardsinBLT = web3.utils.fromWei(res);
                         setPosition({paidRewards : paidRewardsinBLT, currentRewards : currentRewardsinBLT});
+    
                     } else getRequireError(err)
                 }) 
-                console.log(currentRewardsinBLT)
+
+                
 
                 
 
@@ -43,32 +40,12 @@ export default function Reward({web3, accounts,contractStaking , getRequireError
 
     const collectRewards = async() => {
         await contractStaking.methods.claimReward(CurrentToken.token_address, CurrentToken.priceFeed_address).send({from : staker}, async (err, res) => {
-            if(!err) {
-                //await setStatsAmounts();
-                await refresh();
-
-            } else getRequireError(err);
+            if(err) {
+                getRequireError(err);
+            } 
         });
+        await refresh();
     }
-
-    /*const setStatsAmounts = async() => {
-        var paidRewards;
-        var currentRewards;
-        await contractStaking.methods.getPosition(CurrentToken.token_address).call({from : staker}, (err, res) => {
-            if(!err){
-                paidRewards = res[2];
-                currentRewards = res[3]
-
-                let paidRewardsinBLT = web3.utils.fromWei(paidRewards);
-                let currentRewardsinBLT = web3.utils.fromWei(currentRewards);
-
-                setPosition({paidRewards : paidRewardsinBLT, currentRewards : currentRewardsinBLT});
-                
-
-            }else getRequireError(err);
-            
-        });
-    }*/
 
     useEffect( async() => {
         const instanceIERC20 = await new web3.eth.Contract(IERC20Metadata.abi, CurrentToken.token_address);
@@ -124,9 +101,9 @@ export default function Reward({web3, accounts,contractStaking , getRequireError
                     
                 </div>
 
-                <div id="Reward-menu-currentRewards" style={{color :CurrentToken.token_color}}>
+                <div id="Reward-menu-pendingRewards" style={{color :CurrentToken.token_color}}>
                     <div className="stats" >
-                        <span class="stats-title">Current rewards</span>
+                        <span class="stats-title">Pending rewards</span>
                         <span class="stats-amount">{Math.round(Position.currentRewards * 10000)/10000}</span>
                         <span class="stats-annexe">BLT</span>
                     </div>

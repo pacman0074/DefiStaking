@@ -29476,14 +29476,14 @@
         }
       },
       "links": {
-        "StakingLibrary": "0x4DAf17c8142A483B2E2348f56ae0F2cFDAe22ceE"
+        "StakingLibrary": "0xd753c12650c280383Ce873Cc3a898F6f53973d16"
       },
-      "address": "0x1D13fF25b10C9a6741DFdce229073bed652197c7",
-      "transactionHash": "0xffbe9768339edbd021768e3ea0d6092add911096aa50a7068d5a28c7bf431f37"
+      "address": "0xd710a67624Ad831683C86a48291c597adE30F787",
+      "transactionHash": "0xc64c21e509a9aae629814fd33f7f253fb86a496e97ed3c3d5db5366cf899ec18"
     }
   },
   "schemaVersion": "3.4.4",
-  "updatedAt": "2022-10-02T21:01:12.783Z",
+  "updatedAt": "2022-10-03T09:48:17.871Z",
   "networkType": "ethereum",
   "devdoc": {
     "kind": "dev",
