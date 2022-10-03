@@ -28,11 +28,6 @@ export default function Reward({web3, accounts,contractStaking , getRequireError
     
                     } else getRequireError(err)
                 }) 
-
-                
-
-                
-
             }else getRequireError(err);
             
         });
