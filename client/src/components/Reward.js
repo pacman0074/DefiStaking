@@ -12,7 +12,7 @@ export default function Reward({web3, accounts,contractStaking , getRequireError
     const[CurrentToken, setCurrentToken] = useState(Token.token[0]);
     const[Position, setPosition] = useState({paidRewards : 0, currentRewards : 0});
 
-  
+    
 
     const staker = accounts[0];
 
