@@ -29479,11 +29479,11 @@
         "StakingLibrary": "0xd753c12650c280383Ce873Cc3a898F6f53973d16"
       },
       "address": "0xd710a67624Ad831683C86a48291c597adE30F787",
-      "transactionHash": "0xc64c21e509a9aae629814fd33f7f253fb86a496e97ed3c3d5db5366cf899ec18"
+      "transactionHash": "0x6354ae8d96783b75992f39f39980ee3fd1c71a0aec231f597e216e833ae7edc9"
     }
   },
   "schemaVersion": "3.4.4",
-  "updatedAt": "2022-10-03T09:48:17.871Z",
+  "updatedAt": "2022-10-04T13:05:48.787Z",
   "networkType": "ethereum",
   "devdoc": {
     "kind": "dev",
